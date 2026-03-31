@@ -60,36 +60,36 @@ const funStuffFeed = {
   title: "Fun stuff I made",
   subtitle: "Loose drops, experiments, behind-the-scenes frames, and whatever else deserves a spot on the timeline.",
   profileName: "Nahu Gebreamlak",
-  handle: "@nahu",
+  handle: "@rass_nahu",
 };
 const funStuffPosts = [
   {
-    id: "fun-post-01",
-    mood: emojiAssets.grin,
-    timestamp: "Now",
-    caption:
-      "Building this tab out as a running feed instead of a static wall so sketches, weird tests, and small visual moments can all live in one place.",
-  },
-  {
-    id: "fun-post-02",
-    mood: emojiAssets.star,
-    timestamp: "Soon",
-    caption:
-      "First image drop goes here. Once the assets land in the folder and you send the caption, this card is ready to turn into a proper post.",
+    id: "fun-post-experiments",
+    timestamp: "Dec 12, 2025",
+    caption: "Experiments.",
+    link: "https://www.instagram.com/p/DSKnXbXiOpv/?img_index=1",
+    embedUrl: "https://www.instagram.com/p/DSKnXbXiOpv/embed/",
+    embedRatio: "4 / 5",
     media: {
-      type: "placeholder",
-      label: "Image slot 01",
+      type: "image",
+      src: "/assets/fun-feed/instagram-experiments.jpg",
+      alt: "Instagram preview for the Experiments post.",
+      badge: "Post",
     },
   },
   {
-    id: "fun-post-03",
-    mood: emojiAssets.hundred,
-    timestamp: "Soon",
+    id: "fun-post-vol-3",
+    timestamp: "Nov 9, 2024",
     caption:
-      "This second slot is ready for process frames, reference images, or anything that feels too casual for the main portfolio but still worth sharing.",
+      "VOL 3.0 - Day 11 - HOW I MADE IT\n\nSaid by Dwight (From the Office).",
+    link: "https://www.instagram.com/p/DCJWJfjNvJw/",
+    embedUrl: "https://www.instagram.com/reel/DCJWJfjNvJw/embed/",
+    embedRatio: "9 / 16",
     media: {
-      type: "placeholder",
-      label: "Image slot 02",
+      type: "image",
+      src: "/assets/fun-feed/instagram-vol-3-day-11.jpg",
+      alt: "Instagram reel cover preview for VOL 3.0 - Day 11 - HOW I MADE IT.",
+      badge: "Reel",
     },
   },
 ];
@@ -108,6 +108,8 @@ const profileImageCandidates = [
   "/assets/profile_jpeg.jpg",
   "/assets/profile_jpeg.png",
 ];
+const funStuffProfileImage = "/assets/profile_jpeg.png";
+// Public music assets need URL-safe paths for spaces and special characters.
 const musicTracks = [
   {
     title: "Afer Yemegneshal",
@@ -118,6 +120,31 @@ const musicTracks = [
     title: "Fetsum Denq Ledj Nesh",
     artist: "Local playlist",
     src: "/assets/music/Fetsum-denq-ledj-nesh.m4a",
+  },
+  {
+    title: "Fikratchin",
+    artist: "Menelik Wossenatchew, Mulatu Astatke",
+    src: "/assets/music/Fikratchin%20with%20Menelik%20Wossenatchew%20-%20Mulatu%20Astatke.mp3",
+  },
+  {
+    title: "I Faram Gami I Faram",
+    artist: "Mulatu Astatke",
+    src: "/assets/music/I%20Faram%20Gami%20I%20Faram%20-%20Mulatu%20Astatke.mp3",
+  },
+  {
+    title: "Kalorifer",
+    artist: "Mulatu Astatke",
+    src: "/assets/music/Mulatu%20Astatke%20-%20Mulatu%20-%20kalorifer.mp3",
+  },
+  {
+    title: "Yegelle Tezeta",
+    artist: "Mulatu Astatke",
+    src: "/assets/music/Y%EF%BF%BDgell%EF%BF%BD%20Tezeta%20-%20Mulatu%20Astatke.mp3",
+  },
+  {
+    title: "Yekermo Sew",
+    artist: "Mulatu Astatke",
+    src: "/assets/music/Y%EF%BF%BDk%EF%BF%BDrmo%20S%EF%BF%BDw%20-%20Mulatu%20Astatke.mp3",
   },
 ];
 
@@ -1193,9 +1220,75 @@ function FolderSvg() {
       />
       <path
         d="M1.5 45.939V571.568C1.5 579.076 6.72032 585.574 14.0518 587.192L566.552 709.13C576.538 711.334 586 703.732 586 693.506V169.555C586 162.148 580.916 155.71 573.711 153.992L283.788 84.8526C276.584 83.1345 271.5 76.6959 271.5 69.289V48.2076C271.5 40.5052 266.012 33.8959 258.441 32.4802L94.2226 1.77268C89.6377 0.915348 84.907 2.1014 81.2689 5.02035L49.8261 30.2477C46.1333 33.2105 41.318 34.3857 36.6755 33.4572L20.6379 30.2497C10.7372 28.2696 1.5 35.8422 1.5 45.939Z"
-        fill="white"
+        fill="#f6f0e3"
         stroke="black"
         strokeWidth="3"
+      />
+    </svg>
+  );
+}
+
+function HeartOutlineIcon() {
+  return (
+    <svg
+      className="fun-post__action-svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path
+        d="M12.62 20.8101C12.28 20.9301 11.72 20.9301 11.38 20.8101C8.48 19.8201 2 15.6901 2 8.6901C2 5.6001 4.49 3.1001 7.56 3.1001C9.38 3.1001 10.99 3.9801 12 5.3401C13.01 3.9801 14.63 3.1001 16.44 3.1001C19.51 3.1001 22 5.6001 22 8.6901C22 15.6901 15.52 19.8201 12.62 20.8101Z"
+        stroke="#292D32"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function CommentDotsIcon() {
+  return (
+    <svg
+      className="fun-post__action-svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path
+        d="M8.5 19H8C4 19 2 18 2 13V8C2 4 4 2 8 2H16C20 2 22 4 22 8V13C22 17 20 19 16 19H15.5C15.19 19 14.89 19.15 14.7 19.4L13.2 21.4C12.54 22.28 11.46 22.28 10.8 21.4L9.3 19.4C9.14 19.18 8.77 19 8.5 19Z"
+        stroke="#292D32"
+        strokeWidth="1.5"
+        strokeMiterlimit="10"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M15.9965 11H16.0054"
+        stroke="#292D32"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M11.9955 11H12.0045"
+        stroke="#292D32"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M7.99451 11H8.00349"
+        stroke="#292D32"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -1459,6 +1552,7 @@ function App() {
   const [isVolumeOpen, setIsVolumeOpen] = useState(false);
   const [isTimeOpen, setIsTimeOpen] = useState(false);
   const [expandedCareerIndex, setExpandedCareerIndex] = useState(null);
+  const [activeFunPostEmbedId, setActiveFunPostEmbedId] = useState(null);
   const [currentClock, setCurrentClock] = useState(() => new Date());
   const [activeTrackIndex, setActiveTrackIndex] = useState(0);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
@@ -2164,8 +2258,8 @@ function App() {
                 <p className="fun-feed__subtitle">{funStuffFeed.subtitle}</p>
               </div>
               <img
-                className="fun-feed__header-emoji"
-                src={emojiAssets.sunglasses}
+                className="fun-feed__header-avatar"
+                src={funStuffProfileImage}
                 alt=""
                 aria-hidden="true"
               />
@@ -2185,7 +2279,7 @@ function App() {
                   }}
                 >
                   <div className="fun-post__avatar">
-                    <img src={post.mood} alt="" aria-hidden="true" />
+                    <img src={funStuffProfileImage} alt="" aria-hidden="true" />
                   </div>
 
                   <div className="fun-post__body">
@@ -2201,23 +2295,68 @@ function App() {
                     <p className="fun-post__caption">{post.caption}</p>
 
                     {post.media ? (
-                      <div className="fun-post__media fun-post__media--placeholder" aria-hidden="true">
-                        <span>{post.media.label}</span>
-                      </div>
+                      post.media.type === "image" ? (
+                        post.embedUrl && activeFunPostEmbedId === post.id ? (
+                          <div
+                            className="fun-post__media fun-post__media--embed"
+                            style={{ "--fun-post-embed-ratio": post.embedRatio ?? "4 / 5" }}
+                          >
+                            <iframe
+                              src={post.embedUrl}
+                              title={post.caption.replace(/\s+/g, " ").trim()}
+                              loading="lazy"
+                              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                              allowFullScreen
+                            />
+                          </div>
+                        ) : post.embedUrl ? (
+                          <button
+                            type="button"
+                            className="fun-post__media fun-post__media-link fun-post__media-button"
+                            onClick={() =>
+                              setActiveFunPostEmbedId((currentId) =>
+                                currentId === post.id ? null : post.id
+                              )
+                            }
+                            aria-label={`Play ${post.caption.replace(/\s+/g, " ").trim()} here`}
+                          >
+                            <img src={post.media.src} alt={post.media.alt} loading="lazy" />
+                            <span className="fun-post__media-play" aria-hidden="true">
+                              <span className="fun-post__media-play-triangle" />
+                            </span>
+                            {post.media.badge ? (
+                              <span className="fun-post__media-badge">{post.media.badge}</span>
+                            ) : null}
+                          </button>
+                        ) : (
+                          <a
+                            className="fun-post__media fun-post__media-link"
+                            href={post.link}
+                            target="_blank"
+                            rel="noreferrer"
+                            aria-label={`Open ${post.caption.replace(/\s+/g, " ").trim()} on Instagram`}
+                          >
+                            <img src={post.media.src} alt={post.media.alt} loading="lazy" />
+                            {post.media.badge ? (
+                              <span className="fun-post__media-badge">{post.media.badge}</span>
+                            ) : null}
+                          </a>
+                        )
+                      ) : (
+                        <div className="fun-post__media fun-post__media--placeholder" aria-hidden="true">
+                          <span>{post.media.label}</span>
+                        </div>
+                      )
                     ) : null}
 
                     <div className="fun-post__actions" aria-hidden="true">
                       <span className="fun-post__action">
-                        <span className="fun-post__action-icon fun-post__action-icon--comment" />
+                        <HeartOutlineIcon />
+                        <span className="fun-post__action-label">Like</span>
+                      </span>
+                      <span className="fun-post__action">
+                        <CommentDotsIcon />
                         <span className="fun-post__action-label">Comment</span>
-                      </span>
-                      <span className="fun-post__action">
-                        <span className="fun-post__action-icon fun-post__action-icon--share" />
-                        <span className="fun-post__action-label">Share</span>
-                      </span>
-                      <span className="fun-post__action">
-                        <span className="fun-post__action-icon fun-post__action-icon--save" />
-                        <span className="fun-post__action-label">Save</span>
                       </span>
                     </div>
                   </div>
