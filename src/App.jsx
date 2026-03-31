@@ -1,7 +1,108 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-const navLinks = ["Career", "Design", "Motion", "Fun stuff I made"];
+const navLinks = ["Projects", "Fun stuff I made"];
+const emojiAssets = {
+  monocle: encodeURI("/assets/emojies/Face with monocle.gif"),
+  grin: encodeURI("/assets/emojies/Grinning face.gif"),
+  hundred: encodeURI("/assets/emojies/Hundred points.gif"),
+  sunglasses: encodeURI("/assets/emojies/Smiling face with sunglasses.gif"),
+  star: encodeURI("/assets/emojies/Star-struck.gif"),
+};
+const careerEntries = [
+  {
+    role: "Senior Graphic Designer",
+    company: "AFRIWORK",
+    description:
+      "Storytelling-led visual work shaped by a background in graphic design, motion design, and brand identity, with a focus on helping brands connect and convert.",
+  },
+  {
+    role: "Senior Graphic Designer",
+    company: "ARMA ADVERTISING",
+    description:
+      "Agency-facing design built around strong visual storytelling, careful detail, and polished campaign assets that help brands move people.",
+  },
+  {
+    role: "Senior Graphic Designer",
+    company: "DIGITAL ADDIS",
+    description:
+      "Senior-level visual direction informed by brand thinking, motion awareness, and a craft-driven approach to client and campaign communication.",
+  },
+  {
+    role: "Graphic Designer",
+    company: "DIGITAL ADDIS",
+    description:
+      "Hands-on graphic design work focused on clear layouts, visual consistency, and story-first execution across everyday brand materials.",
+  },
+  {
+    role: "Junior Graphic Designer",
+    company: "GREATER ACADEMY",
+    description:
+      "An early design foundation shaped by visual communication, layout, and detail, helping build the storytelling instincts carried into later work.",
+  },
+];
+const careerSummaryLabel = "Graphic design, motion design, brand identity, and storytelling";
+const careerProfile = {
+  eyebrow: "About me",
+  intro: "Helping brands and agencies tell stories that move.",
+  body: [
+    "I help brands move people through motion, design, and storytelling. As the founder of Studio Rass, I work with startups, agencies, and creative teams to craft visuals that connect and convert.",
+    "With a background in graphic design, motion design, and cinematography, I bring an eye for storytelling and detail to every project, from product launch videos to brand identity systems and campaign visuals.",
+  ],
+  skills: [
+    { label: "Motion Designer", icon: emojiAssets.star },
+    { label: "Graphic Designer", icon: emojiAssets.monocle },
+    { label: "3D Artist", icon: emojiAssets.sunglasses },
+  ],
+  accents: [emojiAssets.grin, emojiAssets.hundred],
+};
+const funStuffFeed = {
+  title: "Fun stuff I made",
+  subtitle: "Loose drops, experiments, behind-the-scenes frames, and whatever else deserves a spot on the timeline.",
+  profileName: "Nahu Gebreamlak",
+  handle: "@nahu",
+};
+const funStuffPosts = [
+  {
+    id: "fun-post-01",
+    mood: emojiAssets.grin,
+    timestamp: "Now",
+    caption:
+      "Building this tab out as a running feed instead of a static wall so sketches, weird tests, and small visual moments can all live in one place.",
+  },
+  {
+    id: "fun-post-02",
+    mood: emojiAssets.star,
+    timestamp: "Soon",
+    caption:
+      "First image drop goes here. Once the assets land in the folder and you send the caption, this card is ready to turn into a proper post.",
+    media: {
+      type: "placeholder",
+      label: "Image slot 01",
+    },
+  },
+  {
+    id: "fun-post-03",
+    mood: emojiAssets.hundred,
+    timestamp: "Soon",
+    caption:
+      "This second slot is ready for process frames, reference images, or anything that feels too casual for the main portfolio but still worth sharing.",
+    media: {
+      type: "placeholder",
+      label: "Image slot 02",
+    },
+  },
+];
+const motionProjectTitles = new Set([
+  "Women In Muya",
+  "Air pods Max",
+  "Marshall.",
+  "Show reel - 2025",
+  "Afriwork Platform",
+  "Afriwork Ai",
+  "Caynetic Voice - Ad",
+  "Chapa",
+]);
 const profileImageCandidates = [
   "/assets/profile_jpeg.jpeg",
   "/assets/profile_jpeg.jpg",
@@ -170,13 +271,31 @@ const createBehanceMediaItems = (title, imageUrls) =>
     className: index === 0 ? "project-case-study__media--hero" : undefined,
   }));
 
-const createVideoMediaItem = (title, embedUrl) => ({
+const createVideoMediaItem = (title, embedUrl, options = {}) => ({
   type: "video",
   videoUrl: embedUrl,
-  embedUrl: buildYouTubeEmbedUrl(embedUrl) ?? embedUrl,
+  embedUrl: options.useExactEmbedUrl ? embedUrl : buildYouTubeEmbedUrl(embedUrl) ?? embedUrl,
   videoId: getYouTubeVideoId(embedUrl),
   alt: title,
   className: "project-case-study__media--hero",
+});
+
+const createVideoFeatureCaseStudy = ({ title, eyebrow, embedUrl, summary, format }) => ({
+  eyebrow,
+  sections: [
+    {
+      label: "Overview",
+      body: [summary],
+      media: [createVideoMediaItem(title, embedUrl)],
+      showCredits: false,
+    },
+  ],
+  credits: [
+    { label: "Project", value: title },
+    { label: "Format", value: format },
+    { label: "Studio", value: "StudioRass" },
+  ],
+  credit: "This on-site version centers the StudioRass video directly inside the portfolio.",
 });
 
 let youtubeApiPromise;
@@ -550,12 +669,7 @@ const alenelachuCaseStudy = createBehanceGalleryCaseStudy({
 });
 
 const airpodMaxMedia = createBehanceMediaItems("Air pods Max", behanceProjectImageSets.airpodMax)
-  .filter((_, index) => ![0, 3, 6, 7, 9, 10, 12].includes(index))
-  .map((item, index) =>
-    index === 2 || index === 4
-      ? { ...item, className: "project-case-study__media--wide" }
-      : item
-  );
+  .filter((_, index) => ![0, 3, 6, 7, 9, 10, 12].includes(index));
 
 const airpodMaxCaseStudy = {
   eyebrow: "Air pods Max / Spec Product Commercial",
@@ -566,7 +680,13 @@ const airpodMaxCaseStudy = {
         "Air pods Max is framed here as a StudioRass spec piece built around the product's clean industrial design and premium simplicity. The presentation treats the headphones as an object worth reimagining, with the direction leaning into precision, restraint, and surface quality.",
         "Instead of overwhelming the product with effects, the piece stays focused on the form itself and uses that control to make the commercial feel polished, intentional, and highly product-led.",
       ],
-      media: [createVideoMediaItem("Air pods Max", "https://www.youtube.com/embed/hIgLN02pkuk")],
+      media: [
+        createVideoMediaItem(
+          "Air pods Max",
+          "https://www.youtube.com/embed/hIgLN02pkuk",
+          { useExactEmbedUrl: true },
+        ),
+      ],
     },
     {
       label: "The Challenge",
@@ -574,7 +694,13 @@ const airpodMaxCaseStudy = {
         "One of the key questions in the Behance boards is how to show the power of Air pods Max while staying faithful to its minimalist character. That tension shaped the motion language, the framing, and the overall pacing of the visuals.",
         "The project solves that by keeping the direction controlled and elegant, so the renders can feel premium without ever drifting away from the product's original design logic.",
       ],
-      media: balanceGalleryChunk(airpodMaxMedia.slice(1, 4), 0),
+      media: balanceGalleryChunk(airpodMaxMedia.slice(0, 2), 0),
+    },
+    {
+      label: "Animation Stills",
+      layout: "media-only",
+      body: [],
+      media: [airpodMaxMedia[2]],
     },
     {
       label: "Craft",
@@ -582,7 +708,13 @@ const airpodMaxCaseStudy = {
         "The story then moves into the making of the piece, with a strong focus on 3D modeling and texturing. The cleaner surfaces, mesh, and hardware details are treated as the core storytelling tools rather than background decoration.",
         "That attention to detail lets the headphones hold the frame on their own and gives the spec commercial its sense of finish, clarity, and confidence.",
       ],
-      media: balanceGalleryChunk(airpodMaxMedia.slice(4, 6), 1),
+      media: [airpodMaxMedia[3]],
+    },
+    {
+      label: "Billboard Frame",
+      layout: "media-only",
+      body: [],
+      media: [airpodMaxMedia[4]],
     },
     {
       label: "Applications",
@@ -590,7 +722,7 @@ const airpodMaxCaseStudy = {
         "The later boards expand the direction into supporting applications, including colorway-led visuals, product stills, and social-style campaign frames. These images show how the same product language can stretch across multiple placements without losing consistency.",
         "By the end of the sequence, the project reads as both a passion-led exercise and a proof of craft for StudioRass, turning a speculative commercial into a convincing product campaign study.",
       ],
-      media: balanceGalleryChunk(airpodMaxMedia.slice(6), 2),
+      media: balanceGalleryChunk(airpodMaxMedia.slice(5), 2),
     },
   ],
   credits: [
@@ -660,37 +792,50 @@ const marshallCaseStudy = {
     "Copy for this on-site version is adapted from the text panels inside the public Behance presentation.",
 };
 
-const showReelMedia = createBehanceMediaItems("Show reel - 2025", behanceProjectImageSets.showReel);
-
-const showReelCaseStudy = {
+const showReelCaseStudy = createVideoFeatureCaseStudy({
+  title: "Show reel - 2025",
   eyebrow: "StudioRass / Show reel - 2025",
-  sections: [
-    {
-      label: "Overview",
-      body: [
-        "Show reel - 2025 opens with the StudioRass video you shared, then carries the rest of the featured stills through the gallery below so the motion piece and supporting frames live together on the site.",
-      ],
-      media: [
-        createVideoMediaItem("Show reel - 2025", "https://www.youtube.com/embed/DUNPRyTdXM0"),
-      ],
-    },
-    {
-      label: "Featured Frames",
-      body: [
-        "These boards keep the visual highlights from the Behance presentation in the same project view, giving the reel a mix of motion-first and still-frame moments.",
-      ],
-      media: balanceGalleryChunk(showReelMedia, 0),
-    },
-  ],
-  credits: [
-    { label: "Project", value: "Show reel - 2025" },
-    { label: "Format", value: "Show Reel, Featured Frames" },
-    { label: "Studio", value: "StudioRass" },
-    { label: "Frames", value: `${behanceProjectImageSets.showReel.length} Behance images` },
-  ],
-  credit:
-    "This on-site version combines the StudioRass YouTube reel with the public Behance presentation stills.",
-};
+  embedUrl: "https://www.youtube.com/embed/DUNPRyTdXM0",
+  summary:
+    "Show reel - 2025 opens with the StudioRass video and uses the same compact editorial layout as the rest of the motion pieces, with the video leading on the left and the project note on the right.",
+  format: "Show Reel, Motion Showcase",
+});
+
+const afriworkPlatformCaseStudy = createVideoFeatureCaseStudy({
+  title: "Afriwork Platform",
+  eyebrow: "StudioRass / Afriwork Platform",
+  embedUrl: "https://www.youtube.com/embed/uTn14-AF9ac",
+  summary:
+    "Afriwork Platform opens with the StudioRass video and introduces the product through a clean, motion-led platform story that keeps the presentation compact and direct.",
+  format: "Platform Video, Product Motion",
+});
+
+const afriworkAiCaseStudy = createVideoFeatureCaseStudy({
+  title: "Afriwork Ai",
+  eyebrow: "StudioRass / Afriwork Ai",
+  embedUrl: "https://www.youtube.com/embed/YBWI6mzGOo8",
+  summary:
+    "Afriwork Ai opens with the StudioRass video and frames the project as a concise AI-led product presentation, using motion to introduce the concept quickly and clearly.",
+  format: "AI Product Video, Motion Design",
+});
+
+const cayneticVoiceCaseStudy = createVideoFeatureCaseStudy({
+  title: "Caynetic Voice - Ad",
+  eyebrow: "StudioRass / Caynetic Voice - Ad",
+  embedUrl: "https://www.youtube.com/embed/VzV6JjEZrnA",
+  summary:
+    "Caynetic Voice - Ad opens with the StudioRass video and presents the concept as a focused ad treatment, keeping the storytelling short, sharp, and voice-led.",
+  format: "Ad Film, Motion Design",
+});
+
+const chapaCaseStudy = createVideoFeatureCaseStudy({
+  title: "Chapa",
+  eyebrow: "StudioRass / Chapa",
+  embedUrl: "https://www.youtube.com/embed/L0bFlOdZjmU",
+  summary:
+    "Chapa opens with the StudioRass video and presents the payment story as a clean, motion-first brand piece centered on speed, ease, and clarity.",
+  format: "Brand Video, Motion Design",
+});
 
 const projects = [
   {
@@ -743,23 +888,23 @@ const projects = [
   },
   {
     title: "Afriwork Platform",
-    source: "StudioRass video",
-    embedUrl: "https://www.youtube.com/embed/uTn14-AF9ac",
+    source: "Native project case study",
+    caseStudy: afriworkPlatformCaseStudy,
   },
   {
     title: "Afriwork Ai",
-    source: "StudioRass video",
-    embedUrl: "https://www.youtube.com/embed/YBWI6mzGOo8",
+    source: "Native project case study",
+    caseStudy: afriworkAiCaseStudy,
   },
   {
     title: "Caynetic Voice - Ad",
-    source: "StudioRass video",
-    embedUrl: "https://www.youtube.com/embed/VzV6JjEZrnA",
+    source: "Native project case study",
+    caseStudy: cayneticVoiceCaseStudy,
   },
   {
     title: "Chapa",
-    source: "StudioRass video",
-    embedUrl: "https://www.youtube.com/embed/L0bFlOdZjmU",
+    source: "Native project case study",
+    caseStudy: chapaCaseStudy,
   },
 ].map((project, index) => {
   const resolvedEmbedUrl =
@@ -772,16 +917,18 @@ const projects = [
 
   return {
     id: `project-${index + 1}`,
+    order: index + 1,
+    portfolioTab: motionProjectTitles.has(project.title) ? "Motion" : "Design",
     source: project.source ?? (resolvedEmbedUrl ? "Behance project" : "Project folder"),
     ...project,
     embedUrl: resolvedEmbedUrl,
   };
 });
 
-const projectFolders = projects.map((project, index) => ({
+const createProjectFolders = (portfolioProjects) => portfolioProjects.map((project, index) => ({
   ...project,
   className: `folder-${index + 1}`,
-  x: (projects.length - index - 1) * 14,
+  x: (portfolioProjects.length - index - 1) * 14,
   y: 48 + index * 10,
   rotate: 0,
 }));
@@ -1020,6 +1167,14 @@ function formatTime(seconds) {
   return `${minutes}:${String(remainingSeconds).padStart(2, "0")}`;
 }
 
+function getCurrentClockLabel(date = new Date()) {
+  return new Intl.DateTimeFormat(undefined, {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).format(date);
+}
+
 function FolderSvg() {
   return (
     <svg
@@ -1054,12 +1209,16 @@ function ProjectCaseStudy({ project }) {
       {caseStudy.sections.map((section, index) => {
         const isIntro = index === 0;
         const isLastSection = index === caseStudy.sections.length - 1;
+        const isMediaOnly = section.layout === "media-only";
+        const showCredits = isLastSection && section.showCredits !== false;
 
         return (
           <section
-            key={section.label}
+            key={`${section.label}-${index}`}
             className={`project-case-study__flow-section${
               isIntro ? " project-case-study__flow-section--intro" : ""
+            }${
+              isMediaOnly ? " project-case-study__flow-section--media-only" : ""
             }`}
           >
             <div
@@ -1092,47 +1251,49 @@ function ProjectCaseStudy({ project }) {
               ))}
             </div>
 
-            <aside className="project-case-study__flow-copy">
-              {isIntro ? (
-                <>
-                  <p className="project-case-study__eyebrow">{caseStudy.eyebrow}</p>
-                  <h1 className="project-case-study__title">{project.title}</h1>
-                </>
-              ) : (
-                <p className="project-case-study__section-label">{section.label}</p>
-              )}
+            {!isMediaOnly ? (
+              <aside className="project-case-study__flow-copy">
+                {isIntro ? (
+                  <>
+                    <p className="project-case-study__eyebrow">{caseStudy.eyebrow}</p>
+                    <h1 className="project-case-study__title">{project.title}</h1>
+                  </>
+                ) : (
+                  <p className="project-case-study__section-label">{section.label}</p>
+                )}
 
-              <div className="project-case-study__body-copy">
-                {section.body.map((paragraph) => (
-                  <p key={paragraph} className="project-case-study__body-paragraph">
-                    {paragraph}
-                  </p>
-                ))}
-              </div>
-
-              {isLastSection ? (
-                <div className="project-case-study__credits">
-                  <p className="project-case-study__credits-label">Credits</p>
-                  <div className="project-case-study__credits-list">
-                    {caseStudy.credits.map((item) => (
-                      <p key={item.label} className="project-case-study__credit-line">
-                        <span>{item.label}</span>
-                        <span>{item.value}</span>
-                      </p>
-                    ))}
-                    {project.referenceUrl ? (
-                      <p className="project-case-study__credit-line">
-                        <span>Reference</span>
-                        <a href={project.referenceUrl} target="_blank" rel="noreferrer">
-                          Behance Original
-                        </a>
-                      </p>
-                    ) : null}
-                  </div>
-                  <p className="project-case-study__credit">{caseStudy.credit}</p>
+                <div className="project-case-study__body-copy">
+                  {section.body.map((paragraph) => (
+                    <p key={paragraph} className="project-case-study__body-paragraph">
+                      {paragraph}
+                    </p>
+                  ))}
                 </div>
-              ) : null}
-            </aside>
+
+                {showCredits ? (
+                  <div className="project-case-study__credits">
+                    <p className="project-case-study__credits-label">Credits</p>
+                    <div className="project-case-study__credits-list">
+                      {caseStudy.credits.map((item) => (
+                        <p key={item.label} className="project-case-study__credit-line">
+                          <span>{item.label}</span>
+                          <span>{item.value}</span>
+                        </p>
+                      ))}
+                      {project.referenceUrl ? (
+                        <p className="project-case-study__credit-line">
+                          <span>Reference</span>
+                          <a href={project.referenceUrl} target="_blank" rel="noreferrer">
+                            Behance Original
+                          </a>
+                        </p>
+                      ) : null}
+                    </div>
+                    <p className="project-case-study__credit">{caseStudy.credit}</p>
+                  </div>
+                ) : null}
+              </aside>
+            ) : null}
           </section>
         );
       })}
@@ -1289,11 +1450,16 @@ function CustomYouTubePlayer({ src, title, className = "" }) {
 }
 
 function App() {
+  const [activePortfolioTab, setActivePortfolioTab] = useState("Projects");
+  const [isFolderStackInteractive, setIsFolderStackInteractive] = useState(false);
   const [hoveredProjectId, setHoveredProjectId] = useState(null);
   const [selectedProject, setSelectedProject] = useState(null);
   const [isProjectWindowOpen, setIsProjectWindowOpen] = useState(false);
   const [isMusicOpen, setIsMusicOpen] = useState(false);
   const [isVolumeOpen, setIsVolumeOpen] = useState(false);
+  const [isTimeOpen, setIsTimeOpen] = useState(false);
+  const [expandedCareerIndex, setExpandedCareerIndex] = useState(null);
+  const [currentClock, setCurrentClock] = useState(() => new Date());
   const [activeTrackIndex, setActiveTrackIndex] = useState(0);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -1301,6 +1467,7 @@ function App() {
   const [volume, setVolume] = useState(0.8);
   const musicPanelRef = useRef(null);
   const volumeControlRef = useRef(null);
+  const timePanelRef = useRef(null);
   const folderOriginRef = useRef(null);
   const audioRef = useRef(null);
   const shouldAutoplayTrackRef = useRef(false);
@@ -1315,13 +1482,30 @@ function App() {
         setIsMusicOpen(false);
         setIsVolumeOpen(false);
       }
+
+      if (isTimeOpen && !timePanelRef.current?.contains(event.target)) {
+        setIsTimeOpen(false);
+      }
     };
 
     document.addEventListener("pointerdown", handlePointerDown);
     return () => {
       document.removeEventListener("pointerdown", handlePointerDown);
     };
-  }, [isMusicOpen, isVolumeOpen]);
+  }, [isMusicOpen, isTimeOpen, isVolumeOpen]);
+
+  useEffect(() => {
+    const updateClock = () => {
+      setCurrentClock(new Date());
+    };
+
+    updateClock();
+    const intervalId = window.setInterval(updateClock, 1000);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, []);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -1461,10 +1645,53 @@ function App() {
     setIsVolumeOpen((current) => !current);
   };
 
+  const handleToggleTimePill = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setIsTimeOpen((current) => !current);
+  };
+
   const currentTrack = musicTracks[activeTrackIndex];
   const progressMax = duration > 0 ? duration : 1;
   const progressFill = `${Math.min((currentTime / progressMax) * 100, 100)}%`;
   const volumeFill = `${volume * 100}%`;
+  const currentClockLabel = getCurrentClockLabel(currentClock);
+  const minuteAngle = currentClock.getMinutes() * 6 + currentClock.getSeconds() * 0.1;
+  const hourAngle =
+    ((currentClock.getHours() % 12) + currentClock.getMinutes() / 60) * 30;
+  const visibleProjects = [...projects].sort((leftProject, rightProject) => {
+    const leftIsMotion = motionProjectTitles.has(leftProject.title);
+    const rightIsMotion = motionProjectTitles.has(rightProject.title);
+
+    if (leftIsMotion !== rightIsMotion) {
+      return leftIsMotion ? -1 : 1;
+    }
+
+    return leftProject.order - rightProject.order;
+  });
+  const projectFolders = createProjectFolders(visibleProjects);
+
+  useEffect(() => {
+    setIsFolderStackInteractive(false);
+
+    const timer = window.setTimeout(() => {
+      setIsFolderStackInteractive(true);
+    }, 520 + Math.max(projectFolders.length - 1, 0) * 45);
+
+    return () => window.clearTimeout(timer);
+  }, [projectFolders.length]);
+
+  const handlePortfolioTabSelect = (nextTab) => {
+    if (nextTab === activePortfolioTab) {
+      return;
+    }
+
+    setActivePortfolioTab(nextTab);
+    setHoveredProjectId(null);
+    setSelectedProject(null);
+    setIsProjectWindowOpen(false);
+    setExpandedCareerIndex(null);
+  };
 
   const getProjectFromPointer = (event) => {
     const origin = folderOriginRef.current;
@@ -1485,7 +1712,7 @@ function App() {
       y: baseTop + project.y + renderedHeight * 0.05,
     }));
 
-    for (const anchor of tabAnchors) {
+    for (const anchor of [...tabAnchors].reverse()) {
       const dx = localX - anchor.x;
       const dy = localY - anchor.y;
 
@@ -1506,11 +1733,19 @@ function App() {
   };
 
   const handleFolderHoverMove = (event) => {
+    if (!isFolderStackInteractive) {
+      setIsFolderStackInteractive(true);
+    }
+
     const activeProject = getProjectFromPointer(event);
     setHoveredProjectId(activeProject?.id ?? null);
   };
 
   const handleFolderClick = (event) => {
+    if (!isFolderStackInteractive) {
+      setIsFolderStackInteractive(true);
+    }
+
     const activeProject = getProjectFromPointer(event);
     if (!activeProject) {
       return;
@@ -1530,10 +1765,12 @@ function App() {
     projectFolders.find((project) => project.id === hoveredProjectId) ??
     (isProjectWindowOpen ? selectedProject : null) ??
     projectFolders[projectFolders.length - 1];
+  const isFunStuffTab = activePortfolioTab === "Fun stuff I made";
+  const isCareerTab = activePortfolioTab === "Career";
 
   return (
     <main className="page-shell">
-      <motion.section className="masthead" initial="hidden" animate="show">
+      <motion.section id="career" className="masthead" initial="hidden" animate="show">
         <div className="masthead-row">
           <motion.div className="profile-stack" variants={reveal} custom={0.05}>
             <div className="profile-chip" aria-label="Profile">
@@ -1712,10 +1949,76 @@ function App() {
             </motion.div>
           </motion.div>
 
-          <motion.div className="time-stack" variants={reveal} custom={0.18}>
-            <div className="time-pill">
-              <span>10:46</span>
-            </div>
+          <motion.div
+            className={`time-stack ${isTimeOpen ? "is-open" : ""}`}
+            variants={reveal}
+            custom={0.18}
+            ref={timePanelRef}
+          >
+            <motion.button
+              type="button"
+              className={`time-pill ${isTimeOpen ? "is-open" : ""}`}
+              initial={false}
+              animate={{
+                width: isTimeOpen ? 214 : 68,
+                height: isTimeOpen ? 286 : 42,
+                borderRadius: isTimeOpen ? 107 : 999,
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 380,
+                damping: 28,
+              }}
+              onClick={handleToggleTimePill}
+              aria-label={isTimeOpen ? "Close time panel" : "Open time panel"}
+              aria-expanded={isTimeOpen}
+              whileTap={{ scale: 0.97 }}
+            >
+              <motion.img
+                className="time-pill__art"
+                src="/assets/time-pill-open.svg?v=2"
+                alt=""
+                aria-hidden="true"
+                initial={false}
+                animate={{
+                  opacity: isTimeOpen ? 1 : 0,
+                  scale: isTimeOpen ? 1 : 0.84,
+                }}
+                transition={{
+                  duration: isTimeOpen ? 0.24 : 0.14,
+                  delay: isTimeOpen ? 0.08 : 0,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+              />
+
+              <svg
+                className="time-pill__dial"
+                viewBox="0 0 100 100"
+                aria-hidden="true"
+              >
+                <g className="time-pill__hand-group" transform={`rotate(${hourAngle} 50 50)`}>
+                  <line
+                    className="time-pill__hand time-pill__hand--hour"
+                    x1="50"
+                    y1="50"
+                    x2="50"
+                    y2="31"
+                  />
+                </g>
+                <g className="time-pill__hand-group" transform={`rotate(${minuteAngle} 50 50)`}>
+                  <line
+                    className="time-pill__hand time-pill__hand--minute"
+                    x1="50"
+                    y1="50"
+                    x2="50"
+                    y2="22"
+                  />
+                </g>
+                <circle className="time-pill__pivot" cx="50" cy="50" r="3.2" />
+              </svg>
+
+              <span className="time-pill__clock">{currentClockLabel}</span>
+            </motion.button>
           </motion.div>
         </div>
 
@@ -1730,122 +2033,300 @@ function App() {
               <a
                 key={link}
                 href="#showcase"
-                className={link === "Design" ? "active" : undefined}
+                className={link === activePortfolioTab ? "active" : undefined}
+                onClick={() => handlePortfolioTabSelect(link)}
               >
                 {link}
               </a>
             ))}
           </nav>
 
-          <a className="resume-link" href="#showcase">
-            Resume
-          </a>
+          <button
+            type="button"
+            className={`masthead-right-link ${isCareerTab ? "active" : ""}`}
+            onClick={() => handlePortfolioTabSelect("Career")}
+          >
+            Career
+          </button>
         </motion.div>
       </motion.section>
 
       <motion.section
         id="showcase"
-        className="showcase-card"
+        className={`showcase-card ${isFunStuffTab ? "showcase-card--fun" : ""} ${
+          isCareerTab ? "showcase-card--career" : ""
+        }`}
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
       >
-        <div className="showcase-copy">
-          <p className="showcase-eyebrow">Selected Projects</p>
-          <div className="showcase-copy__row">
-            <div>
-              <p className={`showcase-highlight ${hoveredProjectId ? "is-hovered" : ""}`}>
-                {activePreviewProject.title}
-              </p>
+        {isCareerTab ? (
+          <div className="career-panel">
+            <motion.section
+              className="career-intro"
+              aria-label="About me"
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.42, delay: 0.04, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <p className="career-intro__eyebrow">{careerProfile.eyebrow}</p>
+              <div className="career-intro__headline">
+                <p className="career-intro__lead">{careerProfile.intro}</p>
+                <div className="career-intro__accents" aria-hidden="true">
+                  {careerProfile.accents.map((emoji, index) => (
+                    <img
+                      key={`${emoji}-${index}`}
+                      className="career-intro__accent"
+                      src={emoji}
+                      alt=""
+                    />
+                  ))}
+                </div>
+              </div>
+              <div className="career-intro__body">
+                {careerProfile.body.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
+              <div className="career-intro__skills" aria-label="Top skills">
+                {careerProfile.skills.map((skill) => (
+                  <span key={skill.label} className="career-intro__skill">
+                    <img className="career-intro__skill-icon" src={skill.icon} alt="" aria-hidden="true" />
+                    {skill.label}
+                  </span>
+                ))}
+              </div>
+            </motion.section>
+
+            <div className="career-list" aria-label="Career history">
+            {careerEntries.map((entry, index) => (
+              <motion.div
+                key={`${entry.role}-${entry.company}-${index}`}
+                className={`career-list__row ${
+                  expandedCareerIndex === index ? "is-open" : ""
+                }`}
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.42,
+                  delay: 0.06 + index * 0.05,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+              >
+                <button
+                  type="button"
+                  className="career-list__trigger"
+                  onClick={() =>
+                    setExpandedCareerIndex((current) => (current === index ? null : index))
+                  }
+                  aria-expanded={expandedCareerIndex === index}
+                >
+                  <p className="career-list__role">{entry.role}</p>
+                  <div className="career-list__company-wrap">
+                    <p className="career-list__company">{entry.company}</p>
+                    <span className="career-list__chevron" aria-hidden="true" />
+                  </div>
+                </button>
+
+                <AnimatePresence initial={false}>
+                  {expandedCareerIndex === index ? (
+                    <motion.div
+                      className="career-list__details"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                      <div className="career-list__details-inner">
+                        <p className="career-list__summary">
+                          <img
+                            className="career-list__summary-icon"
+                            src={emojiAssets.hundred}
+                            alt=""
+                            aria-hidden="true"
+                          />
+                          {careerSummaryLabel}
+                        </p>
+                        <p className="career-list__description">{entry.description}</p>
+                      </div>
+                    </motion.div>
+                  ) : null}
+                </AnimatePresence>
+              </motion.div>
+            ))}
             </div>
           </div>
-        </div>
+        ) : isFunStuffTab ? (
+          <div className="fun-feed" aria-label="Fun stuff feed">
+            <div className="fun-feed__header">
+              <div>
+                <p className="fun-feed__eyebrow">{funStuffFeed.title}</p>
+                <p className="fun-feed__subtitle">{funStuffFeed.subtitle}</p>
+              </div>
+              <img
+                className="fun-feed__header-emoji"
+                src={emojiAssets.sunglasses}
+                alt=""
+                aria-hidden="true"
+              />
+            </div>
 
-        <div
-          className="folder-scene"
-          aria-label="Project folders"
-        >
-          <div
-            className="folder-origin"
-            ref={folderOriginRef}
-            onPointerMove={handleFolderHoverMove}
-            onPointerLeave={() => setHoveredProjectId(null)}
-            onClick={handleFolderClick}
-          >
-            {projectFolders.map((project, index) => {
-              const isHovered = hoveredProjectId === project.id;
-              const isMuted = hoveredProjectId && !isHovered;
-              const isSelected =
-                isProjectWindowOpen && selectedProject?.id === project.id;
-              const liftDistance = isHovered ? 34 : isSelected ? 16 : 0;
-              const liftedY = project.y - liftDistance;
-
-              return (
-                <motion.div
-                  key={project.id}
-                  className={`folder-stack ${project.className} ${
-                    isSelected ? "is-selected" : ""
-                  }`}
-                  initial={{ opacity: 0, x: project.x + 20, y: project.y + 30, rotate: 0 }}
-                  animate={{
-                    opacity: 1,
-                    x: project.x,
-                    y: liftedY,
-                    rotate: project.rotate,
-                  }}
+            <div className="fun-feed__timeline">
+              {funStuffPosts.map((post, index) => (
+                <motion.article
+                  key={post.id}
+                  className="fun-post"
+                  initial={{ opacity: 0, y: 22 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{
-                    opacity: {
-                      duration: 1,
-                      delay: 0.35 + index * 0.16,
-                      ease: [0.22, 1, 0.36, 1],
-                    },
-                    x: {
-                      type: "spring",
-                      stiffness: 340,
-                      damping: 28,
-                    },
-                    y: {
-                      type: "spring",
-                      stiffness: 360,
-                      damping: 24,
-                    },
-                    rotate: {
-                      type: "spring",
-                      stiffness: 340,
-                      damping: 28,
-                    },
+                    duration: 0.42,
+                    delay: 0.05 + index * 0.05,
+                    ease: [0.22, 1, 0.36, 1],
                   }}
                 >
-                  <button
-                    type="button"
-                    className={`folder-tab-button ${isHovered ? "is-hovered" : ""} ${
-                      isMuted ? "is-muted" : ""
-                    }`}
-                    onFocus={() => setHoveredProjectId(project.id)}
-                    onBlur={() =>
-                      setHoveredProjectId((current) =>
-                        current === project.id ? null : current,
-                      )
-                    }
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      setSelectedProject(project);
-                      setHoveredProjectId(project.id);
-                      setIsProjectWindowOpen(true);
-                    }}
-                    aria-label={`Open ${project.title}`}
-                  >
-                    <span className="folder-tab-button__index">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <span className="folder-tab-button__title">{project.title}</span>
-                  </button>
-                  <FolderSvg />
-                </motion.div>
-              );
-            })}
+                  <div className="fun-post__avatar">
+                    <img src={post.mood} alt="" aria-hidden="true" />
+                  </div>
+
+                  <div className="fun-post__body">
+                    <div className="fun-post__meta">
+                      <span className="fun-post__name">{funStuffFeed.profileName}</span>
+                      <span className="fun-post__handle">{funStuffFeed.handle}</span>
+                      <span className="fun-post__dot" aria-hidden="true">
+                        ·
+                      </span>
+                      <span className="fun-post__time">{post.timestamp}</span>
+                    </div>
+
+                    <p className="fun-post__caption">{post.caption}</p>
+
+                    {post.media ? (
+                      <div className="fun-post__media fun-post__media--placeholder" aria-hidden="true">
+                        <span>{post.media.label}</span>
+                      </div>
+                    ) : null}
+
+                    <div className="fun-post__actions" aria-hidden="true">
+                      <span className="fun-post__action">
+                        <span className="fun-post__action-icon fun-post__action-icon--comment" />
+                        <span className="fun-post__action-label">Comment</span>
+                      </span>
+                      <span className="fun-post__action">
+                        <span className="fun-post__action-icon fun-post__action-icon--share" />
+                        <span className="fun-post__action-label">Share</span>
+                      </span>
+                      <span className="fun-post__action">
+                        <span className="fun-post__action-icon fun-post__action-icon--save" />
+                        <span className="fun-post__action-label">Save</span>
+                      </span>
+                    </div>
+                  </div>
+                </motion.article>
+              ))}
+            </div>
           </div>
-        </div>
+        ) : (
+          <>
+            <div className="showcase-copy">
+              <p className="showcase-eyebrow">Selected Projects</p>
+              <div className="showcase-copy__row">
+                <div>
+                  <p className={`showcase-highlight ${hoveredProjectId ? "is-hovered" : ""}`}>
+                    {activePreviewProject.title}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div
+              className="folder-scene"
+              aria-label="Project folders"
+            >
+              <div
+                className="folder-origin"
+                ref={folderOriginRef}
+                onPointerMove={handleFolderHoverMove}
+                onPointerLeave={() => setHoveredProjectId(null)}
+                onClick={handleFolderClick}
+              >
+                {projectFolders.map((project, index) => {
+                  const isHovered = hoveredProjectId === project.id;
+                  const isMuted = hoveredProjectId && !isHovered;
+                  const isSelected =
+                    isProjectWindowOpen && selectedProject?.id === project.id;
+                  const liftDistance = isHovered ? 34 : isSelected ? 16 : 0;
+                  const liftedY = project.y - liftDistance;
+                  const entranceDelay = (projectFolders.length - index - 1) * 0.045;
+                  const motionDelay = isFolderStackInteractive ? 0 : entranceDelay;
+
+                  return (
+                    <motion.div
+                      key={project.id}
+                      className={`folder-stack ${project.className} ${
+                        isSelected ? "is-selected" : ""
+                      }`}
+                      initial={{ x: project.x + 12, y: project.y + 18, rotate: 0 }}
+                      animate={{
+                        x: project.x,
+                        y: liftedY,
+                        rotate: project.rotate,
+                      }}
+                      transition={{
+                        x: {
+                          type: "spring",
+                          delay: motionDelay,
+                          stiffness: 520,
+                          damping: 32,
+                        },
+                        y: {
+                          type: "spring",
+                          delay: motionDelay,
+                          stiffness: 540,
+                          damping: 30,
+                        },
+                        rotate: {
+                          type: "spring",
+                          delay: motionDelay,
+                          stiffness: 520,
+                          damping: 32,
+                        },
+                      }}
+                    >
+                      <button
+                        type="button"
+                        className={`folder-tab-button ${isHovered ? "is-hovered" : ""} ${
+                          isMuted ? "is-muted" : ""
+                        }`}
+                        onFocus={() => {
+                          setIsFolderStackInteractive(true);
+                          setHoveredProjectId(project.id);
+                        }}
+                        onBlur={() =>
+                          setHoveredProjectId((current) =>
+                            current === project.id ? null : current,
+                          )
+                        }
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          setSelectedProject(project);
+                          setHoveredProjectId(project.id);
+                          setIsProjectWindowOpen(true);
+                        }}
+                        aria-label={`Open ${project.title}`}
+                      >
+                        <span className="folder-tab-button__index">
+                          {String(project.order).padStart(2, "0")}
+                        </span>
+                        <span className="folder-tab-button__title">{project.title}</span>
+                      </button>
+                      <FolderSvg />
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+          </>
+        )}
 
         <AnimatePresence>
           {isProjectWindowOpen && selectedProject ? (
