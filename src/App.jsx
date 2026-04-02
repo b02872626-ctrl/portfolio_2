@@ -56,43 +56,14 @@ const careerProfile = {
   ],
   accents: [emojiAssets.grin, emojiAssets.hundred],
 };
-const funStuffFeed = {
-  title: "Fun stuff I made",
-  subtitle: "Loose drops, experiments, behind-the-scenes frames, and whatever else deserves a spot on the timeline.",
-  profileName: "Nahu Gebreamlak",
-  handle: "@rass_nahu",
+const funStuffPanel = {
+  eyebrow: "Fun stuff I made",
+  title: "This section is getting rebuilt.",
+  subtitle:
+    "Loose drops, experiments, behind-the-scenes frames, and whatever else deserves a spot here.",
+  note: "The old feed is gone for now. Fresh work will land here in a new format soon.",
+  artwork: "/assets/fun-stuff-coming-soon.svg",
 };
-const funStuffPosts = [
-  {
-    id: "fun-post-experiments",
-    timestamp: "Dec 12, 2025",
-    caption: "Experiments.",
-    link: "https://www.instagram.com/p/DSKnXbXiOpv/?img_index=1",
-    embedUrl: "https://www.instagram.com/p/DSKnXbXiOpv/embed/",
-    embedRatio: "4 / 5",
-    media: {
-      type: "image",
-      src: "/assets/fun-feed/instagram-experiments.jpg",
-      alt: "Instagram preview for the Experiments post.",
-      badge: "Post",
-    },
-  },
-  {
-    id: "fun-post-vol-3",
-    timestamp: "Nov 9, 2024",
-    caption:
-      "VOL 3.0 - Day 11 - HOW I MADE IT\n\nSaid by Dwight (From the Office).",
-    link: "https://www.instagram.com/p/DCJWJfjNvJw/",
-    embedUrl: "https://www.instagram.com/reel/DCJWJfjNvJw/embed/",
-    embedRatio: "9 / 16",
-    media: {
-      type: "image",
-      src: "/assets/fun-feed/instagram-vol-3-day-11.jpg",
-      alt: "Instagram reel cover preview for VOL 3.0 - Day 11 - HOW I MADE IT.",
-      badge: "Reel",
-    },
-  },
-];
 const motionProjectTitles = new Set([
   "Women In Muya",
   "Air pods Max",
@@ -108,7 +79,6 @@ const profileImageCandidates = [
   "/assets/profile_jpeg.jpg",
   "/assets/profile_jpeg.png",
 ];
-const funStuffProfileImage = "/assets/profile_jpeg.png";
 // Public music assets need URL-safe paths for spaces and special characters.
 const musicTracks = [
   {
@@ -1228,72 +1198,6 @@ function FolderSvg() {
   );
 }
 
-function HeartOutlineIcon() {
-  return (
-    <svg
-      className="fun-post__action-svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
-      <path
-        d="M12.62 20.8101C12.28 20.9301 11.72 20.9301 11.38 20.8101C8.48 19.8201 2 15.6901 2 8.6901C2 5.6001 4.49 3.1001 7.56 3.1001C9.38 3.1001 10.99 3.9801 12 5.3401C13.01 3.9801 14.63 3.1001 16.44 3.1001C19.51 3.1001 22 5.6001 22 8.6901C22 15.6901 15.52 19.8201 12.62 20.8101Z"
-        stroke="#292D32"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function CommentDotsIcon() {
-  return (
-    <svg
-      className="fun-post__action-svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
-      <path
-        d="M8.5 19H8C4 19 2 18 2 13V8C2 4 4 2 8 2H16C20 2 22 4 22 8V13C22 17 20 19 16 19H15.5C15.19 19 14.89 19.15 14.7 19.4L13.2 21.4C12.54 22.28 11.46 22.28 10.8 21.4L9.3 19.4C9.14 19.18 8.77 19 8.5 19Z"
-        stroke="#292D32"
-        strokeWidth="1.5"
-        strokeMiterlimit="10"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M15.9965 11H16.0054"
-        stroke="#292D32"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M11.9955 11H12.0045"
-        stroke="#292D32"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M7.99451 11H8.00349"
-        stroke="#292D32"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 function ProjectCaseStudy({ project }) {
   const { caseStudy } = project;
 
@@ -1552,7 +1456,6 @@ function App() {
   const [isVolumeOpen, setIsVolumeOpen] = useState(false);
   const [isTimeOpen, setIsTimeOpen] = useState(false);
   const [expandedCareerIndex, setExpandedCareerIndex] = useState(null);
-  const [activeFunPostEmbedId, setActiveFunPostEmbedId] = useState(null);
   const [currentClock, setCurrentClock] = useState(() => new Date());
   const [activeTrackIndex, setActiveTrackIndex] = useState(0);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
@@ -2251,119 +2154,26 @@ function App() {
             </div>
           </div>
         ) : isFunStuffTab ? (
-          <div className="fun-feed" aria-label="Fun stuff feed">
-            <div className="fun-feed__header">
-              <div>
-                <p className="fun-feed__eyebrow">{funStuffFeed.title}</p>
-                <p className="fun-feed__subtitle">{funStuffFeed.subtitle}</p>
-              </div>
-              <img
-                className="fun-feed__header-avatar"
-                src={funStuffProfileImage}
-                alt=""
-                aria-hidden="true"
-              />
+          <motion.section
+            className="fun-coming-soon"
+            aria-labelledby="fun-stuff-title"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <div className="fun-coming-soon__copy">
+              <p className="fun-coming-soon__eyebrow">{funStuffPanel.eyebrow}</p>
+              <h2 id="fun-stuff-title" className="fun-coming-soon__title">
+                {funStuffPanel.title}
+              </h2>
+              <p className="fun-coming-soon__subtitle">{funStuffPanel.subtitle}</p>
+              <p className="fun-coming-soon__note">{funStuffPanel.note}</p>
             </div>
 
-            <div className="fun-feed__timeline">
-              {funStuffPosts.map((post, index) => (
-                <motion.article
-                  key={post.id}
-                  className="fun-post"
-                  initial={{ opacity: 0, y: 22 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.42,
-                    delay: 0.05 + index * 0.05,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                >
-                  <div className="fun-post__avatar">
-                    <img src={funStuffProfileImage} alt="" aria-hidden="true" />
-                  </div>
-
-                  <div className="fun-post__body">
-                    <div className="fun-post__meta">
-                      <span className="fun-post__name">{funStuffFeed.profileName}</span>
-                      <span className="fun-post__handle">{funStuffFeed.handle}</span>
-                      <span className="fun-post__dot" aria-hidden="true">
-                        ·
-                      </span>
-                      <span className="fun-post__time">{post.timestamp}</span>
-                    </div>
-
-                    <p className="fun-post__caption">{post.caption}</p>
-
-                    {post.media ? (
-                      post.media.type === "image" ? (
-                        post.embedUrl && activeFunPostEmbedId === post.id ? (
-                          <div
-                            className="fun-post__media fun-post__media--embed"
-                            style={{ "--fun-post-embed-ratio": post.embedRatio ?? "4 / 5" }}
-                          >
-                            <iframe
-                              src={post.embedUrl}
-                              title={post.caption.replace(/\s+/g, " ").trim()}
-                              loading="lazy"
-                              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                              allowFullScreen
-                            />
-                          </div>
-                        ) : post.embedUrl ? (
-                          <button
-                            type="button"
-                            className="fun-post__media fun-post__media-link fun-post__media-button"
-                            onClick={() =>
-                              setActiveFunPostEmbedId((currentId) =>
-                                currentId === post.id ? null : post.id
-                              )
-                            }
-                            aria-label={`Play ${post.caption.replace(/\s+/g, " ").trim()} here`}
-                          >
-                            <img src={post.media.src} alt={post.media.alt} loading="lazy" />
-                            <span className="fun-post__media-play" aria-hidden="true">
-                              <span className="fun-post__media-play-triangle" />
-                            </span>
-                            {post.media.badge ? (
-                              <span className="fun-post__media-badge">{post.media.badge}</span>
-                            ) : null}
-                          </button>
-                        ) : (
-                          <a
-                            className="fun-post__media fun-post__media-link"
-                            href={post.link}
-                            target="_blank"
-                            rel="noreferrer"
-                            aria-label={`Open ${post.caption.replace(/\s+/g, " ").trim()} on Instagram`}
-                          >
-                            <img src={post.media.src} alt={post.media.alt} loading="lazy" />
-                            {post.media.badge ? (
-                              <span className="fun-post__media-badge">{post.media.badge}</span>
-                            ) : null}
-                          </a>
-                        )
-                      ) : (
-                        <div className="fun-post__media fun-post__media--placeholder" aria-hidden="true">
-                          <span>{post.media.label}</span>
-                        </div>
-                      )
-                    ) : null}
-
-                    <div className="fun-post__actions" aria-hidden="true">
-                      <span className="fun-post__action">
-                        <HeartOutlineIcon />
-                        <span className="fun-post__action-label">Like</span>
-                      </span>
-                      <span className="fun-post__action">
-                        <CommentDotsIcon />
-                        <span className="fun-post__action-label">Comment</span>
-                      </span>
-                    </div>
-                  </div>
-                </motion.article>
-              ))}
+            <div className="fun-coming-soon__board" aria-hidden="true">
+              <img className="fun-coming-soon__art" src={funStuffPanel.artwork} alt="" />
             </div>
-          </div>
+          </motion.section>
         ) : (
           <>
             <div className="showcase-copy">
