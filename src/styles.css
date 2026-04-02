@@ -1220,6 +1220,97 @@ a {
   flex: none;
 }
 
+.fun-coming-soon {
+  width: min(100%, 760px);
+  min-height: 620px;
+  margin: 0 auto;
+  display: grid;
+  align-content: start;
+  gap: 32px;
+  padding: 24px 0 8px;
+}
+
+.fun-coming-soon__copy {
+  display: grid;
+  gap: 14px;
+  max-width: min(100%, 42ch);
+}
+
+.fun-coming-soon__eyebrow,
+.fun-coming-soon__title,
+.fun-coming-soon__subtitle,
+.fun-coming-soon__note {
+  margin: 0;
+}
+
+.fun-coming-soon__eyebrow {
+  color: rgba(19, 19, 19, 0.56);
+  font-family: "IBM Plex Mono", "Cascadia Code", monospace;
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.fun-coming-soon__title {
+  max-width: 12ch;
+  font-size: clamp(2rem, 3.4vw, 3rem);
+  line-height: 0.96;
+  letter-spacing: -0.05em;
+}
+
+.fun-coming-soon__subtitle {
+  color: rgba(19, 19, 19, 0.72);
+  font-size: 1rem;
+  line-height: 1.58;
+  text-wrap: pretty;
+}
+
+.fun-coming-soon__note {
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+  max-width: 100%;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid rgba(19, 19, 19, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.62);
+  color: rgba(19, 19, 19, 0.66);
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
+.fun-coming-soon__board {
+  position: relative;
+  justify-self: center;
+  width: min(100%, 640px);
+  padding: 26px;
+  border: 1px solid rgba(19, 19, 19, 0.12);
+  border-radius: 32px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.84), transparent 34%),
+    linear-gradient(180deg, rgba(250, 247, 241, 0.96), rgba(231, 225, 214, 0.92));
+  box-shadow: 0 26px 48px rgba(19, 19, 19, 0.08);
+}
+
+.fun-coming-soon__board::before {
+  position: absolute;
+  inset: 12px;
+  content: "";
+  border: 1px solid rgba(19, 19, 19, 0.08);
+  border-radius: 24px;
+  pointer-events: none;
+}
+
+.fun-coming-soon__art {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .showcase-copy {
   position: relative;
   z-index: 2;
