@@ -73,6 +73,7 @@ const motionProjectTitles = new Set([
   "Afriwork Ai",
   "Caynetic Voice - Ad",
   "Chapa",
+  "Hanbon Construction",
 ]);
 const profileImageCandidates = [
   "/assets/profile_jpeg.jpeg",
@@ -834,6 +835,15 @@ const chapaCaseStudy = createVideoFeatureCaseStudy({
   format: "Brand Video, Motion Design",
 });
 
+const hanbonConstructionCaseStudy = createVideoFeatureCaseStudy({
+  title: "Hanbon Construction",
+  eyebrow: "StudioRass / Hanbon Construction",
+  embedUrl: "https://www.youtube.com/watch?v=1UEBQCt7WCk",
+  summary:
+    "Hanbon Construction opens with the StudioRass video and frames the brand through a concise motion-led presentation built around clarity, strength, and forward momentum.",
+  format: "Brand Video, Motion Design",
+});
+
 const projects = [
   {
     title: "Ttechnos Logo",
@@ -902,6 +912,12 @@ const projects = [
     title: "Chapa",
     source: "Native project case study",
     caseStudy: chapaCaseStudy,
+  },
+  {
+    title: "Hanbon Construction",
+    source: "Native project case study",
+    referenceUrl: "https://www.youtube.com/watch?v=1UEBQCt7WCk",
+    caseStudy: hanbonConstructionCaseStudy,
   },
 ].map((project, index) => {
   const resolvedEmbedUrl =
