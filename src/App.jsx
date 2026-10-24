@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-const navLinks = ["Projects", "Fun stuff I made"];
+// "Fun stuff I made" is hidden until the section is ready; add it back here to show it.
+const navLinks = ["Projects"];
 const emojiAssets = {
   monocle: encodeURI("/assets/emojies/Face with monocle.gif"),
   grin: encodeURI("/assets/emojies/Grinning face.gif"),
@@ -219,36 +220,36 @@ const createBehanceGalleryCaseStudy = ({
   eyebrow,
   format,
   summary,
-  detail,
   imageUrls,
-  credit,
+  credits = [],
 }) => {
   const images = imageUrls.map((src, index) => ({
     src,
-    alt: `${title} Behance presentation image ${String(index + 1).padStart(2, "0")}.`,
+    alt: `${title}, image ${String(index + 1).padStart(2, "0")}.`,
     className: index === 0 ? "project-case-study__media--hero" : undefined,
   }));
 
   const [heroImage, ...galleryImages] = images;
-  const gallerySections = chunkItems(galleryImages, 6).map((chunk, chunkIndex) => ({
-    label: chunkIndex === 0 ? "Project Gallery" : `Gallery ${chunkIndex + 1}`,
-    body: [
-      chunkIndex === 0
-        ? detail
-        : `This section continues the original Behance presentation for ${title}, keeping the remaining frames available on-site in the same flow.`,
-    ],
-    media: balanceGalleryChunk(chunk, chunkIndex),
-  }));
+  const chunks = chunkItems(galleryImages, 6);
+  // The gallery is visual-only; the last block carries the credits.
+  const gallerySections = chunks.map((chunk, chunkIndex) => {
+    const isLast = chunkIndex === chunks.length - 1;
+
+    return {
+      label: isLast ? "Credits" : `Gallery ${chunkIndex + 1}`,
+      layout: isLast ? undefined : "gallery",
+      hideLabel: isLast,
+      body: [],
+      media: balanceGalleryChunk(chunk, chunkIndex),
+    };
+  });
 
   return {
     eyebrow,
     sections: [
       {
         label: "Overview",
-        body: [
-          summary,
-          `This native gallery adapts the public Behance presentation for ${title} into the portfolio site so the project can be viewed directly here.`,
-        ],
+        body: [summary],
         media: heroImage ? [heroImage] : [],
       },
       ...gallerySections,
@@ -256,16 +257,15 @@ const createBehanceGalleryCaseStudy = ({
     credits: [
       { label: "Project", value: title },
       { label: "Format", value: format },
-      { label: "Frames", value: `${imageUrls.length} Behance images` },
+      ...credits,
     ],
-    credit: credit ?? "This on-site version is adapted from the public Behance presentation.",
   };
 };
 
 const createBehanceMediaItems = (title, imageUrls) =>
   imageUrls.map((src, index) => ({
     src,
-    alt: `${title} Behance presentation image ${String(index + 1).padStart(2, "0")}.`,
+    alt: `${title}, image ${String(index + 1).padStart(2, "0")}.`,
     className: index === 0 ? "project-case-study__media--hero" : undefined,
   }));
 
@@ -293,7 +293,6 @@ const createVideoFeatureCaseStudy = ({ title, eyebrow, embedUrl, summary, format
     { label: "Format", value: format },
     { label: "Studio", value: "StudioRass" },
   ],
-  credit: "This on-site version centers the StudioRass video directly inside the portfolio.",
 });
 
 let youtubeApiPromise;
@@ -334,90 +333,90 @@ const loadYouTubeApi = () => {
 const ttechnosBehanceImages = [
   {
     src: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/82e0b2210173327.670d035528c89.png",
-    alt: "Ttechnos Behance presentation hero image.",
+    alt: "Ttechnos hero image.",
     className: "project-case-study__media--hero",
   },
   {
     src: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/7fd258210173327.670d03552682b.png",
-    alt: "Ttechnos Behance presentation image showing a light logo lockup.",
+    alt: "Ttechnos image showing a light logo lockup.",
   },
   {
     src: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/edabb9210173327.670d035526d61.png",
-    alt: "Ttechnos Behance presentation image showing a red logo lockup.",
+    alt: "Ttechnos image showing a red logo lockup.",
   },
   {
     src: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/83fae3210173327.670d03552b00e.png",
-    alt: "Ttechnos Behance presentation image showing mark construction details.",
+    alt: "Ttechnos image showing mark construction details.",
     className: "project-case-study__media--wide",
   },
   {
     src: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/5ad38f210173327.670d03552b8ad.png",
-    alt: "Ttechnos Behance presentation typography board one.",
+    alt: "Ttechnos typography board one.",
   },
   {
     src: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/6c103d210173327.670d03552913f.png",
-    alt: "Ttechnos Behance presentation typography board two.",
+    alt: "Ttechnos typography board two.",
   },
   {
     src: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/41df8d210173327.670d035527dd6.png",
-    alt: "Ttechnos Behance presentation color palette board.",
+    alt: "Ttechnos color palette board.",
   },
   {
     src: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/e10298210173327.670d0355274de.png",
-    alt: "Ttechnos Behance presentation gradient study.",
+    alt: "Ttechnos gradient study.",
   },
   {
     src: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/aa8b75210173327.670d035527960.png",
-    alt: "Ttechnos Behance presentation application poster.",
+    alt: "Ttechnos application poster.",
   },
   {
     src: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/3c9123210173327.670d03552852f.png",
-    alt: "Ttechnos Behance presentation applications collage.",
+    alt: "Ttechnos applications collage.",
     className: "project-case-study__media--wide",
   },
   {
     src: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/c9644e210173327.670d03552c8e1.png",
-    alt: "Ttechnos Behance presentation billboard mockup.",
+    alt: "Ttechnos billboard mockup.",
   },
   {
     src: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/27ea3a210173327.670d03552cd95.png",
-    alt: "Ttechnos Behance presentation image 12.",
+    alt: "Ttechnos image 12.",
   },
   {
     src: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/969c88210173327.670d0355295b3.png",
-    alt: "Ttechnos Behance presentation image 13.",
+    alt: "Ttechnos image 13.",
   },
   {
     src: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/2bae84210173327.670d03552a631.png",
-    alt: "Ttechnos Behance presentation image 14.",
+    alt: "Ttechnos image 14.",
   },
   {
     src: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/3c4116210173327.670d03552a190.png",
-    alt: "Ttechnos Behance presentation image 15.",
+    alt: "Ttechnos image 15.",
   },
   {
     src: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/8e04ff210173327.670d03552dbbd.png",
-    alt: "Ttechnos Behance presentation image 16.",
+    alt: "Ttechnos image 16.",
     className: "project-case-study__media--wide",
   },
   {
     src: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/14520d210173327.670d03552c00b.png",
-    alt: "Ttechnos Behance presentation image 17.",
+    alt: "Ttechnos image 17.",
     className: "project-case-study__media--wide",
   },
   {
     src: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/ec3b14210173327.670d03552ab2e.png",
-    alt: "Ttechnos Behance presentation image 18.",
+    alt: "Ttechnos image 18.",
     className: "project-case-study__media--wide",
   },
   {
     src: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/5cddab210173327.670d03552d49f.png",
-    alt: "Ttechnos Behance presentation image 19.",
+    alt: "Ttechnos image 19.",
     className: "project-case-study__media--wide",
   },
   {
     src: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/3c5adf210173327.670d035529a13.png",
-    alt: "Ttechnos Behance presentation image 20.",
+    alt: "Ttechnos image 20.",
     className: "project-case-study__media--wide",
   },
 ];
@@ -593,18 +592,14 @@ const ttechnosCaseStudy = {
     },
     {
       label: "Rollout",
-      body: [
-        "The Behance presentation continues beyond the core boards into additional brand moments, supporting frames, and more expressive rollout pieces.",
-        "Showing those extra images here keeps the on-site case study closer to the breadth of the original Behance project rather than compressing it into a shorter edit.",
-      ],
+      body: [],
+      layout: "gallery",
       media: ttechnosBehanceImages.slice(11, 15),
     },
     {
-      label: "Extended System",
-      body: [
-        "The final sequence pushes the identity across even more branded touchpoints, demonstrating how consistently the system holds together as the presentation expands.",
-        "Using the full Behance image set here preserves the wider visual story from the original project and gives the website version the same fuller arc.",
-      ],
+      label: "Credits",
+      hideLabel: true,
+      body: [],
       media: ttechnosBehanceImages.slice(15),
     },
   ],
@@ -618,8 +613,6 @@ const ttechnosCaseStudy = {
     { label: "Discipline", value: "Logo Design, Branding, Visual Identity" },
     { label: "Published", value: "October 14, 2024" },
   ],
-  credit:
-    "This on-site version is adapted from the public Behance presentation by Studio Rass, Nahusenay Gebreamlak, Natnael Getinet, and Aklog Tefera.",
 };
 
 const halalCateringCaseStudy = createBehanceGalleryCaseStudy({
@@ -627,21 +620,23 @@ const halalCateringCaseStudy = createBehanceGalleryCaseStudy({
   eyebrow: "Halal Catering / Logo Design and Identity",
   format: "Logo Design, Brand Identity",
   summary:
-    "Halal Catering is presented as a logo design and identity system with a strong focus on brand presence, structured presentation boards, and applied rollout pieces.",
-  detail:
-    "The Behance sequence walks through the core mark, supporting identity language, and a broad set of branded applications that extend the concept into real-world touchpoints.",
+    "Logo and identity for Halal Catering, from the core mark and its supporting visual language to a broad set of branded applications.",
   imageUrls: behanceProjectImageSets.halalCatering,
 });
 
 const womenInMuyaCaseStudy = createBehanceGalleryCaseStudy({
   title: "Women In Muya",
-  eyebrow: "Women In Muya / Brand Presentation",
-  format: "Brand Identity, Visual Storytelling",
+  eyebrow: "Women In Muya / Brand Identity",
+  format: "Logo Design, Identity Design, Branding",
   summary:
-    "Women In Muya is presented as a brand-led visual story, using a rich image sequence to show the identity, styling, and supporting applications across the project.",
-  detail:
-    "This gallery keeps the original Behance progression on-site, moving through the core mark, supporting layouts, and the broader brand rollout.",
+    "Logo and identity system for Women in Muya, a community brand in Addis Ababa, carried from the wordmark and palette through posters, signage, merchandise and social.",
   imageUrls: behanceProjectImageSets.womenInMuya,
+  credits: [
+    { label: "Client", value: "Rediet Pawlos & Bisrat Hagos" },
+    { label: "Studio", value: "Studio Rass" },
+    { label: "Design", value: "Nahusenay Gebreamlak, Natnael Getinet, Aklog Tefera" },
+    { label: "Timeline", value: "2 months, 2024" },
+  ],
 });
 
 const liteInnovateCaseStudy = createBehanceGalleryCaseStudy({
@@ -649,9 +644,7 @@ const liteInnovateCaseStudy = createBehanceGalleryCaseStudy({
   eyebrow: "Lite Innovate / Logo and Visual Identity",
   format: "Logo Design, Visual Identity",
   summary:
-    "Lite Innovate unfolds as a full identity presentation, moving from the core mark into rollout frames, supporting layouts, and a much broader brand system across the Behance sequence.",
-  detail:
-    "This native version now carries the complete Behance image run so the logo direction, supporting graphics, and applications can be viewed in the same full progression.",
+    "Logo and visual identity for Lite Innovate, moving from the core mark into supporting graphics, layouts and a broad set of brand applications.",
   imageUrls: behanceProjectImageSets.liteInnovate,
 });
 
@@ -660,9 +653,7 @@ const alenelachuCaseStudy = createBehanceGalleryCaseStudy({
   eyebrow: "Alenelachu / Logo Design",
   format: "Logo Design, Identity Presentation",
   summary:
-    "Alenelachu is structured as an identity presentation that develops the mark across multiple branded frames and supporting applications.",
-  detail:
-    "The Behance sequence moves through the logo exploration, brand system, and additional rollout visuals to show how the identity behaves across formats.",
+    "Logo design for Alenelachu, developed from early exploration into a mark that holds up across branded applications.",
   imageUrls: behanceProjectImageSets.alenelachu,
 });
 
@@ -675,7 +666,7 @@ const airpodMaxCaseStudy = {
     {
       label: "Overview",
       body: [
-        "Air pods Max is framed here as a StudioRass spec piece built around the product's clean industrial design and premium simplicity. The presentation treats the headphones as an object worth reimagining, with the direction leaning into precision, restraint, and surface quality.",
+        "A StudioRass spec commercial for the AirPods Max, built around the product's clean industrial design and premium simplicity. The direction leans into precision, restraint and surface quality.",
         "Instead of overwhelming the product with effects, the piece stays focused on the form itself and uses that control to make the commercial feel polished, intentional, and highly product-led.",
       ],
       media: [
@@ -689,7 +680,7 @@ const airpodMaxCaseStudy = {
     {
       label: "The Challenge",
       body: [
-        "One of the key questions in the Behance boards is how to show the power of Air pods Max while staying faithful to its minimalist character. That tension shaped the motion language, the framing, and the overall pacing of the visuals.",
+        "The key question was how to show the power of the AirPods Max while staying faithful to its minimalist character. That tension shaped the motion language, the framing and the pacing.",
         "The project solves that by keeping the direction controlled and elegant, so the renders can feel premium without ever drifting away from the product's original design logic.",
       ],
       media: balanceGalleryChunk(airpodMaxMedia.slice(0, 2), 0),
@@ -703,7 +694,7 @@ const airpodMaxCaseStudy = {
     {
       label: "Craft",
       body: [
-        "The story then moves into the making of the piece, with a strong focus on 3D modeling and texturing. The cleaner surfaces, mesh, and hardware details are treated as the core storytelling tools rather than background decoration.",
+        "The piece is built on careful 3D modeling and texturing. Surfaces, mesh and hardware details are treated as the core storytelling tools rather than background decoration.",
         "That attention to detail lets the headphones hold the frame on their own and gives the spec commercial its sense of finish, clarity, and confidence.",
       ],
       media: [airpodMaxMedia[3]],
@@ -717,7 +708,7 @@ const airpodMaxCaseStudy = {
     {
       label: "Applications",
       body: [
-        "The later boards expand the direction into supporting applications, including colorway-led visuals, product stills, and social-style campaign frames. These images show how the same product language can stretch across multiple placements without losing consistency.",
+        "The direction extends into colorway visuals, product stills and social campaign frames, showing how the same product language stretches across placements without losing consistency.",
         "By the end of the sequence, the project reads as both a passion-led exercise and a proof of craft for StudioRass, turning a speculative commercial into a convincing product campaign study.",
       ],
       media: balanceGalleryChunk(airpodMaxMedia.slice(5), 2),
@@ -727,10 +718,7 @@ const airpodMaxCaseStudy = {
     { label: "Project", value: "Air pods Max" },
     { label: "Format", value: "Spec Product Commercial" },
     { label: "Studio", value: "StudioRass" },
-    { label: "Frames", value: `${airpodMaxMedia.length} Behance images` },
   ],
-  credit:
-    "Copy for this on-site version is adapted from the text panels inside the public Behance presentation.",
 };
 
 const marshallMedia = createBehanceMediaItems("Marshall.", behanceProjectImageSets.marshall)
@@ -742,15 +730,14 @@ const marshallCaseStudy = {
     {
       label: "Overview",
       body: [
-        "Marshall. is introduced as a spec commercial built around the idea of new sound with old soul. From the start, the project treats the speaker as an object with weight, texture, and attitude rather than smoothing it into a generic tech ad.",
-        "That positioning gives the whole presentation a clear identity and sets up the rest of the Behance sequence as a product story rooted in character, not just polish.",
+        "A StudioRass spec commercial for the Marshall Action III, built around the idea of new sound with old soul. The speaker is treated as an object with weight, texture and attitude rather than smoothed into a generic tech ad.",
       ],
       media: [createVideoMediaItem("Marshall.", "https://www.youtube.com/embed/zLti1JwgfXE")],
     },
     {
       label: "The Vision",
       body: [
-        "The vision boards make it clear that the direction was never meant to mimic the ultra-clean language common in contemporary product commercials. Instead, the goal was to push toward something warmer, grittier, and more aligned with Marshall's classic presence.",
+        "The direction was never meant to mimic the ultra-clean language of most product commercials. The goal was something warmer, grittier and closer to Marshall's classic presence.",
         "That choice gives the project its energy, letting the frames feel musical and tactile instead of overly sterile or trend-driven.",
       ],
       media: balanceGalleryChunk(marshallMedia.slice(1, 5), 0),
@@ -758,7 +745,7 @@ const marshallCaseStudy = {
     {
       label: "The Process",
       body: [
-        "The process section points back to a detailed 3D model, rich textures, and warm lighting as the foundation of the final look. Those choices keep the product feeling physical and familiar even when the presentation becomes more graphic and campaign-led.",
+        "A detailed 3D model, rich textures and warm lighting are the foundation of the look. They keep the product feeling physical and familiar even as the frames become more graphic and campaign-led.",
         "Across the renders, the vintage cues are preserved on purpose, so the speaker stays recognizably Marshall while still reading clearly inside a modern commercial system.",
       ],
       media: balanceGalleryChunk(marshallMedia.slice(5, 9), 1),
@@ -766,7 +753,7 @@ const marshallCaseStudy = {
     {
       label: "The Challenge",
       body: [
-        "A major challenge in the text boards is the contrast between Marshall's retro-inspired design and the minimalist, high-gloss product language audiences usually associate with brands like Apple or Samsung. The project leans into that contrast instead of hiding it.",
+        "The main challenge was the contrast between Marshall's retro-inspired design and the minimalist, high-gloss product language people associate with brands like Apple or Samsung. The project leans into that contrast instead of hiding it.",
         "By embracing the speaker's texture, warmth, and heritage, the commercial turns difference into its main strength and gives the work a much more memorable point of view.",
       ],
       media: balanceGalleryChunk(marshallMedia.slice(9, 12), 2),
@@ -774,8 +761,7 @@ const marshallCaseStudy = {
     {
       label: "The Result",
       body: [
-        "The closing sequence presents the work as a bold retro revival, with frames that feel ready for billboards, commercials, and social placements. The campaign boards show how the same visual direction can scale without losing the product's timeless edge.",
-        "Taken together, the presentation lands as a complete spec campaign: confident in its references, strong in execution, and clearly shaped around Marshall's own design DNA.",
+        "The final frames land as a bold retro revival, ready for billboards, commercials and social placements, with one visual direction that scales without losing the product's timeless edge.",
       ],
       media: balanceGalleryChunk(marshallMedia.slice(12), 3),
     },
@@ -784,10 +770,7 @@ const marshallCaseStudy = {
     { label: "Project", value: "Marshall." },
     { label: "Format", value: "Spec Product Commercial" },
     { label: "Studio", value: "StudioRass" },
-    { label: "Frames", value: `${marshallMedia.length} Behance images` },
   ],
-  credit:
-    "Copy for this on-site version is adapted from the text panels inside the public Behance presentation.",
 };
 
 const showReelCaseStudy = createVideoFeatureCaseStudy({
@@ -795,7 +778,7 @@ const showReelCaseStudy = createVideoFeatureCaseStudy({
   eyebrow: "StudioRass / Show reel - 2025",
   embedUrl: "https://www.youtube.com/embed/DUNPRyTdXM0",
   summary:
-    "Show reel - 2025 opens with the StudioRass video and uses the same compact editorial layout as the rest of the motion pieces, with the video leading on the left and the project note on the right.",
+    "Selected StudioRass motion work from 2025.",
   format: "Show Reel, Motion Showcase",
 });
 
@@ -804,7 +787,7 @@ const afriworkPlatformCaseStudy = createVideoFeatureCaseStudy({
   eyebrow: "StudioRass / Afriwork Platform",
   embedUrl: "https://www.youtube.com/embed/uTn14-AF9ac",
   summary:
-    "Afriwork Platform opens with the StudioRass video and introduces the product through a clean, motion-led platform story that keeps the presentation compact and direct.",
+    "A motion-led platform video for Afriwork that introduces the product through a clean, compact and direct story.",
   format: "Platform Video, Product Motion",
 });
 
@@ -813,7 +796,7 @@ const afriworkAiCaseStudy = createVideoFeatureCaseStudy({
   eyebrow: "StudioRass / Afriwork Ai",
   embedUrl: "https://www.youtube.com/embed/YBWI6mzGOo8",
   summary:
-    "Afriwork Ai opens with the StudioRass video and frames the project as a concise AI-led product presentation, using motion to introduce the concept quickly and clearly.",
+    "A short product video for Afriwork AI, using motion to introduce the concept quickly and clearly.",
   format: "AI Product Video, Motion Design",
 });
 
@@ -822,7 +805,7 @@ const cayneticVoiceCaseStudy = createVideoFeatureCaseStudy({
   eyebrow: "StudioRass / Caynetic Voice - Ad",
   embedUrl: "https://www.youtube.com/embed/VzV6JjEZrnA",
   summary:
-    "Caynetic Voice - Ad opens with the StudioRass video and presents the concept as a focused ad treatment, keeping the storytelling short, sharp, and voice-led.",
+    "A focused ad for Caynetic Voice, with storytelling kept short, sharp and voice-led.",
   format: "Ad Film, Motion Design",
 });
 
@@ -831,7 +814,7 @@ const chapaCaseStudy = createVideoFeatureCaseStudy({
   eyebrow: "StudioRass / Chapa",
   embedUrl: "https://www.youtube.com/embed/L0bFlOdZjmU",
   summary:
-    "Chapa opens with the StudioRass video and presents the payment story as a clean, motion-first brand piece centered on speed, ease, and clarity.",
+    "A motion-first brand video for Chapa that tells the payment story through speed, ease and clarity.",
   format: "Brand Video, Motion Design",
 });
 
@@ -840,84 +823,85 @@ const hanbonConstructionCaseStudy = createVideoFeatureCaseStudy({
   eyebrow: "StudioRass / Hanbon Construction",
   embedUrl: "https://www.youtube.com/watch?v=1UEBQCt7WCk",
   summary:
-    "Hanbon Construction opens with the StudioRass video and frames the brand through a concise motion-led presentation built around clarity, strength, and forward momentum.",
+    "A motion-led brand video for Hanbon Construction, built around clarity, strength and forward momentum.",
   format: "Brand Video, Motion Design",
 });
 
+// Listed in priority order: number 01 sits at the front of the folder stack.
 const projects = [
   {
-    title: "Ttechnos Logo",
-    source: "Native project case study",
-    referenceUrl: "https://www.behance.net/gallery/210173327/Ttechnos",
-    caseStudy: ttechnosCaseStudy,
-  },
-  {
-    title: "Halal Catering",
-    source: "Native project case study",
-    referenceUrl: "https://www.behance.net/gallery/210007661/Halal-Catering-Logo-Design-and-Identity",
-    caseStudy: halalCateringCaseStudy,
-  },
-  {
-    title: "Women In Muya",
-    source: "Native project case study",
-    referenceUrl: "https://www.behance.net/gallery/209914781/Women-In-Muya",
-    caseStudy: womenInMuyaCaseStudy,
-  },
-  {
-    title: "Lite Innovate",
-    source: "Native project case study",
-    referenceUrl: "https://www.behance.net/gallery/210708431/Lite-Innovate-Logo-and-Visual-Identity-Design",
-    caseStudy: liteInnovateCaseStudy,
-  },
-  {
-    title: "Alenelachu",
-    source: "Native project case study",
-    referenceUrl: "https://www.behance.net/gallery/199019247/Alenelachu-Logo-Design",
-    caseStudy: alenelachuCaseStudy,
-  },
-  {
-    title: "Air pods Max",
-    source: "Native project case study",
-    referenceUrl: "https://www.behance.net/gallery/193955523/Air-pods-Max",
-    caseStudy: airpodMaxCaseStudy,
-  },
-  {
-    title: "Marshall.",
-    source: "Native project case study",
-    referenceUrl: "https://www.behance.net/gallery/193789767/MARSHAL-Action-III-Product-Commercial",
-    caseStudy: marshallCaseStudy,
-  },
-  {
     title: "Show reel - 2025",
-    source: "Native project case study",
+    source: "Motion design",
     referenceUrl: "https://www.behance.net/gallery/231914735/StudioRass-Show-Reel",
     caseStudy: showReelCaseStudy,
   },
   {
+    title: "Chapa",
+    source: "Motion design",
+    caseStudy: chapaCaseStudy,
+  },
+  {
     title: "Afriwork Platform",
-    source: "Native project case study",
+    source: "Motion design",
     caseStudy: afriworkPlatformCaseStudy,
   },
   {
     title: "Afriwork Ai",
-    source: "Native project case study",
+    source: "Motion design",
     caseStudy: afriworkAiCaseStudy,
   },
   {
     title: "Caynetic Voice - Ad",
-    source: "Native project case study",
+    source: "Motion design",
     caseStudy: cayneticVoiceCaseStudy,
   },
   {
-    title: "Chapa",
-    source: "Native project case study",
-    caseStudy: chapaCaseStudy,
-  },
-  {
     title: "Hanbon Construction",
-    source: "Native project case study",
+    source: "Motion design",
     referenceUrl: "https://www.youtube.com/watch?v=1UEBQCt7WCk",
     caseStudy: hanbonConstructionCaseStudy,
+  },
+  {
+    title: "Marshall.",
+    source: "3D product commercial",
+    referenceUrl: "https://www.behance.net/gallery/193789767/MARSHAL-Action-III-Product-Commercial",
+    caseStudy: marshallCaseStudy,
+  },
+  {
+    title: "Air pods Max",
+    source: "3D product commercial",
+    referenceUrl: "https://www.behance.net/gallery/193955523/Air-pods-Max",
+    caseStudy: airpodMaxCaseStudy,
+  },
+  {
+    title: "Women In Muya",
+    source: "Brand identity",
+    referenceUrl: "https://www.behance.net/gallery/209914781/Women-In-Muya",
+    caseStudy: womenInMuyaCaseStudy,
+  },
+  {
+    title: "Ttechnos Logo",
+    source: "Brand identity",
+    referenceUrl: "https://www.behance.net/gallery/210173327/Ttechnos",
+    caseStudy: ttechnosCaseStudy,
+  },
+  {
+    title: "Lite Innovate",
+    source: "Brand identity",
+    referenceUrl: "https://www.behance.net/gallery/210708431/Lite-Innovate-Logo-and-Visual-Identity-Design",
+    caseStudy: liteInnovateCaseStudy,
+  },
+  {
+    title: "Halal Catering",
+    source: "Brand identity",
+    referenceUrl: "https://www.behance.net/gallery/210007661/Halal-Catering-Logo-Design-and-Identity",
+    caseStudy: halalCateringCaseStudy,
+  },
+  {
+    title: "Alenelachu",
+    source: "Logo design",
+    referenceUrl: "https://www.behance.net/gallery/199019247/Alenelachu-Logo-Design",
+    caseStudy: alenelachuCaseStudy,
   },
 ].map((project, index) => {
   const resolvedEmbedUrl =
@@ -1230,7 +1214,8 @@ function ProjectCaseStudy({ project }) {
       {caseStudy.sections.map((section, index) => {
         const isIntro = index === 0;
         const isLastSection = index === caseStudy.sections.length - 1;
-        const isMediaOnly = section.layout === "media-only";
+        const isGallery = section.layout === "gallery";
+        const isMediaOnly = section.layout === "media-only" || isGallery;
         const showCredits = isLastSection && section.showCredits !== false;
 
         return (
@@ -1240,7 +1225,7 @@ function ProjectCaseStudy({ project }) {
               isIntro ? " project-case-study__flow-section--intro" : ""
             }${
               isMediaOnly ? " project-case-study__flow-section--media-only" : ""
-            }`}
+            }${isGallery ? " project-case-study__flow-section--gallery" : ""}`}
           >
             <div
               className={`project-case-study__flow-media${
@@ -1279,17 +1264,19 @@ function ProjectCaseStudy({ project }) {
                     <p className="project-case-study__eyebrow">{caseStudy.eyebrow}</p>
                     <h1 className="project-case-study__title">{project.title}</h1>
                   </>
-                ) : (
+                ) : section.hideLabel ? null : (
                   <p className="project-case-study__section-label">{section.label}</p>
                 )}
 
-                <div className="project-case-study__body-copy">
-                  {section.body.map((paragraph) => (
-                    <p key={paragraph} className="project-case-study__body-paragraph">
-                      {paragraph}
-                    </p>
-                  ))}
-                </div>
+                {section.body.length > 0 ? (
+                  <div className="project-case-study__body-copy">
+                    {section.body.map((paragraph) => (
+                      <p key={paragraph} className="project-case-study__body-paragraph">
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
+                ) : null}
 
                 {showCredits ? (
                   <div className="project-case-study__credits">
@@ -1301,16 +1288,15 @@ function ProjectCaseStudy({ project }) {
                           <span>{item.value}</span>
                         </p>
                       ))}
-                      {project.referenceUrl ? (
+                      {project.referenceUrl?.includes("behance.net") ? (
                         <p className="project-case-study__credit-line">
-                          <span>Reference</span>
+                          <span>Also on</span>
                           <a href={project.referenceUrl} target="_blank" rel="noreferrer">
-                            Behance Original
+                            Behance
                           </a>
                         </p>
                       ) : null}
                     </div>
-                    <p className="project-case-study__credit">{caseStudy.credit}</p>
                   </div>
                 ) : null}
               </aside>
@@ -1680,16 +1666,9 @@ function App() {
   const minuteAngle = currentClock.getMinutes() * 6 + currentClock.getSeconds() * 0.1;
   const hourAngle =
     ((currentClock.getHours() % 12) + currentClock.getMinutes() / 60) * 30;
-  const visibleProjects = [...projects].sort((leftProject, rightProject) => {
-    const leftIsMotion = motionProjectTitles.has(leftProject.title);
-    const rightIsMotion = motionProjectTitles.has(rightProject.title);
-
-    if (leftIsMotion !== rightIsMotion) {
-      return leftIsMotion ? -1 : 1;
-    }
-
-    return leftProject.order - rightProject.order;
-  });
+  // The last folder renders at the front, so reverse the priority list:
+  // 01 sits in front and the numbers count up towards the back.
+  const visibleProjects = [...projects].reverse();
   const projectFolders = createProjectFolders(visibleProjects);
 
   useEffect(() => {
@@ -1781,6 +1760,24 @@ function App() {
     setIsProjectWindowOpen(false);
     setHoveredProjectId(null);
   };
+
+  useEffect(() => {
+    if (!isProjectWindowOpen) {
+      return undefined;
+    }
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setIsProjectWindowOpen(false);
+        setHoveredProjectId(null);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isProjectWindowOpen]);
 
   const activePreviewProject =
     projectFolders.find((project) => project.id === hoveredProjectId) ??
