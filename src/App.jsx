@@ -1717,17 +1717,6 @@ function App() {
                 viewBox="0 0 100 100"
                 aria-hidden="true"
               >
-                {Array.from({ length: 12 }, (_, hour) => (
-                  <line
-                    key={hour}
-                    className={`time-pill__tick${hour % 3 === 0 ? " time-pill__tick--major" : ""}`}
-                    x1="50"
-                    y1={hour % 3 === 0 ? 5 : 6.5}
-                    x2="50"
-                    y2="12"
-                    transform={`rotate(${hour * 30} 50 50)`}
-                  />
-                ))}
                 <line
                   className="time-pill__hand time-pill__hand--hour"
                   x1="50"

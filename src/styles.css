@@ -194,17 +194,6 @@ a {
   transform: translate(-50%, -50%) scale(1);
 }
 
-.time-pill__tick {
-  stroke: #b9b7b3;
-  stroke-width: 1.4;
-  stroke-linecap: round;
-}
-
-.time-pill__tick--major {
-  stroke: #1f1f1f;
-  stroke-width: 2.2;
-}
-
 .time-pill__hand {
   stroke: #1f1f1f;
   stroke-linecap: round;
