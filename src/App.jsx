@@ -6,16 +6,9 @@ import ProjectPage from "./ProjectPage";
 
 // "Fun stuff I made" is hidden until the section is ready; add it back here to show it.
 const navLinks = ["Projects"];
-const emojiAssets = {
-  monocle: encodeURI("/assets/emojies/Face with monocle.gif"),
-  grin: encodeURI("/assets/emojies/Grinning face.gif"),
-  hundred: encodeURI("/assets/emojies/Hundred points.gif"),
-  sunglasses: encodeURI("/assets/emojies/Smiling face with sunglasses.gif"),
-  star: encodeURI("/assets/emojies/Star-struck.gif"),
-};
 const careerEntries = [
   {
-    role: "Senior Graphic Designer",
+    role: "Product Designer",
     company: "AFRIWORK",
     description:
       "Storytelling-led visual work shaped by a background in graphic design, motion design, and brand identity, with a focus on helping brands connect and convert.",
@@ -54,11 +47,10 @@ const careerProfile = {
     "With a background in graphic design, motion design, and cinematography, I bring an eye for storytelling and detail to every project, from product launch videos to brand identity systems and campaign visuals.",
   ],
   skills: [
-    { label: "Motion Designer", icon: emojiAssets.star },
-    { label: "Graphic Designer", icon: emojiAssets.monocle },
-    { label: "3D Artist", icon: emojiAssets.sunglasses },
+    { label: "Motion Designer" },
+    { label: "Graphic Designer" },
+    { label: "3D Artist" },
   ],
-  accents: [emojiAssets.grin, emojiAssets.hundred],
 };
 const funStuffPanel = {
   eyebrow: "Fun stuff I made",
@@ -1812,16 +1804,6 @@ function App() {
               <p className="career-intro__eyebrow">{careerProfile.eyebrow}</p>
               <div className="career-intro__headline">
                 <p className="career-intro__lead">{careerProfile.intro}</p>
-                <div className="career-intro__accents" aria-hidden="true">
-                  {careerProfile.accents.map((emoji, index) => (
-                    <img
-                      key={`${emoji}-${index}`}
-                      className="career-intro__accent"
-                      src={emoji}
-                      alt=""
-                    />
-                  ))}
-                </div>
               </div>
               <div className="career-intro__body">
                 {careerProfile.body.map((paragraph) => (
@@ -1831,7 +1813,6 @@ function App() {
               <div className="career-intro__skills" aria-label="Top skills">
                 {careerProfile.skills.map((skill) => (
                   <span key={skill.label} className="career-intro__skill">
-                    <img className="career-intro__skill-icon" src={skill.icon} alt="" aria-hidden="true" />
                     {skill.label}
                   </span>
                 ))}
@@ -1879,12 +1860,6 @@ function App() {
                     >
                       <div className="career-list__details-inner">
                         <p className="career-list__summary">
-                          <img
-                            className="career-list__summary-icon"
-                            src={emojiAssets.hundred}
-                            alt=""
-                            aria-hidden="true"
-                          />
                           {careerSummaryLabel}
                         </p>
                         <p className="career-list__description">{entry.description}</p>
