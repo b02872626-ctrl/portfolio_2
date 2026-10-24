@@ -238,18 +238,24 @@ const createVideoMediaItem = (title, embedUrl, options = {}) => ({
   className: "project-case-study__media--hero",
 });
 
-const createVideoFeatureCaseStudy = ({ title, eyebrow, embedUrl, summary, format }) => ({
+const createVideoFeatureCaseStudy = ({
+  title,
+  eyebrow,
+  embedUrl,
+  summary,
+  format,
+  credits = [],
+}) => ({
   eyebrow,
   sections: [
     {
       label: "Overview",
-      body: [summary],
+      body: Array.isArray(summary) ? summary : [summary],
       media: [createVideoMediaItem(title, embedUrl)],
-      showCredits: false,
     },
   ],
   credits: [
-    { label: "Project", value: title },
+    ...credits,
     { label: "Format", value: format },
     { label: "Studio", value: "StudioRass" },
   ],
@@ -744,47 +750,82 @@ const showReelCaseStudy = createVideoFeatureCaseStudy({
 
 const afriworkPlatformCaseStudy = createVideoFeatureCaseStudy({
   title: "Afriwork Platform",
-  eyebrow: "StudioRass / Afriwork Platform",
+  eyebrow: "Afriwork / Product Video",
   embedUrl: "https://www.youtube.com/embed/uTn14-AF9ac",
-  summary:
-    "A motion-led platform video for Afriwork that introduces the product through a clean, compact and direct story.",
-  format: "Platform Video, Product Motion",
+  summary: [
+    "Afriwork is an Ethiopian job platform, started in Addis Ababa in 2018, that connects employers with job seekers for local, remote, freelance and full-time work.",
+    "A 21-second walkthrough of the platform. It opens on the job listings under the line \"Easy to use UI\", follows a cursor through the job post form, and ends in the inbox, messaging a candidate, all set on a coral gradient that echoes the brand's red.",
+  ],
+  format: "Product walkthrough, UI motion",
+  credits: [
+    { label: "Client", value: "Afriwork" },
+    { label: "Length", value: "21 seconds" },
+    { label: "Year", value: "2025" },
+  ],
 });
 
 const afriworkAiCaseStudy = createVideoFeatureCaseStudy({
   title: "Afriwork Ai",
-  eyebrow: "StudioRass / Afriwork Ai",
+  eyebrow: "Afriwork / Product Video",
   embedUrl: "https://www.youtube.com/embed/YBWI6mzGOo8",
-  summary:
-    "A short product video for Afriwork AI, using motion to introduce the concept quickly and clearly.",
-  format: "AI Product Video, Motion Design",
+  summary: [
+    "Afriwork AI builds a job seeker's profile from the CV they upload.",
+    "The 15-second video keeps to that one idea. On a dark stage with floating chrome stars, it goes \"Upload your CV\", then \"Drop and go\", and the finished profile appears on a tilted 3D screen and scrolls past.",
+  ],
+  format: "Product video, 3D motion",
+  credits: [
+    { label: "Client", value: "Afriwork" },
+    { label: "Length", value: "15 seconds" },
+    { label: "Year", value: "2025" },
+  ],
 });
 
 const cayneticVoiceCaseStudy = createVideoFeatureCaseStudy({
   title: "Caynetic Voice - Ad",
-  eyebrow: "StudioRass / Caynetic Voice - Ad",
+  eyebrow: "Caynetic Voice / Ad",
   embedUrl: "https://www.youtube.com/embed/VzV6JjEZrnA",
-  summary:
-    "A focused ad for Caynetic Voice, with storytelling kept short, sharp and voice-led.",
-  format: "Ad Film, Motion Design",
+  summary: [
+    "Caynetic Voice answers a business's customer messages for them, even when nobody is free to reply.",
+    "The ad is a 29-second before and after. In the dark half, a customer asks to place a rush order and gets no reply: \"Message unanswered. Opportunity lost.\" The light half shows Caynetic Voice logging the order and notifying the owner, then a phone notification, and the line \"Answer every text. Even when you can't.\"",
+  ],
+  format: "Ad, UI motion",
+  credits: [
+    { label: "Client", value: "Caynetic Voice" },
+    { label: "Length", value: "29 seconds" },
+    { label: "Year", value: "2025" },
+  ],
 });
 
 const chapaCaseStudy = createVideoFeatureCaseStudy({
   title: "Chapa",
-  eyebrow: "StudioRass / Chapa",
+  eyebrow: "Chapa / Brand Video",
   embedUrl: "https://www.youtube.com/embed/L0bFlOdZjmU",
-  summary:
-    "A motion-first brand video for Chapa that tells the payment story through speed, ease and clarity.",
-  format: "Brand Video, Motion Design",
+  summary: [
+    "Chapa is an Ethiopian fintech whose payment gateway lets businesses take digital payments and add payment options to their own apps and sites.",
+    "\"Seamless Payments, Endless Opportunities\" is a 16-second kinetic-type spot. The message builds word by word on a green gradient, with pill highlights and a cursor picking out the benefits (one integrated platform, lower costs, better efficiency) before it resolves on the logo.",
+  ],
+  format: "Brand video, kinetic typography",
+  credits: [
+    { label: "Client", value: "Chapa" },
+    { label: "Length", value: "16 seconds" },
+    { label: "Year", value: "2025" },
+  ],
 });
 
 const hanbonConstructionCaseStudy = createVideoFeatureCaseStudy({
   title: "Hanbon Construction",
-  eyebrow: "StudioRass / Hanbon Construction",
+  eyebrow: "Hanbon / Brand Video",
   embedUrl: "https://www.youtube.com/watch?v=1UEBQCt7WCk",
-  summary:
-    "A motion-led brand video for Hanbon Construction, built around clarity, strength and forward momentum.",
-  format: "Brand Video, Motion Design",
+  summary: [
+    "Hanbon Construction Material P.L.C. supplies interior finishing materials, including SPC flooring, UV board and wall panels.",
+    "The 39-second brand video moves through finished rooms (a living room, a meeting room, a marble bathroom, a kitchen) while the copy builds on screen, then introduces each material with its own product card. It closes on the promise of beauty and durability, and the Hanbon logo.",
+  ],
+  format: "Brand video, interiors and product motion",
+  credits: [
+    { label: "Client", value: "Hanbon Construction Material P.L.C." },
+    { label: "Length", value: "39 seconds" },
+    { label: "Year", value: "2026" },
+  ],
 });
 
 // Listed in priority order: number 01 sits at the front of the folder stack.
