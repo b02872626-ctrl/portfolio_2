@@ -245,6 +245,7 @@ const createVideoFeatureCaseStudy = ({
   summary,
   format,
   credits = [],
+  stills = [],
 }) => ({
   eyebrow,
   sections: [
@@ -252,7 +253,18 @@ const createVideoFeatureCaseStudy = ({
       label: "Overview",
       body: Array.isArray(summary) ? summary : [summary],
       media: [createVideoMediaItem(title, embedUrl)],
+      showCredits: true,
     },
+    ...(stills.length > 0
+      ? [
+          {
+            label: "Stills",
+            layout: "gallery",
+            body: [],
+            media: stills.map(([file, alt]) => ({ src: `/assets/stills/${file}`, alt })),
+          },
+        ]
+      : []),
   ],
   credits: [
     ...credits,
@@ -754,13 +766,19 @@ const afriworkPlatformCaseStudy = createVideoFeatureCaseStudy({
   embedUrl: "https://www.youtube.com/embed/uTn14-AF9ac",
   summary: [
     "Afriwork is an Ethiopian job platform, started in Addis Ababa in 2018, that connects employers with job seekers for local, remote, freelance and full-time work.",
-    "A 21-second walkthrough of the platform. It opens on the job listings under the line \"Easy to use UI\", follows a cursor through the job post form, and ends in the inbox, messaging a candidate, all set on a coral gradient that echoes the brand's red.",
+    "A 21-second walkthrough of the platform. It opens on the job listings under the line \"Easy to use UI\", follows a cursor through the job post form, and ends in the applicant view, where a candidate's CV is reviewed and they are shortlisted, all set on a coral gradient that echoes the brand's red.",
   ],
   format: "Product walkthrough, UI motion",
   credits: [
     { label: "Client", value: "Afriwork" },
     { label: "Length", value: "21 seconds" },
     { label: "Year", value: "2025" },
+  ],
+  stills: [
+    ["afriwork-platform/afriwork-platform-01.jpg", "Afriwork Platform video: 'Easy to use UI' above the Discover Jobs screen."],
+    ["afriwork-platform/afriwork-platform-02.jpg", "Afriwork Platform video: close-up of the job post form."],
+    ["afriwork-platform/afriwork-platform-03.jpg", "Afriwork Platform video: the applicant view with a candidate's profile and CV."],
+    ["afriwork-platform/afriwork-platform-04.jpg", "Afriwork Platform video: the Shortlist Messages dialog with Notify and Don't Notify."],
   ],
 });
 
@@ -778,6 +796,12 @@ const afriworkAiCaseStudy = createVideoFeatureCaseStudy({
     { label: "Length", value: "15 seconds" },
     { label: "Year", value: "2025" },
   ],
+  stills: [
+    ["afriwork-ai/afriwork-ai-01.jpg", "Afriwork AI video: the Afriwork AI logo among floating chrome stars."],
+    ["afriwork-ai/afriwork-ai-02.jpg", "Afriwork AI video: 'Upload your CV' with a CV folder icon."],
+    ["afriwork-ai/afriwork-ai-03.jpg", "Afriwork AI video: 'Drop and go' under an empty drop zone."],
+    ["afriwork-ai/afriwork-ai-04.jpg", "Afriwork AI video: the generated profile on a tilted screen."],
+  ],
 });
 
 const cayneticVoiceCaseStudy = createVideoFeatureCaseStudy({
@@ -793,6 +817,12 @@ const cayneticVoiceCaseStudy = createVideoFeatureCaseStudy({
     { label: "Client", value: "Caynetic Voice" },
     { label: "Length", value: "29 seconds" },
     { label: "Year", value: "2025" },
+  ],
+  stills: [
+    ["caynetic-voice/caynetic-voice-01.jpg", "Caynetic Voice ad: 'Without Caynetic Voice' above a customer asking for a rush order."],
+    ["caynetic-voice/caynetic-voice-02.jpg", "Caynetic Voice ad: 'Message unanswered. Opportunity lost.'"],
+    ["caynetic-voice/caynetic-voice-03.jpg", "Caynetic Voice ad: the automatic reply logging the order, under 'With Caynetic Voice'."],
+    ["caynetic-voice/caynetic-voice-04.jpg", "Caynetic Voice ad: a phone lock screen with a new rush order notification and 'Never miss a customer.'"],
   ],
 });
 
@@ -810,6 +840,12 @@ const chapaCaseStudy = createVideoFeatureCaseStudy({
     { label: "Length", value: "16 seconds" },
     { label: "Year", value: "2025" },
   ],
+  stills: [
+    ["chapa/chapa-01.jpg", "Chapa video: the line 'With our fully integrated platform' with a cursor on a dark green gradient."],
+    ["chapa/chapa-02.jpg", "Chapa video: 'cut costs' with 'costs' in a green pill."],
+    ["chapa/chapa-03.jpg", "Chapa video: 'enhance efficiency' on a light green gradient."],
+    ["chapa/chapa-04.jpg", "Chapa video: the Chapa logo on the green gradient."],
+  ],
 });
 
 const hanbonConstructionCaseStudy = createVideoFeatureCaseStudy({
@@ -825,6 +861,14 @@ const hanbonConstructionCaseStudy = createVideoFeatureCaseStudy({
     { label: "Client", value: "Hanbon Construction Material P.L.C." },
     { label: "Length", value: "39 seconds" },
     { label: "Year", value: "2026" },
+  ],
+  stills: [
+    ["hanbon/hanbon-01.jpg", "Hanbon video: a sunlit living room with a pink sofa."],
+    ["hanbon/hanbon-02.jpg", "Hanbon video: a meeting room with slatted wall panels and the words 'and office'."],
+    ["hanbon/hanbon-03.jpg", "Hanbon video: a marble bathroom with a floating vanity."],
+    ["hanbon/hanbon-04.jpg", "Hanbon video: a kitchen with a long island and green cabinets."],
+    ["hanbon/hanbon-05.jpg", "Hanbon video: the UV board product card."],
+    ["hanbon/hanbon-06.jpg", "Hanbon video: the wall panels product card in several colours."],
   ],
 });
 
@@ -1106,7 +1150,8 @@ function ProjectCaseStudy({ project }) {
         const isLastSection = index === caseStudy.sections.length - 1;
         const isGallery = section.layout === "gallery";
         const isMediaOnly = section.layout === "media-only" || isGallery;
-        const showCredits = isLastSection && section.showCredits !== false;
+        const showCredits =
+          section.showCredits === true || (isLastSection && section.showCredits !== false);
 
         return (
           <section
