@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import MusicPlayer from "./MusicPlayer.jsx";
 import ProjectPage from "./ProjectPage";
 
 // "Fun stuff I made" is hidden until the section is ready; add it back here to show it.
@@ -1669,6 +1670,8 @@ function App() {
               <ProfileAvatar />
             </div>
           </motion.div>
+
+          <MusicPlayer />
 
           <motion.div
             className={`time-stack ${isTimeOpen ? "is-open" : ""}`}

@@ -1797,10 +1797,10 @@ a {
   .masthead {
     position: relative;
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-columns: auto minmax(0, 1fr) auto;
     grid-template-areas:
-      "avatar copy"
-      "nav nav";
+      "avatar copy music"
+      "nav nav nav";
     column-gap: 12px;
     align-items: center;
   }
