@@ -66,7 +66,6 @@ const funStuffPanel = {
   artwork: "/assets/fun-stuff-coming-soon.svg",
 };
 const motionProjectTitles = new Set([
-  "Women In Muya",
   "Air pods Max",
   "Marshall.",
   "Show reel - 2025",
@@ -1456,8 +1455,127 @@ function CustomYouTubePlayer({ src, title, className = "" }) {
   );
 }
 
+const PHONE_QUERY = "(max-width: 720px)";
+
+function useIsPhone() {
+  const [isPhone, setIsPhone] = useState(
+    () => typeof window !== "undefined" && window.matchMedia(PHONE_QUERY).matches,
+  );
+
+  useEffect(() => {
+    const media = window.matchMedia(PHONE_QUERY);
+    const handleChange = (event) => setIsPhone(event.matches);
+    setIsPhone(media.matches);
+    media.addEventListener("change", handleChange);
+    return () => media.removeEventListener("change", handleChange);
+  }, []);
+
+  return isPhone;
+}
+
+const getProjectCover = (project) => {
+  const firstMedia = project.caseStudy?.sections?.[0]?.media?.[0];
+  if (!firstMedia) {
+    return null;
+  }
+
+  if (firstMedia.type === "video") {
+    const videoId = firstMedia.videoId ?? getYouTubeVideoId(firstMedia.embedUrl);
+    return videoId ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` : null;
+  }
+
+  return firstMedia.src ?? null;
+};
+
+const projectGroups = [
+  {
+    id: "Motion",
+    projects: projects.filter((project) => motionProjectTitles.has(project.title)),
+  },
+  {
+    id: "Design",
+    projects: projects.filter((project) => !motionProjectTitles.has(project.title)),
+  },
+];
+
+function PhoneProjectList({ activeGroupId, onSelectGroup, onOpenProject }) {
+  const activeGroup =
+    projectGroups.find((group) => group.id === activeGroupId) ?? projectGroups[0];
+
+  return (
+    <div className="phone-projects">
+      <div className="phone-projects__switch" role="group" aria-label="Project type">
+        {projectGroups.map((group) => (
+          <button
+            key={group.id}
+            type="button"
+            className={group.id === activeGroup.id ? "is-active" : undefined}
+            aria-pressed={group.id === activeGroup.id}
+            onClick={() => onSelectGroup(group.id)}
+          >
+            {group.id} · {group.projects.length}
+          </button>
+        ))}
+      </div>
+
+      <ul className="phone-projects__list" aria-label={`${activeGroup.id} projects`}>
+        {activeGroup.projects.map((project, index) => {
+          const cover = getProjectCover(project);
+          const isVideo = motionProjectTitles.has(project.title);
+
+          return (
+            <li key={project.id}>
+              <button
+                type="button"
+                className="phone-folder"
+                onClick={() => onOpenProject(project)}
+                aria-label={`Open ${project.title}`}
+              >
+                <span className="phone-folder__tab" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="phone-folder__body">
+                  <span className="phone-folder__cover">
+                    {cover ? <img src={cover} alt="" loading="lazy" /> : null}
+                    {isVideo ? (
+                      <span className="phone-folder__play" aria-hidden="true">
+                        <svg viewBox="0 0 18 18" width="18" height="18">
+                          <path d="M6 4l8 5-8 5V4z" fill="currentColor" />
+                        </svg>
+                      </span>
+                    ) : null}
+                  </span>
+                  <span className="phone-folder__meta">
+                    <span className="phone-folder__copy">
+                      <span className="phone-folder__title">{project.title}</span>
+                      <span className="phone-folder__category">{project.source}</span>
+                    </span>
+                    <span className="phone-folder__arrow" aria-hidden="true">
+                      <svg viewBox="0 0 16 16" width="16" height="16" fill="none">
+                        <path
+                          d="M4 8h8M8.5 4.5L12 8l-3.5 3.5"
+                          stroke="currentColor"
+                          strokeWidth="1.6"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
+                  </span>
+                </span>
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
+
 function App() {
   const [activePortfolioTab, setActivePortfolioTab] = useState("Projects");
+  const [phoneGroupId, setPhoneGroupId] = useState("Motion");
+  const isPhone = useIsPhone();
   const [isFolderStackInteractive, setIsFolderStackInteractive] = useState(false);
   const [hoveredProjectId, setHoveredProjectId] = useState(null);
   const [selectedProject, setSelectedProject] = useState(null);
@@ -2042,7 +2160,7 @@ function App() {
 
         <motion.div className="profile-copy" variants={reveal} custom={0.15}>
           <p className="profile-name">Nahu Gebreamlak</p>
-          <p className="profile-role">Graphic designer, Motion Designer</p>
+          <p className="profile-role">Graphic &amp; motion designer</p>
         </motion.div>
 
         <motion.div className="masthead-navrow" variants={reveal} custom={0.24}>
@@ -2078,7 +2196,7 @@ function App() {
         id="showcase"
         className={`showcase-card ${isFunStuffTab ? "showcase-card--fun" : ""} ${
           isCareerTab ? "showcase-card--career" : ""
-        }`}
+        } ${isPhone && !isCareerTab && !isFunStuffTab ? "showcase-card--phone-list" : ""}`}
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
@@ -2200,6 +2318,15 @@ function App() {
               <img className="fun-coming-soon__art" src={funStuffPanel.artwork} alt="" />
             </div>
           </motion.section>
+        ) : isPhone ? (
+          <PhoneProjectList
+            activeGroupId={phoneGroupId}
+            onSelectGroup={setPhoneGroupId}
+            onOpenProject={(project) => {
+              setSelectedProject(project);
+              setIsProjectWindowOpen(true);
+            }}
+          />
         ) : (
           <>
             <div className="showcase-copy">

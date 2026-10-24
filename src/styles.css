@@ -2274,3 +2274,239 @@ a {
     font-size: 0.72rem;
   }
 }
+
+/* ---------- Phone layout: compact header + folder-card list ---------- */
+
+@media (max-width: 720px) {
+  .page-shell {
+    padding-top: 24px;
+  }
+
+  /* One row: avatar, name, music pill. Then the nav. */
+  .masthead {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      "avatar copy music"
+      "nav nav nav";
+    column-gap: 12px;
+    align-items: center;
+  }
+
+  .masthead-row {
+    display: contents;
+  }
+
+  .profile-stack {
+    grid-area: avatar;
+    width: auto;
+    min-height: 0;
+    padding-top: 0;
+  }
+
+  .profile-copy {
+    grid-area: copy;
+    width: auto;
+    max-width: none;
+    margin: 0;
+  }
+
+  .profile-copy .profile-role {
+    font-size: 0.8rem;
+  }
+
+  .music-panel-shell {
+    grid-area: music;
+    position: static;
+    width: 112px;
+    min-height: 42px;
+  }
+
+  /* The pill sits at the right edge; opened, it centres over the header. */
+  /* The player animates its own y offset (22px when closed), so pull it up
+     to line the closed pill up with the avatar. */
+  .music-island {
+    z-index: 30;
+    top: -19px;
+    left: calc(100% - 56px);
+    transition: left 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .music-island--open {
+    left: 50%;
+  }
+
+  .time-stack {
+    display: none;
+  }
+
+  .masthead-navrow {
+    grid-area: nav;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 18px;
+  }
+
+  .showcase-card--phone-list {
+    min-height: 0;
+    margin-top: 22px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    overflow: visible;
+  }
+
+  .showcase-card--phone-list::before {
+    content: none;
+  }
+}
+
+.phone-projects__switch {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  padding: 4px;
+  border: 2px solid var(--line);
+  border-radius: 999px;
+  background: #ffffff;
+}
+
+.phone-projects__switch button {
+  height: 44px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.phone-projects__switch button.is-active {
+  background: #111111;
+  color: #ffffff;
+}
+
+.phone-projects__list {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin: 30px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.phone-folder {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 22px 0 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.phone-folder__tab {
+  position: absolute;
+  top: 0;
+  left: 22px;
+  height: 24px;
+  box-sizing: border-box;
+  padding: 4px 14px;
+  border: 2px solid var(--line);
+  border-bottom: 0;
+  border-radius: 10px 10px 0 0;
+  background: #f6f0e3;
+  font-family: "IBM Plex Mono", "Cascadia Code", monospace;
+  font-size: 0.75rem;
+  line-height: 1.2;
+}
+
+.phone-folder__body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px;
+  border: 2px solid var(--line);
+  border-radius: 6px 18px 18px 18px;
+  background: #f6f0e3;
+}
+
+.phone-folder__cover {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  background: #d5d2ce;
+}
+
+.phone-folder__cover img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.phone-folder__play {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #111111;
+}
+
+.phone-folder__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.phone-folder__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.phone-folder__title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+
+.phone-folder__category {
+  color: #67625d;
+  font-size: 0.9rem;
+}
+
+.phone-folder__arrow {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #111111;
+  color: #ffffff;
+}
+
+.phone-projects__switch button:focus-visible,
+.phone-folder:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+}
