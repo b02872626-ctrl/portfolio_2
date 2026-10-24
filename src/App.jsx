@@ -1031,13 +1031,30 @@ const projects = [
   };
 });
 
-const createProjectFolders = (portfolioProjects) => portfolioProjects.map((project, index) => ({
-  ...project,
-  className: `folder-${index + 1}`,
-  x: (portfolioProjects.length - index - 1) * 14,
-  y: 48 + index * 10,
-  rotate: 0,
-}));
+// Desktop folder stack: design folders in front, motion folders (show reel
+// included) behind them, with a gap between the two groups.
+const folderGroupGap = { x: 34, y: 26 };
+const createProjectFolders = (portfolioProjects) => {
+  // Front to back: design first, then motion. Numbers count from the front.
+  const frontToBack = [
+    ...portfolioProjects.filter((project) => project.group !== "Motion"),
+    ...portfolioProjects.filter((project) => project.group === "Motion"),
+  ].map((project, index) => ({ ...project, stackNumber: index + 1 }));
+  const backCount = frontToBack.filter((project) => project.group === "Motion").length;
+
+  // The last folder renders at the front, so render back to front.
+  const backToFront = [...frontToBack].reverse();
+  return backToFront.map((project, index) => {
+    const isBehindGap = index < backCount;
+    return {
+      ...project,
+      className: `folder-${index + 1}`,
+      x: (backToFront.length - index - 1) * 14 + (isBehindGap ? folderGroupGap.x : 0),
+      y: 48 + index * 10 - (isBehindGap ? folderGroupGap.y : 0),
+      rotate: 0,
+    };
+  });
+};
 
 const reveal = {
   hidden: { opacity: 0, y: 24 },
@@ -1552,10 +1569,7 @@ function App() {
   const minuteAngle = currentClock.getMinutes() * 6 + currentClock.getSeconds() * 0.1;
   const hourAngle =
     ((currentClock.getHours() % 12) + currentClock.getMinutes() / 60) * 30;
-  // The last folder renders at the front, so reverse the priority list:
-  // 01 sits in front and the numbers count up towards the back.
-  const visibleProjects = [...projects].reverse();
-  const projectFolders = createProjectFolders(visibleProjects);
+  const projectFolders = createProjectFolders(projects);
 
   useEffect(() => {
     setIsFolderStackInteractive(false);
@@ -1982,7 +1996,7 @@ function App() {
                         aria-label={`Open ${project.title}`}
                       >
                         <span className="folder-tab-button__index">
-                          {String(project.order).padStart(2, "0")}
+                          {String(project.stackNumber).padStart(2, "0")}
                         </span>
                         <span className="folder-tab-button__title">{project.title}</span>
                       </button>
