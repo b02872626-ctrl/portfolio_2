@@ -29,16 +29,12 @@
   letter-spacing: 0.04em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: transform 160ms ease, border-bottom-width 160ms ease;
-}
-
-.music-tab:hover {
-  transform: translateY(-1px);
+  transition: border-bottom-width 160ms ease, margin-top 160ms ease;
 }
 
 .music-tab.is-open {
   border-bottom-width: 2px;
-  transform: translateY(2px);
+  margin-top: 2px;
 }
 
 .music-tab:focus-visible,
@@ -87,15 +83,8 @@
   top: calc(100% + 10px);
   left: 50%;
   width: 340px;
-  transform: translateX(-50%);
   color: #131313;
   font-family: "Space Grotesk", sans-serif;
-  animation: music-card-in 180ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-@keyframes music-card-in {
-  from { opacity: 0; transform: translate(-50%, -6px); }
-  to { opacity: 1; transform: translate(-50%, 0); }
 }
 
 .music-card__tab {

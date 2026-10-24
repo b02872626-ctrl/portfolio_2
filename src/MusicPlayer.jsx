@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import "./music-player.css";
 
 // Paths are URL-encoded because some file names have spaces and odd characters.
@@ -68,7 +69,10 @@ const PlayPauseIcon = ({ playing }) =>
     </svg>
   );
 
-export default function MusicPlayer() {
+// Same spring as the clock pill so the two islands move alike.
+const islandSpring = { type: "spring", stiffness: 380, damping: 28 };
+
+export default function MusicPlayer(motionProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [index, setIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -161,7 +165,7 @@ export default function MusicPlayer() {
   const shownVolume = isMuted ? 0 : volume;
 
   return (
-    <div className="music-shell" ref={shellRef}>
+    <motion.div className="music-shell" ref={shellRef} {...motionProps}>
       <audio
         ref={audioRef}
         src={track.src}
@@ -173,8 +177,9 @@ export default function MusicPlayer() {
         onEnded={() => playTrack(index + 1)}
       />
 
-      <button
+      <motion.button
         type="button"
+        whileTap={{ scale: 0.97 }}
         className={`music-tab${isOpen ? " is-open" : ""}`}
         onClick={() => setIsOpen((open) => !open)}
         aria-expanded={isOpen}
@@ -183,10 +188,20 @@ export default function MusicPlayer() {
       >
         <Bars playing={isPlaying} />
         <span className="music-tab__label">{isPlaying ? "Now playing" : "Music"}</span>
-      </button>
+      </motion.button>
 
+      <AnimatePresence>
       {isOpen ? (
-        <div className="music-card" id="music-card" role="dialog" aria-label="Music player">
+        <motion.div
+          className="music-card"
+          id="music-card"
+          role="dialog"
+          aria-label="Music player"
+          style={{ x: "-50%", transformOrigin: "50% 0%" }}
+          initial={{ opacity: 0, scale: 0.4, y: -16 }}
+          animate={{ opacity: 1, scale: 1, y: 0, transition: islandSpring }}
+          exit={{ opacity: 0, scale: 0.4, y: -16, transition: { duration: 0.16, ease: [0.4, 0, 1, 1] } }}
+        >
           <span className="music-card__tab">Playlist · {tracks.length}</span>
           <div className="music-card__body">
             <div className="music-card__now">
@@ -259,8 +274,9 @@ export default function MusicPlayer() {
               ))}
             </ol>
           </div>
-        </div>
+        </motion.div>
       ) : null}
-    </div>
+      </AnimatePresence>
+    </motion.div>
   );
 }

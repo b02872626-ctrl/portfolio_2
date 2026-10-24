@@ -1690,7 +1690,7 @@ function App() {
             </div>
           </motion.div>
 
-          <MusicPlayer />
+          <MusicPlayer variants={reveal} custom={0.12} />
 
           <motion.div
             className={`time-stack ${isTimeOpen ? "is-open" : ""}`}
