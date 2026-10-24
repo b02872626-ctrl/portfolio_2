@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import ProjectPage from "./ProjectPage";
 
 // "Fun stuff I made" is hidden until the section is ready; add it back here to show it.
 const navLinks = ["Projects"];
@@ -602,20 +603,66 @@ const halalCateringCaseStudy = createBehanceGalleryCaseStudy({
   imageUrls: behanceProjectImageSets.halalCatering,
 });
 
-const womenInMuyaCaseStudy = createBehanceGalleryCaseStudy({
-  title: "Women In Muya",
+// Women In Muya is split into the sections from the approved page design.
+// Indexes follow the Behance board order.
+const womenInMuyaImage = (index, alt, wide = false) => ({
+  src: behanceProjectImageSets.womenInMuya[index],
+  alt,
+  className: wide ? "project-case-study__media--wide" : undefined,
+});
+
+const womenInMuyaCaseStudy = {
   eyebrow: "Women In Muya / Brand Identity",
-  format: "Logo Design, Identity Design, Branding",
-  summary:
-    "Logo and identity system for Women in Muya, a community brand in Addis Ababa, carried from the wordmark and palette through posters, signage, merchandise and social.",
-  imageUrls: behanceProjectImageSets.womenInMuya,
+  sections: [
+    {
+      label: "Overview",
+      body: [
+        "Logo and identity system for Women in Muya, a community brand in Addis Ababa, carried from the wordmark and palette through posters, signage, merchandise and social.",
+      ],
+      media: [womenInMuyaImage(0, "Women in Muya poster on a street wall.")],
+    },
+    {
+      label: "Logo",
+      body: [],
+      media: [
+        womenInMuyaImage(2, "The Women in Muya wordmark drawn in outline, showing its construction."),
+        womenInMuyaImage(5, "The Women in Muya logo on creamy black."),
+      ],
+    },
+    {
+      label: "Colour & type",
+      body: [],
+      media: [
+        womenInMuyaImage(1, "The tagline 'What you want, when you need it.' set in the brand serif.", true),
+        womenInMuyaImage(3, "Palette board: orange, creamy black and off white."),
+        womenInMuyaImage(4, "Typeface board with the alphabet and numerals."),
+      ],
+    },
+    {
+      label: "In the world",
+      body: [],
+      media: [
+        womenInMuyaImage(6, "Poster on an advertising column."),
+        womenInMuyaImage(12, "Orange sandwich-board sign with the logo."),
+        womenInMuyaImage(9, "A wall of Women in Muya posters.", true),
+        womenInMuyaImage(10, "Billboard with the campaign line.", true),
+        womenInMuyaImage(7, "Campaign layout with two hands reaching."),
+        womenInMuyaImage(8, "Orange t-shirt with the campaign line."),
+        womenInMuyaImage(11, "Tote bag with the campaign line."),
+        womenInMuyaImage(13, "Three social posts."),
+        womenInMuyaImage(14, "The logo as a phone app icon.", true),
+      ],
+    },
+  ],
   credits: [
+    { label: "Project", value: "Women In Muya" },
+    { label: "Format", value: "Logo Design, Identity Design, Branding" },
     { label: "Client", value: "Rediet Pawlos & Bisrat Hagos" },
     { label: "Studio", value: "Studio Rass" },
     { label: "Design", value: "Nahusenay Gebreamlak, Natnael Getinet, Aklog Tefera" },
     { label: "Timeline", value: "2 months, 2024" },
   ],
-});
+};
 
 const liteInnovateCaseStudy = createBehanceGalleryCaseStudy({
   title: "Lite Innovate",
@@ -872,6 +919,24 @@ const hanbonConstructionCaseStudy = createVideoFeatureCaseStudy({
   ],
 });
 
+// Each project's page link, cleaned-up title and colour (used on its page).
+// Colours come from the work itself; projects without one use the site orange.
+const projectPageMeta = {
+  "Show reel - 2025": { slug: "show-reel-2025", displayTitle: "Show reel 2025", accent: "#db2a1d" },
+  Chapa: { slug: "chapa", displayTitle: "Chapa", accent: "#6fb52c" },
+  "Afriwork Platform": { slug: "afriwork-platform", displayTitle: "Afriwork Platform", accent: "#f06a5a" },
+  "Afriwork Ai": { slug: "afriwork-ai", displayTitle: "Afriwork AI", accent: "#3b6fd8" },
+  "Caynetic Voice - Ad": { slug: "caynetic-voice", displayTitle: "Caynetic Voice", accent: "#2a6f7e" },
+  "Hanbon Construction": { slug: "hanbon-construction", displayTitle: "Hanbon Construction", accent: "#25b865" },
+  "Marshall.": { slug: "marshall-action-iii", displayTitle: "Marshall Action III", accent: "#1b1b1b" },
+  "Air pods Max": { slug: "airpods-max", displayTitle: "AirPods Max", accent: "#1d1d1f" },
+  "Women In Muya": { slug: "women-in-muya", displayTitle: "Women in Muya", accent: "#de6226" },
+  "Ttechnos Logo": { slug: "ttechnos", displayTitle: "Ttechnos", accent: "#e5392b" },
+  "Lite Innovate": { slug: "lite-innovate", displayTitle: "Lite Innovate" },
+  "Halal Catering": { slug: "halal-catering", displayTitle: "Halal Catering" },
+  Alenelachu: { slug: "alenelachu", displayTitle: "Alenelachu" },
+};
+
 // Listed in priority order: number 01 sits at the front of the folder stack.
 const projects = [
   {
@@ -949,6 +1014,7 @@ const projects = [
     caseStudy: alenelachuCaseStudy,
   },
 ].map((project, index) => {
+  const meta = projectPageMeta[project.title] ?? {};
   const resolvedEmbedUrl =
     project.caseStudy
       ? null
@@ -961,7 +1027,11 @@ const projects = [
     id: `project-${index + 1}`,
     order: index + 1,
     portfolioTab: motionProjectTitles.has(project.title) ? "Motion" : "Design",
+    group: motionProjectTitles.has(project.title) ? "Motion" : "Design",
     source: project.source ?? (resolvedEmbedUrl ? "Behance project" : "Project folder"),
+    slug: meta.slug ?? `project-${index + 1}`,
+    displayTitle: meta.displayTitle ?? project.title,
+    accent: meta.accent,
     ...project,
     embedUrl: resolvedEmbedUrl,
   };
@@ -1137,109 +1207,6 @@ function FolderSvg() {
         strokeWidth="3"
       />
     </svg>
-  );
-}
-
-function ProjectCaseStudy({ project }) {
-  const { caseStudy } = project;
-
-  return (
-    <article className="project-case-study">
-      {caseStudy.sections.map((section, index) => {
-        const isIntro = index === 0;
-        const isLastSection = index === caseStudy.sections.length - 1;
-        const isGallery = section.layout === "gallery";
-        const isMediaOnly = section.layout === "media-only" || isGallery;
-        const showCredits =
-          section.showCredits === true || (isLastSection && section.showCredits !== false);
-
-        return (
-          <section
-            key={`${section.label}-${index}`}
-            className={`project-case-study__flow-section${
-              isIntro ? " project-case-study__flow-section--intro" : ""
-            }${
-              isMediaOnly ? " project-case-study__flow-section--media-only" : ""
-            }${isGallery ? " project-case-study__flow-section--gallery" : ""}`}
-          >
-            <div
-              className={`project-case-study__flow-media${
-                section.media.length === 1 ? " is-single" : ""
-              }`}
-            >
-              {section.media.map((item, mediaIndex) => (
-                <figure
-                  key={item.src ?? item.videoUrl}
-                  className={`project-case-study__media ${item.className ?? ""}`.trim()}
-                >
-                  {item.type === "video" && item.embedUrl ? (
-                    <iframe
-                      src={item.embedUrl}
-                      title={item.alt}
-                      loading={isIntro && mediaIndex === 0 ? "eager" : "lazy"}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                      referrerPolicy="strict-origin-when-cross-origin"
-                    />
-                  ) : (
-                    <img
-                      src={item.src}
-                      alt={item.alt}
-                      loading={isIntro && mediaIndex === 0 ? "eager" : "lazy"}
-                    />
-                  )}
-                </figure>
-              ))}
-            </div>
-
-            {!isMediaOnly ? (
-              <aside className="project-case-study__flow-copy">
-                {isIntro ? (
-                  <>
-                    <p className="project-case-study__eyebrow">{caseStudy.eyebrow}</p>
-                    <h1 className="project-case-study__title">{project.title}</h1>
-                  </>
-                ) : section.hideLabel ? null : (
-                  <p className="project-case-study__section-label">{section.label}</p>
-                )}
-
-                {section.body.length > 0 ? (
-                  <div className="project-case-study__body-copy">
-                    {section.body.map((paragraph) => (
-                      <p key={paragraph} className="project-case-study__body-paragraph">
-                        {paragraph}
-                      </p>
-                    ))}
-                  </div>
-                ) : null}
-
-                {showCredits ? (
-                  <div className="project-case-study__credits">
-                    <p className="project-case-study__credits-label">Credits</p>
-                    <div className="project-case-study__credits-list">
-                      {caseStudy.credits.map((item) => (
-                        <p key={item.label} className="project-case-study__credit-line">
-                          <span>{item.label}</span>
-                          <span>{item.value}</span>
-                        </p>
-                      ))}
-                      {project.referenceUrl?.includes("behance.net") ? (
-                        <p className="project-case-study__credit-line">
-                          <span>Also on</span>
-                          <a href={project.referenceUrl} target="_blank" rel="noreferrer">
-                            Behance
-                          </a>
-                        </p>
-                      ) : null}
-                    </div>
-                  </div>
-                ) : null}
-              </aside>
-            ) : null}
-          </section>
-        );
-      })}
-    </article>
   );
 }
 
@@ -1523,8 +1490,7 @@ function App() {
   const isPhone = useIsPhone();
   const [isFolderStackInteractive, setIsFolderStackInteractive] = useState(false);
   const [hoveredProjectId, setHoveredProjectId] = useState(null);
-  const [selectedProject, setSelectedProject] = useState(null);
-  const [isProjectWindowOpen, setIsProjectWindowOpen] = useState(false);
+  const [path, setPath] = useState(() => window.location.pathname);
   const [isTimeOpen, setIsTimeOpen] = useState(false);
   const [expandedCareerIndex, setExpandedCareerIndex] = useState(null);
   const [currentClock, setCurrentClock] = useState(() => new Date());
@@ -1558,16 +1524,21 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const { overflow } = document.body.style;
+    const handlePopState = () => setPath(window.location.pathname);
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
 
-    if (isProjectWindowOpen) {
-      document.body.style.overflow = "hidden";
-    }
+  const navigate = (to) => {
+    window.history.pushState({}, "", to);
+    setPath(window.location.pathname);
+    window.scrollTo(0, 0);
+  };
 
-    return () => {
-      document.body.style.overflow = overflow;
-    };
-  }, [isProjectWindowOpen]);
+  const openProject = (project) => {
+    setHoveredProjectId(null);
+    navigate(`/projects/${project.slug}`);
+  };
 
   const handleToggleTimePill = (event) => {
     event.preventDefault();
@@ -1576,6 +1547,7 @@ function App() {
   };
 
   const currentClockLabel = getCurrentClockLabel(currentClock);
+  const secondAngle = currentClock.getSeconds() * 6;
   const minuteAngle = currentClock.getMinutes() * 6 + currentClock.getSeconds() * 0.1;
   const hourAngle =
     ((currentClock.getHours() % 12) + currentClock.getMinutes() / 60) * 30;
@@ -1601,8 +1573,6 @@ function App() {
 
     setActivePortfolioTab(nextTab);
     setHoveredProjectId(null);
-    setSelectedProject(null);
-    setIsProjectWindowOpen(false);
     setExpandedCareerIndex(null);
   };
 
@@ -1664,40 +1634,32 @@ function App() {
       return;
     }
 
-    setSelectedProject(activeProject);
-    setHoveredProjectId(activeProject.id);
-    setIsProjectWindowOpen(true);
+    openProject(activeProject);
   };
-
-  const handleCloseProjectWindow = () => {
-    setIsProjectWindowOpen(false);
-    setHoveredProjectId(null);
-  };
-
-  useEffect(() => {
-    if (!isProjectWindowOpen) {
-      return undefined;
-    }
-
-    const handleKeyDown = (event) => {
-      if (event.key === "Escape") {
-        setIsProjectWindowOpen(false);
-        setHoveredProjectId(null);
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [isProjectWindowOpen]);
 
   const activePreviewProject =
     projectFolders.find((project) => project.id === hoveredProjectId) ??
-    (isProjectWindowOpen ? selectedProject : null) ??
     projectFolders[projectFolders.length - 1];
   const isFunStuffTab = activePortfolioTab === "Fun stuff I made";
   const isCareerTab = activePortfolioTab === "Career";
+
+  const routeSlug = path.match(/^\/projects\/([^/]+)\/?$/)?.[1];
+  const routeIndex = projects.findIndex((project) => project.slug === routeSlug);
+  if (routeIndex !== -1) {
+    return (
+      <ProjectPage
+        key={projects[routeIndex].slug}
+        project={projects[routeIndex]}
+        nextProject={projects[(routeIndex + 1) % projects.length]}
+        contact={contact}
+        onNavigate={navigate}
+        onOpenCareer={() => {
+          setActivePortfolioTab("Career");
+          navigate("/");
+        }}
+      />
+    );
+  }
 
   return (
     <main className="page-shell">
@@ -1756,25 +1718,42 @@ function App() {
                 viewBox="0 0 100 100"
                 aria-hidden="true"
               >
-                <g className="time-pill__hand-group" transform={`rotate(${hourAngle} 50 50)`}>
+                {Array.from({ length: 12 }, (_, hour) => (
                   <line
-                    className="time-pill__hand time-pill__hand--hour"
+                    key={hour}
+                    className={`time-pill__tick${hour % 3 === 0 ? " time-pill__tick--major" : ""}`}
                     x1="50"
-                    y1="50"
+                    y1={hour % 3 === 0 ? 5 : 6.5}
                     x2="50"
-                    y2="31"
+                    y2="12"
+                    transform={`rotate(${hour * 30} 50 50)`}
                   />
-                </g>
-                <g className="time-pill__hand-group" transform={`rotate(${minuteAngle} 50 50)`}>
-                  <line
-                    className="time-pill__hand time-pill__hand--minute"
-                    x1="50"
-                    y1="50"
-                    x2="50"
-                    y2="22"
-                  />
-                </g>
-                <circle className="time-pill__pivot" cx="50" cy="50" r="3.2" />
+                ))}
+                <line
+                  className="time-pill__hand time-pill__hand--hour"
+                  x1="50"
+                  y1="50"
+                  x2="50"
+                  y2="28"
+                  transform={`rotate(${hourAngle} 50 50)`}
+                />
+                <line
+                  className="time-pill__hand time-pill__hand--minute"
+                  x1="50"
+                  y1="50"
+                  x2="50"
+                  y2="16"
+                  transform={`rotate(${minuteAngle} 50 50)`}
+                />
+                <line
+                  className="time-pill__hand time-pill__hand--second"
+                  x1="50"
+                  y1="58"
+                  x2="50"
+                  y2="13"
+                  transform={`rotate(${secondAngle} 50 50)`}
+                />
+                <circle className="time-pill__pivot" cx="50" cy="50" r="2.6" />
               </svg>
 
               <span className="time-pill__clock">{currentClockLabel}</span>
@@ -1946,10 +1925,7 @@ function App() {
           <PhoneProjectList
             activeGroupId={phoneGroupId}
             onSelectGroup={setPhoneGroupId}
-            onOpenProject={(project) => {
-              setSelectedProject(project);
-              setIsProjectWindowOpen(true);
-            }}
+            onOpenProject={openProject}
           />
         ) : (
           <>
@@ -1978,9 +1954,7 @@ function App() {
                 {projectFolders.map((project, index) => {
                   const isHovered = hoveredProjectId === project.id;
                   const isMuted = hoveredProjectId && !isHovered;
-                  const isSelected =
-                    isProjectWindowOpen && selectedProject?.id === project.id;
-                  const liftDistance = isHovered ? 34 : isSelected ? 16 : 0;
+                  const liftDistance = isHovered ? 34 : 0;
                   const liftedY = project.y - liftDistance;
                   const entranceDelay = (projectFolders.length - index - 1) * 0.045;
                   const motionDelay = isFolderStackInteractive ? 0 : entranceDelay;
@@ -1988,9 +1962,7 @@ function App() {
                   return (
                     <motion.div
                       key={project.id}
-                      className={`folder-stack ${project.className} ${
-                        isSelected ? "is-selected" : ""
-                      }`}
+                      className={`folder-stack ${project.className}`}
                       initial={{ x: project.x + 12, y: project.y + 18, rotate: 0 }}
                       animate={{
                         x: project.x,
@@ -2034,9 +2006,7 @@ function App() {
                         }
                         onClick={(event) => {
                           event.stopPropagation();
-                          setSelectedProject(project);
-                          setHoveredProjectId(project.id);
-                          setIsProjectWindowOpen(true);
+                          openProject(project);
                         }}
                         aria-label={`Open ${project.title}`}
                       >
@@ -2054,88 +2024,6 @@ function App() {
           </>
         )}
 
-        <AnimatePresence>
-          {isProjectWindowOpen && selectedProject ? (
-            <motion.div
-              className="project-window-backdrop"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={handleCloseProjectWindow}
-            >
-              <motion.article
-                className="project-window"
-                initial={{ opacity: 0, y: 24, scale: 0.96 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 18, scale: 0.98 }}
-                transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
-                onClick={(event) => event.stopPropagation()}
-              >
-                <header className="project-window__header">
-                  <div className="project-window__meta">
-                    <span className="project-window__dot" aria-hidden="true" />
-                    <div>
-                      <p className="project-window__title">{selectedProject.title}</p>
-                      <p className="project-window__source">{selectedProject.source}</p>
-                    </div>
-                  </div>
-
-                  <div className="project-window__actions">
-                    {!selectedProject.caseStudy && !selectedProject.embedUrl && selectedProject.url ? (
-                      <a
-                        className="project-window__link"
-                        href={selectedProject.url}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Open
-                      </a>
-                    ) : !selectedProject.caseStudy && !selectedProject.embedUrl ? (
-                      <span className="project-window__status">Coming soon</span>
-                    ) : null}
-                    <button
-                      type="button"
-                      className="project-window__close"
-                      onClick={handleCloseProjectWindow}
-                      aria-label="Close project window"
-                    >
-                      <span aria-hidden="true">+</span>
-                    </button>
-                  </div>
-                </header>
-
-                <div className="project-window__body">
-                  {selectedProject.caseStudy ? (
-                    <ProjectCaseStudy project={selectedProject} />
-                  ) : selectedProject.embedUrl ? (
-                    <iframe
-                      className="project-window__frame"
-                      src={selectedProject.embedUrl}
-                      title={selectedProject.title}
-                      loading="lazy"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                      referrerPolicy="strict-origin-when-cross-origin"
-                    />
-                  ) : (
-                    <div className="project-window__placeholder">
-                      <span className="project-window__placeholder-tag">
-                        Portfolio project
-                      </span>
-                      <h2 className="project-window__placeholder-title">
-                        {selectedProject.title}
-                      </h2>
-                      <p className="project-window__placeholder-copy">
-                        This folder is ready for mockups, motion clips, a case study, or an
-                        external link whenever you want to plug the full project in.
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </motion.article>
-            </motion.div>
-          ) : null}
-        </AnimatePresence>
       </motion.section>
 
       <footer id="contact" className="site-footer">
