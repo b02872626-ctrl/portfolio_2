@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import MusicPlayer from "./MusicPlayer.jsx";
+import ContactDialog from "./ContactDialog.jsx";
 import ProjectPage from "./ProjectPage";
 
 // "Fun stuff I made" is hidden until the section is ready; add it back here to show it.
@@ -1493,6 +1494,14 @@ function App() {
   const [hoveredProjectId, setHoveredProjectId] = useState(null);
   const [path, setPath] = useState(() => window.location.pathname);
   const [isTimeOpen, setIsTimeOpen] = useState(false);
+  const [isContactOpen, setIsContactOpen] = useState(false);
+  const openContact = (event) => {
+    event?.preventDefault();
+    setIsContactOpen(true);
+  };
+  const contactDialog = (
+    <ContactDialog open={isContactOpen} onClose={() => setIsContactOpen(false)} email={contact.email} />
+  );
   const [expandedCareerIndex, setExpandedCareerIndex] = useState(null);
   const [currentClock, setCurrentClock] = useState(() => new Date());
   const timePanelRef = useRef(null);
@@ -1647,17 +1656,21 @@ function App() {
   const routeIndex = projects.findIndex((project) => project.slug === routeSlug);
   if (routeIndex !== -1) {
     return (
+      <>
       <ProjectPage
         key={projects[routeIndex].slug}
         project={projects[routeIndex]}
         nextProject={projects[(routeIndex + 1) % projects.length]}
         contact={contact}
+        onOpenContact={openContact}
         onNavigate={navigate}
         onOpenCareer={() => {
           setActivePortfolioTab("Career");
           navigate("/");
         }}
       />
+      {contactDialog}
+      </>
     );
   }
 
@@ -1771,7 +1784,7 @@ function App() {
             >
               Career
             </button>
-            <a className="masthead-contact" href={`mailto:${contact.email}`}>
+            <a className="masthead-contact" href={`mailto:${contact.email}`} onClick={openContact}>
               Get in touch
             </a>
           </div>
@@ -2027,6 +2040,7 @@ function App() {
           ))}
         </ul>
       </footer>
+      {contactDialog}
     </main>
   );
 }

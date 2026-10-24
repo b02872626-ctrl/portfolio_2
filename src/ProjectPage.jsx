@@ -132,7 +132,7 @@ const ChevronIcon = () => (
   </svg>
 );
 
-export default function ProjectPage({ project, nextProject, contact, onNavigate, onOpenCareer }) {
+export default function ProjectPage({ project, nextProject, contact, onNavigate, onOpenCareer, onOpenContact }) {
   const { caseStudy } = project;
   const page = buildProjectPage(caseStudy);
   const accent = project.accent ?? "#ff5b00";
@@ -183,7 +183,7 @@ export default function ProjectPage({ project, nextProject, contact, onNavigate,
             >
               Career
             </a>
-            <a className="pp-topbar__contact" href={`mailto:${contact.email}`}>
+            <a className="pp-topbar__contact" href={`mailto:${contact.email}`} onClick={onOpenContact}>
               Get in touch
             </a>
           </nav>
@@ -305,7 +305,9 @@ export default function ProjectPage({ project, nextProject, contact, onNavigate,
             <p className="pp-eyebrow">Work with me</p>
             <div>
               <h2>Have a project in mind?</h2>
-              <a href={`mailto:${contact.email}`}>Get in touch</a>
+              <a href={`mailto:${contact.email}`} onClick={onOpenContact}>
+                Get in touch
+              </a>
             </div>
           </div>
           {nextProject ? (
