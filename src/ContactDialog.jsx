@@ -137,15 +137,11 @@ export default function ContactDialog({ open, onClose, email }) {
 
               {status === "error" ? (
                 <p className="contact-dialog__error" role="alert">
-                  The message didn&apos;t go through. Try again, or email me at{" "}
-                  <a href={`mailto:${email}`}>{email}</a>.
+                  The message didn&apos;t go through. Please try again in a moment.
                 </p>
               ) : null}
 
               <div className="contact-dialog__actions">
-                <a className="contact-dialog__direct" href={`mailto:${email}`}>
-                  {email}
-                </a>
                 <button type="submit" className="contact-dialog__send" disabled={status === "sending"}>
                   {status === "sending" ? "Sending…" : "Send message"}
                 </button>
