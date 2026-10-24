@@ -1700,66 +1700,70 @@ function App() {
           >
             <motion.button
               type="button"
-              className={`time-pill ${isTimeOpen ? "is-open" : ""}`}
-              initial={false}
-              animate={{
-                width: isTimeOpen ? 214 : 68,
-                height: isTimeOpen ? 286 : 42,
-                borderRadius: isTimeOpen ? 107 : 999,
-              }}
-              transition={{
-                type: "spring",
-                stiffness: 380,
-                damping: 28,
-              }}
-              onClick={handleToggleTimePill}
-              aria-label={isTimeOpen ? "Close time panel" : "Open time panel"}
-              aria-expanded={isTimeOpen}
+              className={`time-tab ${isTimeOpen ? "is-open" : ""}`}
               whileTap={{ scale: 0.97 }}
+              onClick={handleToggleTimePill}
+              aria-label={isTimeOpen ? "Close clock" : "Open clock"}
+              aria-expanded={isTimeOpen}
             >
-              <motion.img
-                className="time-pill__art"
-                src="/assets/time-pill-open.svg?v=2"
-                alt=""
-                aria-hidden="true"
-                initial={false}
-                animate={{
-                  opacity: isTimeOpen ? 1 : 0,
-                  scale: isTimeOpen ? 1 : 0.84,
-                }}
-                transition={{
-                  duration: isTimeOpen ? 0.24 : 0.14,
-                  delay: isTimeOpen ? 0.08 : 0,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-              />
-
-              <svg
-                className="time-pill__dial"
-                viewBox="0 0 100 100"
-                aria-hidden="true"
-              >
-                <line
-                  className="time-pill__hand time-pill__hand--hour"
-                  x1="50"
-                  y1="50"
-                  x2="50"
-                  y2="28"
-                  transform={`rotate(${hourAngle} 50 50)`}
-                />
-                <line
-                  className="time-pill__hand time-pill__hand--minute"
-                  x1="50"
-                  y1="50"
-                  x2="50"
-                  y2="16"
-                  transform={`rotate(${minuteAngle} 50 50)`}
-                />
-                <circle className="time-pill__pivot" cx="50" cy="50" r="2.6" />
-              </svg>
-
-              <span className="time-pill__clock">{currentClockLabel}</span>
+              <span className="time-tab__label">{currentClockLabel}</span>
             </motion.button>
+
+            <AnimatePresence>
+              {isTimeOpen ? (
+                <motion.div
+                  className="time-card"
+                  style={{ transformOrigin: "85% 0%" }}
+                  initial={{ opacity: 0, scale: 0.4, y: -16 }}
+                  animate={{
+                    opacity: 1,
+                    scale: 1,
+                    y: 0,
+                    transition: { type: "spring", stiffness: 380, damping: 28 },
+                  }}
+                  exit={{
+                    opacity: 0,
+                    scale: 0.4,
+                    y: -16,
+                    transition: { duration: 0.16, ease: [0.4, 0, 1, 1] },
+                  }}
+                >
+                  <span className="time-card__tab">Local time</span>
+                  <div className="time-card__body">
+                    <svg className="time-card__dial" viewBox="0 0 100 100" aria-hidden="true">
+                      <circle className="time-card__face" cx="50" cy="50" r="47" />
+                      <line
+                        className="time-card__hand time-card__hand--hour"
+                        x1="50"
+                        y1="50"
+                        x2="50"
+                        y2="28"
+                        transform={`rotate(${hourAngle} 50 50)`}
+                      />
+                      <line
+                        className="time-card__hand time-card__hand--minute"
+                        x1="50"
+                        y1="50"
+                        x2="50"
+                        y2="15"
+                        transform={`rotate(${minuteAngle} 50 50)`}
+                      />
+                      <circle className="time-card__pivot" cx="50" cy="50" r="3" />
+                    </svg>
+                    <div className="time-card__readout">
+                      <span className="time-card__time">{currentClockLabel}</span>
+                      <span className="time-card__date">
+                        {new Intl.DateTimeFormat(undefined, {
+                          weekday: "short",
+                          day: "numeric",
+                          month: "short",
+                        }).format(currentClock)}
+                      </span>
+                    </div>
+                  </div>
+                </motion.div>
+              ) : null}
+            </AnimatePresence>
           </motion.div>
         </div>
 
