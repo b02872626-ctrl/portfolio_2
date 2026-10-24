@@ -728,7 +728,100 @@ a {
   color: var(--ink);
 }
 
+.masthead-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.masthead-contact {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 18px;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink);
+  font-size: 0.95rem;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.masthead-contact:hover {
+  background: var(--ink);
+  color: var(--white);
+}
+
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
+  width: var(--content-frame-width);
+  margin: 56px auto 0;
+  padding: 28px 0 40px;
+  border-top: 1px solid rgba(19, 19, 19, 0.14);
+}
+
+.site-footer__cta {
+  display: grid;
+  gap: 10px;
+}
+
+.site-footer__eyebrow {
+  margin: 0;
+  color: rgba(19, 19, 19, 0.6);
+  font-family: "IBM Plex Mono", "Cascadia Code", monospace;
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.site-footer__lead {
+  margin: 0;
+  font-size: clamp(1.75rem, 2.8vw, 2.35rem);
+  line-height: 1.05;
+  letter-spacing: -0.05em;
+}
+
+.site-footer__email {
+  color: var(--ink);
+  font-size: 1.05rem;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+  overflow-wrap: anywhere;
+}
+
+.site-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-footer__links a {
+  display: inline-block;
+  padding: 8px 0;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+}
+
+.site-footer__email:hover,
+.site-footer__links a:hover {
+  color: var(--muted);
+}
+
 .audio-pill:focus-visible,
+.masthead-contact:focus-visible,
+.site-footer__email:focus-visible,
+.site-footer__links a:focus-visible,
 .masthead-links a:focus-visible,
 .masthead-right-link:focus-visible {
   outline: 2px solid var(--ink);

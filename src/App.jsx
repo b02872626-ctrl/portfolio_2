@@ -1059,6 +1059,14 @@ const musicExpandedContentClosed = {
   },
 };
 
+const contact = {
+  email: "nahusenaygebreamlak@gmail.com",
+  links: [
+    { label: "Instagram", href: "https://www.instagram.com/rass_nahu/" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/nahusenay-gebreamlak-a92832230/" },
+  ],
+};
+
 function ProfileIllustration() {
   return (
     <svg
@@ -2054,13 +2062,18 @@ function App() {
             ))}
           </nav>
 
-          <button
-            type="button"
-            className={`masthead-right-link ${isCareerTab ? "active" : ""}`}
-            onClick={() => handlePortfolioTabSelect("Career")}
-          >
-            Career
-          </button>
+          <div className="masthead-right">
+            <button
+              type="button"
+              className={`masthead-right-link ${isCareerTab ? "active" : ""}`}
+              onClick={() => handlePortfolioTabSelect("Career")}
+            >
+              Career
+            </button>
+            <a className="masthead-contact" href={`mailto:${contact.email}`}>
+              Get in touch
+            </a>
+          </div>
         </motion.div>
       </motion.section>
 
@@ -2376,6 +2389,25 @@ function App() {
           ) : null}
         </AnimatePresence>
       </motion.section>
+
+      <footer id="contact" className="site-footer">
+        <div className="site-footer__cta">
+          <p className="site-footer__eyebrow">Get in touch</p>
+          <p className="site-footer__lead">Have a project in mind?</p>
+          <a className="site-footer__email" href={`mailto:${contact.email}`}>
+            {contact.email}
+          </a>
+        </div>
+        <ul className="site-footer__links" aria-label="Social links">
+          {contact.links.map((link) => (
+            <li key={link.label}>
+              <a href={link.href} target="_blank" rel="noreferrer">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </footer>
     </main>
   );
 }
