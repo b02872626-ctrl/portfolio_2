@@ -2282,14 +2282,14 @@ a {
     padding-top: 24px;
   }
 
-  /* One row: avatar, name, music pill. Then the nav. */
+  /* One row: avatar and name. Then the nav. */
   .masthead {
     position: relative;
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-columns: auto minmax(0, 1fr);
     grid-template-areas:
-      "avatar copy music"
-      "nav nav nav";
+      "avatar copy"
+      "nav nav";
     column-gap: 12px;
     align-items: center;
   }
@@ -2314,27 +2314,6 @@ a {
 
   .profile-copy .profile-role {
     font-size: 0.8rem;
-  }
-
-  .music-panel-shell {
-    grid-area: music;
-    position: static;
-    width: 112px;
-    min-height: 42px;
-  }
-
-  /* The pill sits at the right edge; opened, it centres over the header. */
-  /* The player animates its own y offset (22px when closed), so pull it up
-     to line the closed pill up with the avatar. */
-  .music-island {
-    z-index: 30;
-    top: -19px;
-    left: calc(100% - 56px);
-    transition: left 0.28s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .music-island--open {
-    left: 50%;
   }
 
   .time-stack {

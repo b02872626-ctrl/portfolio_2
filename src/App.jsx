@@ -80,45 +80,6 @@ const profileImageCandidates = [
   "/assets/profile_jpeg.jpg",
   "/assets/profile_jpeg.png",
 ];
-// Public music assets need URL-safe paths for spaces and special characters.
-const musicTracks = [
-  {
-    title: "Afer Yemegneshal",
-    artist: "Local playlist",
-    src: "/assets/music/Afer-yemegneshal.m4a",
-  },
-  {
-    title: "Fetsum Denq Ledj Nesh",
-    artist: "Local playlist",
-    src: "/assets/music/Fetsum-denq-ledj-nesh.m4a",
-  },
-  {
-    title: "Fikratchin",
-    artist: "Menelik Wossenatchew, Mulatu Astatke",
-    src: "/assets/music/Fikratchin%20with%20Menelik%20Wossenatchew%20-%20Mulatu%20Astatke.mp3",
-  },
-  {
-    title: "I Faram Gami I Faram",
-    artist: "Mulatu Astatke",
-    src: "/assets/music/I%20Faram%20Gami%20I%20Faram%20-%20Mulatu%20Astatke.mp3",
-  },
-  {
-    title: "Kalorifer",
-    artist: "Mulatu Astatke",
-    src: "/assets/music/Mulatu%20Astatke%20-%20Mulatu%20-%20kalorifer.mp3",
-  },
-  {
-    title: "Yegelle Tezeta",
-    artist: "Mulatu Astatke",
-    src: "/assets/music/Y%EF%BF%BDgell%EF%BF%BD%20Tezeta%20-%20Mulatu%20Astatke.mp3",
-  },
-  {
-    title: "Yekermo Sew",
-    artist: "Mulatu Astatke",
-    src: "/assets/music/Y%EF%BF%BDk%EF%BF%BDrmo%20S%EF%BF%BDw%20-%20Mulatu%20Astatke.mp3",
-  },
-];
-
 const extractBehanceProjectId = (value) => {
   if (!value) {
     return null;
@@ -942,106 +903,6 @@ const reveal = {
   }),
 };
 
-const AE_FPS = 29.97;
-const OPEN_DURATION = 30 / AE_FPS;
-const OPEN_MID_TIME = 4 / 30;
-const OPEN_OVERSHOOT_TIME = 8 / 30;
-const OPEN_SETTLE_TIME = 27 / 30;
-const CLOSE_DURATION = 13 / AE_FPS;
-const CLOSE_UNDERSHOOT_TIME = 9 / 13;
-
-const CLOSED_WIDTH = 112;
-const CLOSED_HEIGHT = 42;
-const OPEN_WIDTH = 286;
-const OPEN_HEIGHT = 162;
-const CLOSED_Y = 22;
-const OPEN_Y = 0;
-const OPEN_MID_WIDTH = 194;
-const OPEN_MID_HEIGHT = 74;
-const OPEN_MID_Y = 9;
-const OPEN_MID_RADIUS = 27;
-
-const OPEN_OVERSHOOT_X = 54.6 / 47.5;
-const OPEN_OVERSHOOT_Y = 32.5 / 28.3;
-const CLOSE_UNDERSHOOT_X = 11.8 / 16.5;
-const CLOSE_UNDERSHOOT_Y = 4.3 / 6.3;
-
-const musicIslandOpenTransition = {
-  duration: OPEN_DURATION,
-  times: [0, OPEN_MID_TIME, OPEN_OVERSHOOT_TIME, OPEN_SETTLE_TIME, 1],
-  ease: [
-    [0.18, 0.9, 0.16, 1],
-    [0.07, 0.88, 0.16, 1],
-    [0.24, 0.82, 0.32, 1],
-    "linear",
-  ],
-};
-
-const musicIslandCloseTransition = {
-  duration: CLOSE_DURATION,
-  times: [0, CLOSE_UNDERSHOOT_TIME, 1],
-  ease: [
-    [0.64, 0.01, 0.9, 0.2],
-    [0.06, 0.94, 0.22, 1],
-  ],
-};
-
-const musicIslandOpenShell = {
-  width: [CLOSED_WIDTH, OPEN_MID_WIDTH, OPEN_WIDTH * OPEN_OVERSHOOT_X, OPEN_WIDTH, OPEN_WIDTH],
-  height: [CLOSED_HEIGHT, OPEN_MID_HEIGHT, OPEN_HEIGHT * OPEN_OVERSHOOT_Y, OPEN_HEIGHT, OPEN_HEIGHT],
-  y: [CLOSED_Y, OPEN_MID_Y, -4, OPEN_Y, OPEN_Y],
-  borderRadius: [21, OPEN_MID_RADIUS, 34.5, 30, 30],
-  transition: musicIslandOpenTransition,
-};
-
-const musicIslandClosedShell = {
-  width: [OPEN_WIDTH, CLOSED_WIDTH * CLOSE_UNDERSHOOT_X, CLOSED_WIDTH],
-  height: [OPEN_HEIGHT, CLOSED_HEIGHT * CLOSE_UNDERSHOOT_Y, CLOSED_HEIGHT],
-  y: [OPEN_Y, 26, CLOSED_Y],
-  borderRadius: [30, 14.5, 21],
-  transition: musicIslandCloseTransition,
-};
-
-const musicCompactContentOpen = {
-  opacity: [1, 1, 1, 0, 0],
-  scale: [1, 1.01, 1.01, 0.96, 0.96],
-  transition: {
-    duration: OPEN_DURATION,
-    times: [0, OPEN_MID_TIME, OPEN_OVERSHOOT_TIME * 0.88, OPEN_OVERSHOOT_TIME, 1],
-    ease: ["linear", "linear", [0.4, 0, 0.2, 1], "linear"],
-  },
-};
-
-const musicCompactContentClosed = {
-  opacity: [0, 0, 1],
-  scale: [0.95, 0.97, 1],
-  transition: {
-    duration: CLOSE_DURATION,
-    times: [0, CLOSE_UNDERSHOOT_TIME, 1],
-    ease: ["linear", [0.08, 0.94, 0.24, 1]],
-  },
-};
-
-const musicExpandedContentOpen = {
-  opacity: [0, 0, 0, 1, 1],
-  scale: [0.96, 0.96, 0.97, 1, 1],
-  transition: {
-    duration: OPEN_DURATION,
-    times: [0, OPEN_MID_TIME, OPEN_OVERSHOOT_TIME * 0.92, OPEN_SETTLE_TIME, 1],
-    ease: ["linear", "linear", [0.22, 1, 0.36, 1], "linear"],
-  },
-};
-
-const musicExpandedContentClosed = {
-  opacity: [1, 0, 0],
-  scale: [1, 0.93, 0.95],
-  transition: {
-    duration: CLOSE_DURATION,
-    times: [0, CLOSE_UNDERSHOOT_TIME * 0.7, 1],
-    ease: [[0.42, 0, 0.18, 1], [0.08, 0.9, 0.22, 1]],
-  },
-};
-
 const contact = {
   email: "nahusenaygebreamlak@gmail.com",
   links: [
@@ -1158,17 +1019,6 @@ function ProfileAvatar() {
       }}
     />
   );
-}
-
-function formatTime(seconds) {
-  if (!Number.isFinite(seconds) || seconds < 0) {
-    return "0:00";
-  }
-
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = Math.floor(seconds % 60);
-
-  return `${minutes}:${String(remainingSeconds).padStart(2, "0")}`;
 }
 
 function getCurrentClockLabel(date = new Date()) {
@@ -1536,7 +1386,16 @@ function PhoneProjectList({ activeGroupId, onSelectGroup, onOpenProject }) {
                 </span>
                 <span className="phone-folder__body">
                   <span className="phone-folder__cover">
-                    {cover ? <img src={cover} alt="" loading="lazy" /> : null}
+                    {cover ? (
+                      <img
+                        src={cover}
+                        alt=""
+                        loading="lazy"
+                        onError={(event) => {
+                          event.currentTarget.style.display = "none";
+                        }}
+                      />
+                    ) : null}
                     {isVideo ? (
                       <span className="phone-folder__play" aria-hidden="true">
                         <svg viewBox="0 0 18 18" width="18" height="18">
@@ -1580,34 +1439,14 @@ function App() {
   const [hoveredProjectId, setHoveredProjectId] = useState(null);
   const [selectedProject, setSelectedProject] = useState(null);
   const [isProjectWindowOpen, setIsProjectWindowOpen] = useState(false);
-  const [isMusicOpen, setIsMusicOpen] = useState(false);
-  const [isVolumeOpen, setIsVolumeOpen] = useState(false);
   const [isTimeOpen, setIsTimeOpen] = useState(false);
   const [expandedCareerIndex, setExpandedCareerIndex] = useState(null);
   const [currentClock, setCurrentClock] = useState(() => new Date());
-  const [activeTrackIndex, setActiveTrackIndex] = useState(0);
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [volume, setVolume] = useState(0.8);
-  const musicPanelRef = useRef(null);
-  const volumeControlRef = useRef(null);
   const timePanelRef = useRef(null);
   const folderOriginRef = useRef(null);
-  const audioRef = useRef(null);
-  const shouldAutoplayTrackRef = useRef(false);
 
   useEffect(() => {
     const handlePointerDown = (event) => {
-      if (isVolumeOpen && !volumeControlRef.current?.contains(event.target)) {
-        setIsVolumeOpen(false);
-      }
-
-      if (isMusicOpen && !musicPanelRef.current?.contains(event.target)) {
-        setIsMusicOpen(false);
-        setIsVolumeOpen(false);
-      }
-
       if (isTimeOpen && !timePanelRef.current?.contains(event.target)) {
         setIsTimeOpen(false);
       }
@@ -1617,7 +1456,7 @@ function App() {
     return () => {
       document.removeEventListener("pointerdown", handlePointerDown);
     };
-  }, [isMusicOpen, isTimeOpen, isVolumeOpen]);
+  }, [isTimeOpen]);
 
   useEffect(() => {
     const updateClock = () => {
@@ -1633,45 +1472,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) {
-      return;
-    }
-
-    audio.pause();
-    audio.currentTime = 0;
-    setCurrentTime(0);
-
-    if (Number.isFinite(audio.duration)) {
-      setDuration(audio.duration);
-    }
-
-    if (!shouldAutoplayTrackRef.current) {
-      setIsAudioPlaying(false);
-      return;
-    }
-
-    shouldAutoplayTrackRef.current = false;
-
-    const playPromise = audio.play();
-    if (playPromise?.catch) {
-      playPromise.catch((error) => {
-        console.error(error);
-        setIsAudioPlaying(false);
-      });
-    }
-  }, [activeTrackIndex]);
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) {
-      return;
-    }
-
-    audio.volume = volume;
-  }, [volume]);
-
-  useEffect(() => {
     const { overflow } = document.body.style;
 
     if (isProjectWindowOpen) {
@@ -1683,103 +1483,12 @@ function App() {
     };
   }, [isProjectWindowOpen]);
 
-  const handleOpenMusic = () => {
-    setIsMusicOpen(true);
-  };
-
-  const handleTogglePlayback = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-
-    const audio = audioRef.current;
-    if (!audio) {
-      return;
-    }
-
-    if (!isMusicOpen) {
-      setIsMusicOpen(true);
-    }
-
-    if (isAudioPlaying) {
-      audio.pause();
-      return;
-    }
-
-    const playPromise = audio.play();
-    if (playPromise?.catch) {
-      playPromise.catch((error) => {
-        console.error(error);
-        setIsAudioPlaying(false);
-      });
-    }
-  };
-
-  const queueTrack = (nextIndex, autoplay = true) => {
-    const normalizedIndex = (nextIndex + musicTracks.length) % musicTracks.length;
-    shouldAutoplayTrackRef.current = autoplay;
-    setActiveTrackIndex(normalizedIndex);
-  };
-
-  const handlePreviousTrack = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-
-    const audio = audioRef.current;
-    if (audio && audio.currentTime > 3) {
-      audio.currentTime = 0;
-      if (!isAudioPlaying) {
-        const playPromise = audio.play();
-        if (playPromise?.catch) {
-          playPromise.catch((error) => {
-            console.error(error);
-            setIsAudioPlaying(false);
-          });
-        }
-      }
-      return;
-    }
-
-    queueTrack(activeTrackIndex - 1);
-  };
-
-  const handleNextTrack = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    queueTrack(activeTrackIndex + 1);
-  };
-
-  const handleProgressChange = (event) => {
-    const audio = audioRef.current;
-    const nextTime = Number(event.target.value);
-
-    setCurrentTime(nextTime);
-
-    if (audio) {
-      audio.currentTime = nextTime;
-    }
-  };
-
-  const handleVolumeChange = (event) => {
-    const nextVolume = Number(event.target.value);
-    setVolume(nextVolume);
-  };
-
-  const handleToggleVolumePopup = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    setIsVolumeOpen((current) => !current);
-  };
-
   const handleToggleTimePill = (event) => {
     event.preventDefault();
     event.stopPropagation();
     setIsTimeOpen((current) => !current);
   };
 
-  const currentTrack = musicTracks[activeTrackIndex];
-  const progressMax = duration > 0 ? duration : 1;
-  const progressFill = `${Math.min((currentTime / progressMax) * 100, 100)}%`;
-  const volumeFill = `${volume * 100}%`;
   const currentClockLabel = getCurrentClockLabel(currentClock);
   const minuteAngle = currentClock.getMinutes() * 6 + currentClock.getSeconds() * 0.1;
   const hourAngle =
@@ -1912,177 +1621,6 @@ function App() {
             <div className="profile-chip" aria-label="Profile">
               <ProfileAvatar />
             </div>
-          </motion.div>
-
-          <motion.div
-            className="music-panel-shell"
-            variants={reveal}
-            custom={0.12}
-            ref={musicPanelRef}
-          >
-            <audio
-              ref={audioRef}
-              className="music-audio-element"
-              src={currentTrack.src}
-              preload="metadata"
-              onPlay={() => setIsAudioPlaying(true)}
-              onPause={() => setIsAudioPlaying(false)}
-              onLoadedMetadata={(event) => {
-                const nextDuration = event.currentTarget.duration;
-                setDuration(Number.isFinite(nextDuration) ? nextDuration : 0);
-                setCurrentTime(event.currentTarget.currentTime);
-              }}
-              onTimeUpdate={(event) => {
-                setCurrentTime(event.currentTarget.currentTime);
-              }}
-              onEnded={() => queueTrack(activeTrackIndex + 1)}
-            />
-
-            <motion.div
-              className={`music-island ${isMusicOpen ? "music-island--open" : "music-island--closed"}`}
-              style={{ x: "-50%" }}
-              initial={false}
-              animate={isMusicOpen ? musicIslandOpenShell : musicIslandClosedShell}
-              onClick={() => {
-                if (!isMusicOpen) {
-                  handleOpenMusic();
-                }
-              }}
-              onKeyDown={(event) => {
-                if (!isMusicOpen && (event.key === "Enter" || event.key === " ")) {
-                  event.preventDefault();
-                  handleOpenMusic();
-                }
-              }}
-              role={!isMusicOpen ? "button" : undefined}
-              tabIndex={!isMusicOpen ? 0 : -1}
-              aria-label={!isMusicOpen ? "Open music player" : undefined}
-              aria-expanded={!isMusicOpen ? false : undefined}
-              whileHover={!isMusicOpen ? { scale: 1.01 } : undefined}
-              whileTap={!isMusicOpen ? { scale: 0.985 } : undefined}
-            >
-              <motion.div
-                className="music-island__compact"
-                initial={false}
-                animate={isMusicOpen ? musicCompactContentOpen : musicCompactContentClosed}
-                aria-hidden={isMusicOpen}
-              >
-                <span className="audio-knob" />
-                <span
-                  className={`audio-bars ${isAudioPlaying ? "audio-bars--active" : ""}`}
-                  aria-hidden="true"
-                >
-                  <i />
-                  <i />
-                  <i />
-                </span>
-              </motion.div>
-
-              <motion.div
-                className="music-island__expanded"
-                initial={false}
-                animate={isMusicOpen ? musicExpandedContentOpen : musicExpandedContentClosed}
-                aria-hidden={!isMusicOpen}
-              >
-                <div className="music-card">
-                  <div className="music-card__meta">
-                    <div className="music-card__cover" aria-hidden="true">
-                      <span className="music-card__cover-glow" />
-                    </div>
-                    <div className="music-card__copy">
-                      <p className="music-card__title">{currentTrack.title}</p>
-                      <p className="music-card__artist">{currentTrack.artist}</p>
-                    </div>
-                  </div>
-
-                  <div className="music-card__timeline">
-                    <input
-                      type="range"
-                      className="music-range music-range--progress"
-                      min="0"
-                      max={progressMax}
-                      step="0.01"
-                      value={Math.min(currentTime, progressMax)}
-                      style={{ "--range-fill": progressFill }}
-                      onChange={handleProgressChange}
-                      aria-label="Track progress"
-                    />
-
-                    <div className="music-card__timebar">
-                      <span className="music-card__time">{formatTime(currentTime)}</span>
-                      <span className="music-card__time">
-                        {duration > 0 ? formatTime(duration) : "--:--"}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="music-card__footer">
-                    <div className="music-card__controls">
-                      <button
-                        type="button"
-                        className="music-control"
-                        onClick={handlePreviousTrack}
-                        aria-label="Previous track"
-                      >
-                        <span className="music-icon music-icon--prev" aria-hidden="true" />
-                      </button>
-
-                      <button
-                        type="button"
-                        className="music-control music-control--primary"
-                        onClick={handleTogglePlayback}
-                        aria-label={isAudioPlaying ? "Pause track" : "Play track"}
-                      >
-                        <span
-                          className={`music-icon ${
-                            isAudioPlaying ? "music-icon--pause" : "music-icon--play"
-                          }`}
-                          aria-hidden="true"
-                        />
-                      </button>
-
-                      <button
-                        type="button"
-                        className="music-control"
-                        onClick={handleNextTrack}
-                        aria-label="Next track"
-                      >
-                        <span className="music-icon music-icon--next" aria-hidden="true" />
-                      </button>
-                    </div>
-
-                    <div className="music-volume-popover" ref={volumeControlRef}>
-                      <button
-                        type="button"
-                        className={`music-volume-trigger ${isVolumeOpen ? "is-open" : ""}`}
-                        onClick={handleToggleVolumePopup}
-                        aria-label="Volume"
-                        aria-expanded={isVolumeOpen}
-                      >
-                        <span className="music-volume__icon" aria-hidden="true" />
-                      </button>
-
-                      <div
-                        className={`music-volume-popup ${isVolumeOpen ? "is-open" : ""}`}
-                        aria-hidden={!isVolumeOpen}
-                      >
-                        <input
-                          type="range"
-                          className="music-range music-range--volume"
-                          min="0"
-                          max="1"
-                          step="0.01"
-                          value={volume}
-                          style={{ "--range-fill": volumeFill }}
-                          onChange={handleVolumeChange}
-                          aria-label="Volume"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </motion.div>
           </motion.div>
 
           <motion.div
