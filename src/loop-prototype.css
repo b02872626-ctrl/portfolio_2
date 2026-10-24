@@ -1,0 +1,241 @@
+/* Loop prototype hero: device + theme switches, flow shortcuts, live screens. */
+.pp-hero--prototype {
+  aspect-ratio: auto;
+  overflow: visible;
+  background: transparent;
+}
+
+.lp {
+  --lp-blue: #2f6be3;
+  --lp-stage: #e9edf5;
+  --lp-ink: #111111;
+  --lp-muted: #5c5c5c;
+  --lp-chip: #ffffff;
+  --lp-line: #d5dbe7;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: var(--lp-stage);
+  color: var(--lp-ink);
+  transition: background-color 240ms ease, color 240ms ease;
+}
+
+.lp--dark {
+  --lp-stage: #0b0e17;
+  --lp-ink: #e8ecf5;
+  --lp-muted: #9aa3b8;
+  --lp-chip: #1a2030;
+  --lp-line: #2a3246;
+}
+
+.lp-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 20px 0;
+}
+
+.lp-seg {
+  display: inline-flex;
+  border: 1px solid var(--lp-ink);
+}
+
+.lp-seg button,
+.lp-flows button,
+.lp-status__actions button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.lp-seg button {
+  min-height: 40px;
+  padding: 0 18px;
+  border: 0;
+  background: transparent;
+  color: var(--lp-ink);
+  font-family: var(--pp-mono, "Space Mono", monospace);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.lp-seg button + button {
+  border-left: 1px solid var(--lp-ink);
+}
+
+.lp-seg button.is-on {
+  background: var(--lp-ink);
+  color: var(--lp-stage);
+}
+
+.lp-flows {
+  display: flex;
+  gap: 8px;
+  padding: 16px 20px 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.lp-flows::-webkit-scrollbar {
+  display: none;
+}
+
+.lp-flows button {
+  flex: none;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--lp-line);
+  background: var(--lp-chip);
+  color: var(--lp-ink);
+  font-size: 0.88rem;
+  white-space: nowrap;
+}
+
+.lp-flows button:hover {
+  border-color: var(--lp-ink);
+}
+
+.lp-flows button.is-on {
+  border-color: var(--lp-blue);
+  background: var(--lp-blue);
+  color: #ffffff;
+}
+
+.lp-stage {
+  display: flex;
+  justify-content: center;
+  padding: 32px 16px;
+  min-height: 200px;
+}
+
+.lp-device {
+  position: relative;
+  flex: none;
+}
+
+.lp--phone .lp-screen {
+  border-radius: 34px;
+  box-shadow:
+    0 0 0 8px #111111,
+    0 0 0 9px #3a3a3a,
+    0 30px 60px rgba(17, 17, 17, 0.28);
+}
+
+.lp--desktop .lp-device {
+  border: 1px solid var(--lp-line);
+  box-shadow: 0 30px 60px rgba(17, 17, 17, 0.22);
+}
+
+.lp-window-bar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 34px;
+  padding: 0 14px;
+  background: var(--lp-chip);
+  border-bottom: 1px solid var(--lp-line);
+}
+
+.lp-window-bar span {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--lp-line);
+}
+
+.lp-screen {
+  position: relative;
+  overflow: hidden;
+  background: #f2f4f9;
+}
+
+.lp--dark .lp-screen {
+  background: #0f1320;
+}
+
+.lp .lp-screen iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  border: 0;
+  transform-origin: 0 0;
+  object-fit: initial;
+}
+
+.lp-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 20px;
+}
+
+.lp-status__screen {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 1rem;
+  min-width: 0;
+}
+
+.lp-status__label {
+  font-family: var(--pp-mono, "Space Mono", monospace);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--lp-muted);
+}
+
+.lp-status__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.lp-status__actions button {
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid var(--lp-ink);
+  background: transparent;
+  color: var(--lp-ink);
+  font-size: 0.9rem;
+}
+
+.lp-status__actions button:hover:not(:disabled) {
+  background: var(--lp-ink);
+  color: var(--lp-stage);
+}
+
+.lp-status__actions button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.lp-hint {
+  margin: 0;
+  padding: 10px 20px 20px;
+  font-size: 0.85rem;
+  color: var(--lp-muted);
+}
+
+.lp button:focus-visible {
+  outline: 2px solid var(--lp-blue);
+  outline-offset: 2px;
+}
+
+@media (max-width: 720px) {
+  .lp-toolbar,
+  .lp-flows,
+  .lp-status,
+  .lp-hint {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .lp-stage {
+    padding: 28px 12px;
+  }
+}

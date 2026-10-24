@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Settings</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+*{box-sizing:border-box}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ib{width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:14px;color:#141A2E}
+.lab{padding:22px 24px 10px;font-size:14px;font-weight:700;color:#636B80}
+.grp{margin:0 24px;background:#FFFFFF;border-radius:20px}
+.set{display:flex;align-items:center;gap:12px;min-height:60px;padding:12px 18px 12px 20px;border-bottom:1px solid #F2F4F9;width:100%;text-align:left}
+.grp .set:last-child{border-bottom:0}
+.nm{flex-grow:1;font-size:15.5px;font-weight:700}
+.hint{display:block;font-size:13px;font-weight:500;color:#636B80;margin-top:3px}
+.val{font-size:15px;font-weight:700;color:#2F6BE3;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tg{flex:0 0 48px;width:48px;height:28px;border-radius:14px;background:#C9D2E3;position:relative}
+.tg::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#FFFFFF}
+.tg.on{background:#2F6BE3}
+.tg.on::after{left:23px}
+</style>
+</head>
+<body>
+<div style="width: 390px; height: 844px; background: #F2F4F9; color: #141A2E; font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif; display: flex; flex-direction: column; overflow: hidden;">
+  <header style="padding: 18px 24px 0 14px;">
+    <button class="ib" aria-label="Back"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button>
+    <h1 style="margin: 12px 0 0 10px; font-size: 36px; line-height: 1.1; font-weight: 800; letter-spacing: -0.02em;">Settings</h1>
+  </header>
+
+  <div class="lab">Daily check-ins</div>
+  <div class="grp">
+    <button class="set"><span class="nm">Morning check-in<span class="hint">Today's plan and yesterday's leftovers</span></span><span class="val">08:30</span></button>
+    <button class="set"><span class="nm">Afternoon check-in<span class="hint">What's still open today</span></span><span class="val">14:00</span></button>
+    <button class="set" role="switch" aria-checked="true"><span class="nm">Show full screen<span class="hint">Allow "Full-screen alerts" in Android once</span></span><span class="tg on"></span></button>
+    <button class="set" role="switch" aria-checked="false"><span class="nm">Remind until I act<span class="hint">Repeats every 15 min</span></span><span class="tg"></span></button>
+  </div>
+
+  <div class="lab">Notes</div>
+  <div class="grp">
+    <button class="set"><span class="nm">Remind me to sort Inbox<span class="hint">Only when there are notes</span></span><span class="val">18:00</span></button>
+  </div>
+
+  <div class="lab">Calendar</div>
+  <div class="grp">
+    <button class="set"><span class="nm">Google Calendar<span class="hint">Show events next to tasks</span></span><span style="min-height: 38px; padding: 0 14px; border-radius: 12px; background: #2F6BE3; color: #FFFFFF; font-size: 14px; font-weight: 700; display: flex; align-items: center;">Connect</span></button>
+    <button class="set"><span class="nm">Week starts on</span><span class="val">Sunday</span></button>
+  </div>
+</div>
+</body>
+</html>

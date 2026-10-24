@@ -605,6 +605,108 @@ const womenInMuyaImage = (index, alt, wide = false) => ({
   className: wide ? "project-case-study__media--wide" : undefined,
 });
 
+const loopImage = (file, alt, kind) => ({
+  src: `/assets/loop/${file}.jpg`,
+  alt,
+  className:
+    kind === "phone"
+      ? "project-case-study__media--phone"
+      : kind === "wide"
+        ? "project-case-study__media--wide"
+        : undefined,
+});
+
+// Loop: the hero is the live prototype (screens converted from the design canvas).
+const loopCaseStudy = {
+  eyebrow: "Loop / Product Design",
+  sections: [
+    {
+      label: "Overview",
+      body: [
+        "Loop is a task app for phone and the web, designed around a daily rhythm: capture anything fast, sort it later, and let a morning check-in deal with whatever was left over from yesterday.",
+        "The work runs from wireframes, a visual direction and user flows to 101 phone screens and 40 desktop screens, each in light and dark. Every screen in the prototype below is clickable.",
+      ],
+      media: [
+        {
+          type: "prototype",
+          src: "/assets/loop/loop-desktop-today.jpg",
+          alt: "Loop on desktop: the Today view with task details open.",
+        },
+      ],
+    },
+    {
+      label: "Morning check-in",
+      body: [
+        "At 08:30 Loop looks at yesterday. If tasks were left over, a notification offers to move them to today, mark them done or review them, and the full check-in handles them in one go: move, reschedule, finish or archive.",
+        "With nothing left over it simply sends today's plan, and a 14:00 nudge only appears when tasks are still open.",
+      ],
+      media: [
+        loopImage("loop-phone-checkin-notification", "The 08:30 check-in notification on the lock screen.", "phone"),
+        loopImage("loop-phone-checkin", "Full-screen check-in: 4 tasks left from yesterday.", "phone"),
+        loopImage("loop-phone-today", "Today: schedule timeline with tasks and Google Calendar events.", "phone"),
+      ],
+    },
+    {
+      label: "Capture now, sort later",
+      body: [
+        "Quick add takes a task with or without a date. Anything undated lands in the Inbox, and an evening sort reminder walks through it one note at a time: make it a task, keep it as a note, or delete it.",
+      ],
+      media: [
+        loopImage("loop-phone-quick-add", "Quick add sheet.", "phone"),
+        loopImage("loop-phone-sort-note", "Sorting one Inbox note into a task, a note or the bin.", "phone"),
+        loopImage("loop-phone-notes", "Free-form notes.", "phone"),
+      ],
+    },
+    {
+      label: "Setup when it matters",
+      body: [
+        "There is no long onboarding. Sign-in leads into a short tutorial you learn by doing: add a task, tick it off, dump a note. Check-in times, full-screen alerts and Google Calendar are each set up the first time they become useful.",
+      ],
+      media: [
+        loopImage("loop-phone-tutorial", "Tutorial step one: add your first task.", "phone"),
+        loopImage("loop-phone-calendar", "Calendar week view with Google events next to tasks.", "phone"),
+        loopImage("loop-phone-widgets", "Android home-screen widgets for Today and quick add.", "phone"),
+      ],
+    },
+    {
+      label: "Desktop",
+      body: [
+        "The web app keeps the same structure in three columns: sidebar, list and task details. Keyboard shortcuts sit next to the actions they trigger.",
+      ],
+      media: [
+        loopImage("loop-desktop-today", "Desktop Today view with the task details panel.", "wide"),
+        loopImage("loop-desktop-calendar", "Desktop calendar, week view."),
+        loopImage("loop-desktop-inbox", "Desktop Inbox sorting."),
+      ],
+    },
+    {
+      label: "Light and dark",
+      body: [],
+      media: [
+        loopImage("loop-desktop-today-dark", "Desktop Today view in dark mode.", "wide"),
+      ],
+    },
+    {
+      label: "Brand",
+      body: [
+        "A simple four-part mark in white on the accent blue, drawn as an Android adaptive icon so it holds up under any mask shape.",
+      ],
+      media: [
+        loopImage("loop-phone-splash", "Loop splash screen.", "phone"),
+        loopImage("loop-phone-app-icon", "App icon sizes, masks and the themed icon.", "phone"),
+        loopImage("loop-phone-today-dark", "Today in dark mode.", "phone"),
+      ],
+    },
+  ],
+  credits: [
+    { label: "Project", value: "Loop" },
+    { label: "Discipline", value: "Product design, User flows, UI design, Prototype" },
+    { label: "Platforms", value: "Android and web" },
+    { label: "Design", value: "Nahusenay Gebreamlak" },
+    { label: "Year", value: "2026" },
+  ],
+};
+
 const womenInMuyaCaseStudy = {
   eyebrow: "Women In Muya / Brand Identity",
   sections: [
@@ -924,6 +1026,7 @@ const projectPageMeta = {
   "Hanbon Construction": { slug: "hanbon-construction", displayTitle: "Hanbon Construction", accent: "#25b865" },
   "Marshall.": { slug: "marshall-action-iii", displayTitle: "Marshall Action III", accent: "#1b1b1b" },
   "Air pods Max": { slug: "airpods-max", displayTitle: "AirPods Max", accent: "#1d1d1f" },
+  "Loop App": { slug: "loop", displayTitle: "Loop", accent: "#2f6be3" },
   "Women In Muya": { slug: "women-in-muya", displayTitle: "Women in Muya", accent: "#de6226" },
   "Ttechnos Logo": { slug: "ttechnos", displayTitle: "Ttechnos", accent: "#e5392b" },
   "Lite Innovate": { slug: "lite-innovate", displayTitle: "Lite Innovate" },
@@ -976,6 +1079,11 @@ const projects = [
     source: "3D product commercial",
     referenceUrl: "https://www.behance.net/gallery/193955523/Air-pods-Max",
     caseStudy: airpodMaxCaseStudy,
+  },
+  {
+    title: "Loop App",
+    source: "Product design",
+    caseStudy: loopCaseStudy,
   },
   {
     title: "Women In Muya",

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Side menu</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+*{box-sizing:border-box}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ib{width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:14px;color:#141A2E}
+.item{display:flex;align-items:center;gap:14px;width:100%;min-height:48px;padding:0 14px;border-radius:14px;font-size:15.5px;font-weight:600;text-align:left;color:#141A2E}
+.item .ic{color:#636B80}
+.item .n{margin-left:auto;font-size:13.5px;font-weight:600;color:#636B80;font-variant-numeric:tabular-nums}
+.item.on{background:#DCE6FB;color:#2F6BE3}
+.item.on .ic,.item.on .n{color:#2F6BE3}
+.lab{display:flex;justify-content:space-between;align-items:center;padding:20px 14px 6px;font-size:13px;font-weight:700;color:#636B80}
+.sw{width:12px;height:12px;border-radius:4px;margin:0 5px}
+</style>
+</head>
+<body>
+<div style="width: 390px; height: 844px; background: #8E95A6; font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif; display: flex; overflow: hidden;">
+  <nav aria-label="Main menu" style="width: 316px; height: 844px; background: #F2F4F9; color: #141A2E; display: flex; flex-direction: column; padding: 18px 14px 20px; border-radius: 0 28px 28px 0;">
+    <div style="display: flex; align-items: center; gap: 12px; padding: 4px 10px 18px;">
+      <div aria-hidden="true" style="width: 44px; height: 44px; border-radius: 15px; background: #2F6BE3; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px;">L</div>
+      <div style="flex-grow: 1;">
+        <div style="font-size: 17px; font-weight: 800;">Loop</div>
+        <div style="font-size: 13px; color: #636B80;">Synced just now</div>
+      </div>
+      <button class="ib" aria-label="Settings"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M5.6 18.4l1.8-1.8M16.6 7.4l1.8-1.8"></path></svg></button>
+    </div>
+
+    <div style="background: #FFFFFF; border-radius: 20px; padding: 6px; display: flex; flex-direction: column; gap: 2px;">
+      <button class="item on"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 3v2M12 19v2M3 12h2M19 12h2"></path></svg>Today<span class="n">6</span></button>
+      <button class="item"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="3"></rect><path d="M9 3v4M15 3v4M8 12h8M8 16h5"></path></svg>Next 7 Days<span class="n">9</span></button>
+      <button class="item"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l3-8h10l3 8v6H4z"></path><path d="M4 13h5l1 2h4l1-2h5"></path></svg>Inbox<span class="n">7</span></button>
+      <button class="item"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="3"></rect><path d="M4 10h16M9 3v4M15 3v4"></path></svg>Calendar</button>
+      <button class="item"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"></rect><path d="M8 9h8M8 13h8M8 17h5"></path></svg>All tasks<span class="n">11</span></button>
+    </div>
+
+    <div class="lab"><span>Lists</span><button class="ib" aria-label="Add list" style="width: 36px; height: 36px; color: #636B80;"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px;"><path d="M12 5v14M5 12h14"></path></svg></button></div>
+    <div style="display: flex; flex-direction: column; gap: 2px;">
+      <button class="item"><span class="sw" style="background: #2F6BE3;"></span>Work<span class="n">5</span></button>
+      <button class="item"><span class="sw" style="background: #E0913A;"></span>Personal<span class="n">3</span></button>
+      <button class="item"><span class="sw" style="background: #3A9E7A;"></span>Learning<span class="n">1</span></button>
+    </div>
+
+    <div class="lab"><span>Tags</span></div>
+    <div style="display: flex; flex-wrap: wrap; gap: 8px; padding: 4px 14px;">
+      <button style="min-height: 36px; padding: 0 14px; border-radius: 12px; background: #FFFFFF; font-size: 14px; font-weight: 600;">#design</button>
+      <button style="min-height: 36px; padding: 0 14px; border-radius: 12px; background: #FFFFFF; font-size: 14px; font-weight: 600;">#waiting</button>
+    </div>
+
+    <div style="flex-grow: 1;"></div>
+    <div style="display: flex; flex-direction: column; gap: 2px;">
+      <button class="item"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"></circle><path d="M8.5 12l2.5 2.5 4.5-5"></path></svg>Completed</button>
+      <button class="item"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13"></path></svg>Trash</button>
+    </div>
+  </nav>
+  <div aria-hidden="true" style="flex-grow: 1;"></div>
+</div>
+</body>
+</html>

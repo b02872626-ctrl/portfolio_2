@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import "./project-page.css";
+import LoopPrototype from "./LoopPrototype.jsx";
 
 const youTubeId = (value) => {
   const match =
@@ -102,9 +103,11 @@ function MediaItem({ item, eager = false }) {
 function MediaGrid({ media }) {
   if (media.length === 0) return null;
   const single = media.length === 1;
+  // Phone screenshots sit three across instead of two.
+  const phones = !single && media.every((item) => /--phone/.test(item.className ?? ""));
 
   return (
-    <div className={`pp-media${single ? " pp-media--single" : ""}`}>
+    <div className={`pp-media${single ? " pp-media--single" : ""}${phones ? " pp-media--phones" : ""}`}>
       {media.map((item, index) => {
         const wide = !single && /--(wide|hero)/.test(item.className ?? "");
         return (
@@ -162,6 +165,7 @@ export default function ProjectPage({ project, nextProject, contact, onNavigate,
   };
 
   const heroIsVideo = page.hero?.type === "video";
+  const heroIsPrototype = page.hero?.type === "prototype";
 
   return (
     <div className="pp" style={{ "--pp-accent": accent, "--pp-accent-ink": accentInk }}>
@@ -222,8 +226,14 @@ export default function ProjectPage({ project, nextProject, contact, onNavigate,
         </section>
 
         {page.hero ? (
-          <figure className={`pp-hero${heroIsVideo ? " pp-hero--video" : ""}`}>
-            {heroIsVideo ? (
+          <figure
+            className={`pp-hero${heroIsVideo ? " pp-hero--video" : ""}${
+              heroIsPrototype ? " pp-hero--prototype" : ""
+            }`}
+          >
+            {heroIsPrototype ? (
+              <LoopPrototype />
+            ) : heroIsVideo ? (
               <iframe
                 src={heroVideoSrc(page.hero)}
                 title={`${project.displayTitle} video`}
