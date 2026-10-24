@@ -1547,7 +1547,6 @@ function App() {
   };
 
   const currentClockLabel = getCurrentClockLabel(currentClock);
-  const secondAngle = currentClock.getSeconds() * 6;
   const minuteAngle = currentClock.getMinutes() * 6 + currentClock.getSeconds() * 0.1;
   const hourAngle =
     ((currentClock.getHours() % 12) + currentClock.getMinutes() / 60) * 30;
@@ -1744,14 +1743,6 @@ function App() {
                   x2="50"
                   y2="16"
                   transform={`rotate(${minuteAngle} 50 50)`}
-                />
-                <line
-                  className="time-pill__hand time-pill__hand--second"
-                  x1="50"
-                  y1="58"
-                  x2="50"
-                  y2="13"
-                  transform={`rotate(${secondAngle} 50 50)`}
                 />
                 <circle className="time-pill__pivot" cx="50" cy="50" r="2.6" />
               </svg>

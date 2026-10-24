@@ -218,15 +218,8 @@ a {
   stroke-width: 3;
 }
 
-.time-pill__hand--second {
-  stroke: #ff5b00;
-  stroke-width: 1.2;
-}
-
 .time-pill__pivot {
-  fill: #ff5b00;
-  stroke: #1f1f1f;
-  stroke-width: 1;
+  fill: #1f1f1f;
 }
 
 .time-pill__clock {
