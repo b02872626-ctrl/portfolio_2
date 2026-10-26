@@ -7,13 +7,14 @@
 .avatar-chip {
   cursor: pointer;
   font: inherit;
-  transition: border-color 160ms ease, box-shadow 160ms ease;
+  color: inherit;
+  transition: border-bottom-width 140ms ease, margin-top 140ms ease;
 }
 
-.avatar-chip:hover,
+/* Pressed in while the card is open, like the music and clock tabs. */
 .avatar-chip.is-open {
-  border-color: #121212;
-  box-shadow: 0 0 0 2px #f6f0e3, 0 8px 18px rgba(0, 0, 0, 0.12);
+  border-bottom-width: 2px;
+  margin-top: 2px;
 }
 
 .avatar-chip:focus-visible {

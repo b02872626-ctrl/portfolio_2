@@ -4,6 +4,18 @@ import riveWasmUrl from "@rive-app/canvas/rive.wasm?url";
 import "./avatar-card.css";
 
 const islandSpring = { type: "spring", stiffness: 380, damping: 28 };
+const riveFile = "/assets/rive/breathing.riv";
+
+// Start fetching the player and the file as soon as the pointer is near,
+// so the card is ready sooner when it opens.
+let preloaded = false;
+const preloadRive = () => {
+  if (preloaded) return;
+  preloaded = true;
+  import("@rive-app/canvas").catch(() => {});
+  fetch(riveWasmUrl).catch(() => {});
+  fetch(riveFile).catch(() => {});
+};
 
 // The animated character, made in Rive. The runtime only loads when the
 // card opens, so the homepage stays light.
@@ -20,7 +32,7 @@ function RiveCharacter() {
         if (cancelled || !canvasRef.current) return;
         RuntimeLoader.setWasmUrl(riveWasmUrl);
         rive = new Rive({
-          src: "/assets/rive/breathing.riv",
+          src: riveFile,
           canvas: canvasRef.current,
           stateMachines: "State Machine 1",
           autoplay: true,
@@ -88,6 +100,8 @@ export default function AvatarCard({ children, ...motionProps }) {
         type="button"
         className={`profile-chip avatar-chip${isOpen ? " is-open" : ""}`}
         whileTap={{ scale: 0.95 }}
+        onPointerEnter={preloadRive}
+        onFocus={preloadRive}
         onClick={() => setIsOpen((open) => !open)}
         aria-expanded={isOpen}
         aria-controls="avatar-card"

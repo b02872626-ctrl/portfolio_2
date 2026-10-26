@@ -85,16 +85,18 @@ a {
   padding-top: 22px;
 }
 
+/* Avatar: the same folder-tab look as the buttons. */
 .profile-chip {
   display: grid;
   place-items: center;
-  width: 48px;
-  height: 48px;
+  width: 50px;
+  height: 50px;
+  box-sizing: border-box;
   padding: 3px;
-  border: 2px solid #1d8ef0;
-  border-radius: 15px;
-  background: #f8f6f1;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+  border: 2px solid #121212;
+  border-bottom-width: 4px;
+  border-radius: 12px 12px 6px 6px;
+  background: #f6f0e3;
 }
 
 .profile-photo,
@@ -102,7 +104,7 @@ a {
   display: block;
   width: 100%;
   height: 100%;
-  border-radius: 11px;
+  border-radius: 8px 8px 3px 3px;
   overflow: hidden;
 }
 
