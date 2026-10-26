@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@rive-app/canvas": "2.44.2",
+    "@vercel/analytics": "2.0.1",
     "framer-motion": "^12.10.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
