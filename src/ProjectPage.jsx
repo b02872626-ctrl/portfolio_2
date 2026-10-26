@@ -187,7 +187,7 @@ export default function ProjectPage({ project, nextProject, contact, onNavigate,
             >
               Career
             </a>
-            <a className="pp-topbar__contact" href={`mailto:${contact.email}`} onClick={onOpenContact}>
+            <a className="tab-button pp-topbar__contact" href={`mailto:${contact.email}`} onClick={onOpenContact}>
               Get in touch
             </a>
           </nav>
@@ -315,7 +315,7 @@ export default function ProjectPage({ project, nextProject, contact, onNavigate,
             <p className="pp-eyebrow">Work with me</p>
             <div>
               <h2>Have a project in mind?</h2>
-              <a href={`mailto:${contact.email}`} onClick={onOpenContact}>
+              <a className="tab-button" href={`mailto:${contact.email}`} onClick={onOpenContact}>
                 Get in touch
               </a>
             </div>

@@ -1531,7 +1531,7 @@ function PhoneProjectList({ activeGroupId, onSelectGroup, onOpenProject }) {
           <button
             key={group.id}
             type="button"
-            className={group.id === activeGroup.id ? "is-active" : undefined}
+            className={`tab-button${group.id === activeGroup.id ? " is-selected" : ""}`}
             aria-pressed={group.id === activeGroup.id}
             onClick={() => onSelectGroup(group.id)}
           >
@@ -1581,7 +1581,7 @@ function PhoneProjectList({ activeGroupId, onSelectGroup, onOpenProject }) {
                       <span className="phone-folder__title">{project.title}</span>
                       <span className="phone-folder__category">{project.source}</span>
                     </span>
-                    <span className="phone-folder__arrow" aria-hidden="true">
+                    <span className="tab-button tab-button--icon phone-folder__arrow" aria-hidden="true">
                       <svg viewBox="0 0 16 16" width="16" height="16" fill="none">
                         <path
                           d="M4 8h8M8.5 4.5L12 8l-3.5 3.5"
@@ -1902,7 +1902,7 @@ function App() {
             >
               Career
             </button>
-            <a className="masthead-contact" href={`mailto:${contact.email}`} onClick={openContact}>
+            <a className="tab-button masthead-contact" href={`mailto:${contact.email}`} onClick={openContact}>
               Get in touch
             </a>
           </div>

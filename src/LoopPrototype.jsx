@@ -66,7 +66,7 @@ function Segmented({ label, value, options, onChange }) {
         <button
           key={id}
           type="button"
-          className={value === id ? "is-on" : undefined}
+          className={`tab-button${value === id ? " is-selected" : ""}`}
           aria-pressed={value === id}
           onClick={() => onChange(id)}
         >
@@ -211,7 +211,7 @@ export default function LoopPrototype() {
           <button
             key={name}
             type="button"
-            className={activeFlow === label ? "is-on" : undefined}
+            className={`tab-button${activeFlow === label ? " is-selected" : ""}`}
             onClick={() => open(toTheme(name, theme, screens))}
           >
             {label}
@@ -255,10 +255,10 @@ export default function LoopPrototype() {
           {current.title}
         </p>
         <div className="lp-status__actions">
-          <button type="button" onClick={back} disabled={trailRef.current.length < 2}>
+          <button type="button" className="tab-button" onClick={back} disabled={trailRef.current.length < 2}>
             Back
           </button>
-          <button type="button" onClick={restart}>
+          <button type="button" className="tab-button" onClick={restart}>
             Start over
           </button>
         </div>

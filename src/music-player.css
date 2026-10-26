@@ -167,33 +167,8 @@
 
 .music-card__mute,
 .music-card__play {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  cursor: pointer;
-  padding: 0;
-}
-
-.music-card__mute {
   width: 44px;
-  height: 44px;
-  border: 2px solid var(--music-ink);
-  background: transparent;
-  color: #131313;
-}
-
-.music-card__mute[aria-pressed="true"] {
-  background: var(--music-ink);
-  color: var(--music-paper);
-}
-
-.music-card__play {
-  width: 48px;
-  height: 48px;
-  border: 0;
-  background: #111111;
-  color: #ffffff;
+  min-height: 44px;
 }
 
 /* Thin progress bar that can be dragged */

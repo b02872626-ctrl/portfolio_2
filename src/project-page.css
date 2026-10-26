@@ -59,16 +59,12 @@
   gap: 4px 28px;
 }
 
-.pp-topbar__nav a {
+.pp-topbar__nav a:not(.tab-button) {
   padding: 12px 0;
   font-size: 1rem;
   text-decoration: none;
 }
 
-.pp .pp-topbar__contact {
-  padding: 11px 20px;
-  border: 1px solid var(--pp-ink);
-}
 
 /* Intro */
 .pp-intro {
@@ -365,13 +361,6 @@
   letter-spacing: -0.03em;
 }
 
-.pp .pp-ending__contact a {
-  padding: 16px 24px;
-  background: var(--pp-accent-ink);
-  color: var(--pp-accent);
-  font-size: 1rem;
-  text-decoration: none;
-}
 
 .pp .pp-ending__next {
   background: #111111;

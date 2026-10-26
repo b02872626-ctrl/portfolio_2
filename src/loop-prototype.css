@@ -38,41 +38,13 @@
 
 .lp-seg {
   display: inline-flex;
-  border: 1px solid var(--lp-ink);
-}
-
-.lp-seg button,
-.lp-flows button,
-.lp-status__actions button {
-  font: inherit;
-  cursor: pointer;
-}
-
-.lp-seg button {
-  min-height: 40px;
-  padding: 0 18px;
-  border: 0;
-  background: transparent;
-  color: var(--lp-ink);
-  font-family: var(--pp-mono, "Space Mono", monospace);
-  font-size: 0.78rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.lp-seg button + button {
-  border-left: 1px solid var(--lp-ink);
-}
-
-.lp-seg button.is-on {
-  background: var(--lp-ink);
-  color: var(--lp-stage);
+  gap: 6px;
 }
 
 .lp-flows {
   display: flex;
   gap: 8px;
-  padding: 16px 20px 0;
+  padding: 16px 20px 4px;
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -83,23 +55,6 @@
 
 .lp-flows button {
   flex: none;
-  min-height: 36px;
-  padding: 0 14px;
-  border: 1px solid var(--lp-line);
-  background: var(--lp-chip);
-  color: var(--lp-ink);
-  font-size: 0.88rem;
-  white-space: nowrap;
-}
-
-.lp-flows button:hover {
-  border-color: var(--lp-ink);
-}
-
-.lp-flows button.is-on {
-  border-color: var(--lp-blue);
-  background: var(--lp-blue);
-  color: #ffffff;
 }
 
 .lp-stage {
@@ -195,24 +150,6 @@
   gap: 8px;
 }
 
-.lp-status__actions button {
-  min-height: 40px;
-  padding: 0 16px;
-  border: 1px solid var(--lp-ink);
-  background: transparent;
-  color: var(--lp-ink);
-  font-size: 0.9rem;
-}
-
-.lp-status__actions button:hover:not(:disabled) {
-  background: var(--lp-ink);
-  color: var(--lp-stage);
-}
-
-.lp-status__actions button:disabled {
-  opacity: 0.4;
-  cursor: default;
-}
 
 .lp-hint {
   margin: 0;

@@ -1,0 +1,72 @@
+/* Every button on the site: the folder-tab look of the music island.
+   Cream face, black outline, a thicker bottom edge that presses in. */
+.tab-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 16px;
+  box-sizing: border-box;
+  border: 2px solid #121212;
+  border-bottom-width: 4px;
+  border-radius: 12px 12px 6px 6px;
+  background: #f6f0e3;
+  color: #131313;
+  font-family: "IBM Plex Mono", "Space Mono", "Cascadia Code", monospace;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    border-bottom-width 140ms ease,
+    transform 140ms ease,
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+a.tab-button,
+a.tab-button:hover {
+  color: #131313;
+}
+
+/* Pressed while clicking, and for whatever is currently chosen. */
+.tab-button:active:not(:disabled),
+.tab-button.is-selected,
+.tab-button[aria-pressed="true"] {
+  border-bottom-width: 2px;
+  transform: translateY(2px);
+}
+
+.tab-button.is-selected,
+.tab-button[aria-pressed="true"] {
+  background: #121212;
+  color: #f6f0e3;
+}
+
+.tab-button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.tab-button:focus-visible {
+  outline: 2px solid #ff5b00;
+  outline-offset: 2px;
+}
+
+/* Icon-only buttons are square tabs. */
+.tab-button--icon {
+  width: 42px;
+  padding: 0;
+  flex: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab-button {
+    transition: none;
+  }
+}

@@ -75,7 +75,7 @@ export default function ContactDialog({ open, onClose, email }) {
             <h2 id="contact-dialog-title">
               {status === "sent" ? "Message sent" : "Get in touch"}
             </h2>
-            <button type="button" className="contact-dialog__close" onClick={onClose} aria-label="Close">
+            <button type="button" className="tab-button tab-button--icon contact-dialog__close" onClick={onClose} aria-label="Close">
               <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
                 <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
               </svg>
@@ -85,7 +85,7 @@ export default function ContactDialog({ open, onClose, email }) {
           {status === "sent" ? (
             <div className="contact-dialog__done">
               <p>Thanks for reaching out. I&apos;ll reply to you by email.</p>
-              <button type="button" className="contact-dialog__send" onClick={onClose}>
+              <button type="button" className="tab-button contact-dialog__send" onClick={onClose}>
                 Close
               </button>
             </div>
@@ -142,7 +142,7 @@ export default function ContactDialog({ open, onClose, email }) {
               ) : null}
 
               <div className="contact-dialog__actions">
-                <button type="submit" className="contact-dialog__send" disabled={status === "sending"}>
+                <button type="submit" className="tab-button contact-dialog__send" disabled={status === "sending"}>
                   {status === "sending" ? "Sending…" : "Send message"}
                 </button>
               </div>

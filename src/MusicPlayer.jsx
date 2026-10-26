@@ -213,7 +213,7 @@ export default function MusicPlayer(motionProps) {
               <span className="music-card__buttons">
                 <button
                   type="button"
-                  className="music-card__mute"
+                  className="tab-button tab-button--icon music-card__mute"
                   onClick={toggleMute}
                   aria-pressed={isMuted}
                   aria-label={isMuted ? "Unmute" : "Mute"}
@@ -222,7 +222,7 @@ export default function MusicPlayer(motionProps) {
                 </button>
                 <button
                   type="button"
-                  className="music-card__play"
+                  className="tab-button tab-button--icon music-card__play"
                   onClick={togglePlay}
                   aria-label={isPlaying ? "Pause" : "Play"}
                 >
