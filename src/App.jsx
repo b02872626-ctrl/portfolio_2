@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import MusicPlayer from "./MusicPlayer.jsx";
+import AvatarCard from "./AvatarCard.jsx";
 import ContactDialog from "./ContactDialog.jsx";
 import ProjectPage from "./ProjectPage";
 
@@ -1792,11 +1793,9 @@ function App() {
     <main className="page-shell">
       <motion.section id="career" className="masthead" initial="hidden" animate="show">
         <div className="masthead-row">
-          <motion.div className="profile-stack" variants={reveal} custom={0.05}>
-            <div className="profile-chip" aria-label="Profile">
-              <ProfileAvatar />
-            </div>
-          </motion.div>
+          <AvatarCard variants={reveal} custom={0.05}>
+            <ProfileAvatar />
+          </AvatarCard>
 
           <MusicPlayer variants={reveal} custom={0.12} />
 

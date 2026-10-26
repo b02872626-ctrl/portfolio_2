@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@rive-app/canvas": "2.44.2",
     "framer-motion": "^12.10.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
