@@ -2036,3 +2036,9 @@ a {
     font-size: 11px;
   }
 }
+
+/* Post rows run to the window edges; never let them add a sideways page scroll. */
+html,
+body {
+  overflow-x: clip;
+}

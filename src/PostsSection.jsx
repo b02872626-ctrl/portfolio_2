@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { countFolderPosts, postFolders } from "./posts.js";
 import "./posts-section.css";
 
@@ -23,24 +22,20 @@ const ArrowIcon = ({ direction = "right" }) => (
 );
 
 // Plays silently while on screen, pauses when scrolled away.
-function InViewVideo({ item, className }) {
+function InViewVideo({ item }) {
   const ref = useRef(null);
 
   useEffect(() => {
     const node = ref.current;
     if (!node) return undefined;
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduceMotion) return undefined;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          node.play().catch(() => {});
-        } else {
-          node.pause();
-        }
+        if (entry.isIntersecting) node.play().catch(() => {});
+        else node.pause();
       },
-      { threshold: 0.35 },
+      { threshold: 0.4 },
     );
     observer.observe(node);
     return () => observer.disconnect();
@@ -49,7 +44,7 @@ function InViewVideo({ item, className }) {
   return (
     <video
       ref={ref}
-      className={className}
+      className="post__media"
       src={item.src}
       poster={item.poster}
       muted
@@ -61,41 +56,39 @@ function InViewVideo({ item, className }) {
   );
 }
 
-function PostTile({ item, onOpen, className = "" }) {
+function Post({ item, onOpen }) {
   return (
     <button
       type="button"
-      className={`post-tile ${className}`}
+      className="post"
       style={{ aspectRatio: `${item.w} / ${item.h}` }}
       onClick={onOpen}
       aria-label={`View ${item.alt}`}
     >
       {item.type === "video" ? (
-        <>
-          <InViewVideo item={item} className="post-tile__media" />
-          <span className="post-tile__badge" aria-hidden="true">
-            <svg viewBox="0 0 18 18" width="14" height="14">
-              <path d="M6 4l8 5-8 5V4z" fill="currentColor" />
-            </svg>
-          </span>
-        </>
+        <InViewVideo item={item} />
       ) : (
-        <img className="post-tile__media" src={item.thumb} alt="" loading="lazy" decoding="async" />
+        <img className="post__media" src={item.thumb} alt="" loading="lazy" decoding="async" />
       )}
     </button>
   );
 }
 
-function CarouselStrip({ group, onOpen }) {
-  const stripRef = useRef(null);
+// One folder: a heading, then every post in a single row at the same height.
+function FolderRail({ folder, onOpen }) {
+  const railRef = useRef(null);
   const [edges, setEdges] = useState({ atStart: true, atEnd: false });
 
+  // Every item in the folder, in order, so the viewer can step through all of them.
+  const allItems = folder.groups.flatMap((group) => group.items);
+  let runningIndex = 0;
+
   const updateEdges = () => {
-    const strip = stripRef.current;
-    if (!strip) return;
+    const rail = railRef.current;
+    if (!rail) return;
     setEdges({
-      atStart: strip.scrollLeft < 4,
-      atEnd: strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 4,
+      atStart: rail.scrollLeft < 4,
+      atEnd: rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 4,
     });
   };
 
@@ -105,53 +98,75 @@ function CarouselStrip({ group, onOpen }) {
     return () => window.removeEventListener("resize", updateEdges);
   }, []);
 
-  const scrollBySlide = (direction) => {
-    const strip = stripRef.current;
-    const slide = strip?.querySelector(".post-carousel__slide");
-    if (!strip || !slide) return;
-    strip.scrollBy({ left: direction * slide.getBoundingClientRect().width, behavior: "smooth" });
+  const page = (direction) => {
+    const rail = railRef.current;
+    if (!rail) return;
+    rail.scrollBy({ left: direction * rail.clientWidth * 0.75, behavior: "smooth" });
   };
 
   return (
-    <div className="post-carousel">
-      <div className="post-carousel__head">
-        <p className="post-carousel__title">
-          {group.title}
-          <span className="post-carousel__count">{group.items.length} slides</span>
-        </p>
-        <div className="post-carousel__controls">
+    <section className="folder" aria-labelledby={`folder-${folder.id}`}>
+      <div className="folder__head">
+        <h3 id={`folder-${folder.id}`} className="folder__name">
+          {folder.name}
+          <span className="folder__count">{countFolderPosts(folder)}</span>
+        </h3>
+        <div className="folder__controls">
           <button
             type="button"
             className="tab-button tab-button--icon"
-            onClick={() => scrollBySlide(-1)}
+            onClick={() => page(-1)}
             disabled={edges.atStart}
-            aria-label={`Previous slide in ${group.title}`}
+            aria-label={`Scroll ${folder.name} back`}
           >
             <ArrowIcon direction="left" />
           </button>
           <button
             type="button"
             className="tab-button tab-button--icon"
-            onClick={() => scrollBySlide(1)}
+            onClick={() => page(1)}
             disabled={edges.atEnd}
-            aria-label={`Next slide in ${group.title}`}
+            aria-label={`Scroll ${folder.name} forward`}
           >
             <ArrowIcon />
           </button>
         </div>
       </div>
 
-      <div className="post-carousel__strip" ref={stripRef} onScroll={updateEdges}>
-        {group.items.map((item, index) => (
-          <PostTile
-            key={item.src}
-            item={item}
-            className="post-carousel__slide"
-            onOpen={() => onOpen(group.items, index, group.title)}
-          />
-        ))}
+      <div className="folder__rail" ref={railRef} onScroll={updateEdges}>
+        {folder.groups.map((group, groupIndex) => {
+          const startIndex = runningIndex;
+          runningIndex += group.items.length;
+
+          if (group.type === "carousel") {
+            return (
+              <figure key={groupIndex} className="carousel">
+                <div className="carousel__slides">
+                  {group.items.map((item, index) => (
+                    <Post
+                      key={item.src}
+                      item={item}
+                      onOpen={() => onOpen(allItems, startIndex + index, folder.name)}
+                    />
+                  ))}
+                </div>
+                <figcaption className="carousel__caption">
+                  {group.title} · {group.items.length} slides
+                </figcaption>
+              </figure>
+            );
+          }
+
+          return group.items.map((item, index) => (
+            <Post
+              key={item.src}
+              item={item}
+              onOpen={() => onOpen(allItems, startIndex + index, folder.name)}
+            />
+          ));
+        })}
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -210,7 +225,7 @@ function PostViewer({ viewer, onClose, onStep }) {
         <>
           <div className="post-viewer__bar">
             <p className="post-viewer__label">
-              {viewer.title ? <span>{viewer.title}</span> : null}
+              <span>{viewer.title}</span>
               {total > 1 ? (
                 <span className="post-viewer__count">
                   {String(viewer.index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
@@ -235,16 +250,9 @@ function PostViewer({ viewer, onClose, onStep }) {
                 autoPlay
                 loop
                 playsInline
-                style={{ aspectRatio: `${item.w} / ${item.h}` }}
               />
             ) : (
-              <img
-                key={item.src}
-                className="post-viewer__media"
-                src={item.src}
-                alt={item.alt}
-                style={{ aspectRatio: `${item.w} / ${item.h}` }}
-              />
+              <img key={item.src} className="post-viewer__media" src={item.src} alt={item.alt} />
             )}
           </div>
 
@@ -277,10 +285,7 @@ function PostViewer({ viewer, onClose, onStep }) {
 }
 
 export default function PostsSection() {
-  const [activeId, setActiveId] = useState(postFolders[0].id);
   const [viewer, setViewer] = useState(null);
-  const activeFolder = postFolders.find((folder) => folder.id === activeId) ?? postFolders[0];
-  const activeIndex = postFolders.indexOf(activeFolder);
 
   const openViewer = (items, index, title) => setViewer({ items, index, title });
   const stepViewer = (direction) =>
@@ -297,79 +302,9 @@ export default function PostsSection() {
         Post design
       </h2>
 
-      <div className="posts__tabs" role="tablist" aria-label="Post folders">
-        {postFolders.map((folder, index) => {
-          const isActive = folder.id === activeFolder.id;
-          return (
-            <button
-              key={folder.id}
-              type="button"
-              role="tab"
-              id={`posts-tab-${folder.id}`}
-              aria-selected={isActive}
-              aria-controls="posts-panel"
-              tabIndex={isActive ? 0 : -1}
-              className={`posts__tab${isActive ? " is-active" : ""}`}
-              style={{ zIndex: isActive ? postFolders.length + 1 : postFolders.length - index }}
-              onClick={() => setActiveId(folder.id)}
-              onKeyDown={(event) => {
-                if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
-                const step = event.key === "ArrowRight" ? 1 : -1;
-                const next = postFolders[(index + step + postFolders.length) % postFolders.length];
-                setActiveId(next.id);
-                document.getElementById(`posts-tab-${next.id}`)?.focus();
-              }}
-            >
-              <span className="posts__tab-name">{folder.name}</span>
-              <span className="posts__tab-count">{countFolderPosts(folder)}</span>
-            </button>
-          );
-        })}
-      </div>
-
-      <div
-        id="posts-panel"
-        className={`posts__folder${activeIndex === 0 ? " is-first" : ""}`}
-        role="tabpanel"
-        aria-labelledby={`posts-tab-${activeFolder.id}`}
-      >
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.div
-            key={activeFolder.id}
-            className="posts__folder-inner"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <div className="posts__folder-head">
-              <p className="posts__folder-name">{activeFolder.name}</p>
-              <p className="posts__folder-meta">
-                {countFolderPosts(activeFolder)} posts
-              </p>
-            </div>
-
-            {activeFolder.groups.map((group, groupIndex) =>
-              group.type === "carousel" ? (
-                <CarouselStrip key={`${activeFolder.id}-${groupIndex}`} group={group} onOpen={openViewer} />
-              ) : (
-                <div
-                  key={`${activeFolder.id}-${groupIndex}`}
-                  className={`post-grid${group.layout === "stories" ? " post-grid--stories" : ""}`}
-                >
-                  {group.items.map((item, index) => (
-                    <PostTile
-                      key={item.src}
-                      item={item}
-                      onOpen={() => openViewer(group.items, index, activeFolder.name)}
-                    />
-                  ))}
-                </div>
-              ),
-            )}
-          </motion.div>
-        </AnimatePresence>
-      </div>
+      {postFolders.map((folder) => (
+        <FolderRail key={folder.id} folder={folder} onOpen={openViewer} />
+      ))}
 
       <PostViewer viewer={viewer} onClose={() => setViewer(null)} onStep={stepViewer} />
     </section>
