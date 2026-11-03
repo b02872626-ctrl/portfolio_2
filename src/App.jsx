@@ -4,9 +4,13 @@ import MusicPlayer from "./MusicPlayer.jsx";
 import AvatarCard from "./AvatarCard.jsx";
 import ContactDialog from "./ContactDialog.jsx";
 import ProjectPage from "./ProjectPage";
+import PostsSection from "./PostsSection.jsx";
 
 // "Fun stuff I made" is hidden until the section is ready; add it back here to show it.
-const navLinks = ["Projects"];
+const navLinks = ["Projects", "Post design"];
+const POSTS_TAB = "Post design";
+const POSTS_PATH = "/posts";
+const isPostsPath = (pathname) => /^\/posts\/?$/.test(pathname);
 const careerEntries = [
   {
     role: "Product Designer",
@@ -1605,7 +1609,9 @@ function PhoneProjectList({ activeGroupId, onSelectGroup, onOpenProject }) {
 }
 
 function App() {
-  const [activePortfolioTab, setActivePortfolioTab] = useState("Projects");
+  const [activePortfolioTab, setActivePortfolioTab] = useState(() =>
+    isPostsPath(window.location.pathname) ? POSTS_TAB : "Projects",
+  );
   const [phoneGroupId, setPhoneGroupId] = useState("Motion");
   const isPhone = useIsPhone();
   const [isFolderStackInteractive, setIsFolderStackInteractive] = useState(false);
@@ -1652,7 +1658,13 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const handlePopState = () => setPath(window.location.pathname);
+    const handlePopState = () => {
+      setPath(window.location.pathname);
+      setActivePortfolioTab((current) => {
+        if (isPostsPath(window.location.pathname)) return POSTS_TAB;
+        return current === POSTS_TAB ? "Projects" : current;
+      });
+    };
     window.addEventListener("popstate", handlePopState);
     return () => window.removeEventListener("popstate", handlePopState);
   }, []);
@@ -1697,6 +1709,12 @@ function App() {
 
     setActivePortfolioTab(nextTab);
     setHoveredProjectId(null);
+    // Post design has its own link (/posts) so it can be shared directly.
+    const nextPath = nextTab === POSTS_TAB ? POSTS_PATH : "/";
+    if (window.location.pathname !== nextPath) {
+      window.history.pushState({}, "", nextPath);
+      setPath(nextPath);
+    }
     setExpandedCareerIndex(null);
   };
 
@@ -1766,6 +1784,7 @@ function App() {
     projectFolders[projectFolders.length - 1];
   const isFunStuffTab = activePortfolioTab === "Fun stuff I made";
   const isCareerTab = activePortfolioTab === "Career";
+  const isPostsTab = activePortfolioTab === POSTS_TAB;
 
   const routeSlug = path.match(/^\/projects\/([^/]+)\/?$/)?.[1];
   const routeIndex = projects.findIndex((project) => project.slug === routeSlug);
@@ -1912,7 +1931,9 @@ function App() {
         id="showcase"
         className={`showcase-card ${isFunStuffTab ? "showcase-card--fun" : ""} ${
           isCareerTab ? "showcase-card--career" : ""
-        } ${isPhone && !isCareerTab && !isFunStuffTab ? "showcase-card--phone-list" : ""}`}
+        } ${isPostsTab ? "showcase-card--posts" : ""} ${
+          isPhone && !isCareerTab && !isFunStuffTab && !isPostsTab ? "showcase-card--phone-list" : ""
+        }`}
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
@@ -1996,6 +2017,8 @@ function App() {
             ))}
             </div>
           </div>
+        ) : isPostsTab ? (
+          <PostsSection />
         ) : isFunStuffTab ? (
           <motion.section
             className="fun-coming-soon"

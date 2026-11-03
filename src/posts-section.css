@@ -1,0 +1,422 @@
+/* Post design: one folder open at a time, folder tabs on top like a filing drawer. */
+.posts {
+  --posts-ink: #121212;
+  --posts-paper: #f6f0e3;
+  --posts-paper-back: #e6dece;
+  --posts-muted: #67625d;
+  --posts-mono: "IBM Plex Mono", "Space Mono", "Cascadia Code", monospace;
+  --posts-tile-radius: 12px;
+  position: relative;
+  width: 100%;
+}
+
+.posts__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Folder tabs ---------- */
+.posts__tabs {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+  padding: 0 0 0 14px;
+  margin-bottom: -2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.posts__tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.posts__tab {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+  margin-right: -8px;
+  padding: 0 20px 0 16px;
+  border: 2px solid var(--posts-ink);
+  border-bottom: 0;
+  border-radius: 12px 12px 0 0;
+  background: var(--posts-paper-back);
+  color: var(--posts-ink);
+  font-family: var(--posts-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transform: translateY(5px);
+  transition:
+    transform 160ms ease,
+    background-color 160ms ease;
+}
+
+.posts__tab:hover {
+  transform: translateY(2px);
+}
+
+.posts__tab.is-active {
+  height: 42px;
+  background: var(--posts-paper);
+  transform: none;
+}
+
+/* Hides the folder body's top border under the open tab so they read as one piece. */
+.posts__tab.is-active::after {
+  position: absolute;
+  right: 0;
+  bottom: -2px;
+  left: 0;
+  height: 4px;
+  content: "";
+  background: var(--posts-paper);
+}
+
+.posts__tab-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 22px;
+  height: 20px;
+  padding: 0 6px;
+  border: 1.5px solid var(--posts-ink);
+  border-radius: 999px;
+  font-size: 11px;
+  line-height: 1;
+}
+
+.posts__tab.is-active .posts__tab-count {
+  background: var(--posts-ink);
+  color: var(--posts-paper);
+}
+
+.posts__tab:focus-visible {
+  outline: 2px solid #ff5b00;
+  outline-offset: -5px;
+}
+
+/* ---------- Open folder ---------- */
+.posts__folder {
+  position: relative;
+  z-index: 1;
+  padding: 26px;
+  border: 2px solid var(--posts-ink);
+  border-radius: 18px;
+  background: var(--posts-paper);
+  box-shadow: 0 24px 50px rgba(18, 18, 18, 0.08);
+}
+
+.posts__folder.is-first {
+  border-top-left-radius: 18px;
+}
+
+.posts__folder-inner {
+  display: grid;
+  gap: 30px;
+}
+
+.posts__folder-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 18px;
+  border-bottom: 1.5px dashed rgba(18, 18, 18, 0.28);
+}
+
+.posts__folder-name {
+  margin: 0;
+  font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.posts__folder-meta {
+  margin: 0;
+  color: var(--posts-muted);
+  font-family: var(--posts-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ---------- Tiles ---------- */
+.post-tile {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 2px solid var(--posts-ink);
+  border-radius: var(--posts-tile-radius);
+  background: #d5d2ce;
+  cursor: zoom-in;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.post-tile:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 0 -4px var(--posts-ink);
+}
+
+.post-tile:focus-visible {
+  outline: 2px solid #ff5b00;
+  outline-offset: 3px;
+}
+
+.post-tile__media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.post-tile__badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1.5px solid var(--posts-ink);
+  border-radius: 50%;
+  background: var(--posts-paper);
+  color: var(--posts-ink);
+}
+
+/* Grid, row by row; each post keeps its own shape. */
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: 16px;
+}
+
+.post-grid--stories {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+}
+
+/* ---------- Carousels: slides sit edge to edge so panoramas read as one image ---------- */
+.post-carousel {
+  display: grid;
+  gap: 12px;
+}
+
+.post-carousel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.post-carousel__title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.post-carousel__count {
+  color: var(--posts-muted);
+  font-family: var(--posts-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.post-carousel__controls {
+  display: flex;
+  flex: none;
+  gap: 8px;
+}
+
+.post-carousel__strip {
+  display: flex;
+  height: 380px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  border: 2px solid var(--posts-ink);
+  border-radius: var(--posts-tile-radius);
+  background: #d5d2ce;
+  scrollbar-width: thin;
+  scrollbar-color: var(--posts-ink) transparent;
+}
+
+.post-carousel__strip > .post-tile {
+  flex: 0 0 auto;
+  width: auto;
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+  scroll-snap-align: start;
+}
+
+.post-carousel__strip > .post-tile:hover {
+  transform: none;
+  box-shadow: none;
+  filter: brightness(1.04);
+}
+
+/* ---------- Full-screen viewer ---------- */
+.post-viewer {
+  width: 100vw;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 16px;
+  border: 0;
+  background: rgba(18, 18, 18, 0.94);
+  color: #f6f0e3;
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.post-viewer[open] {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 14px;
+  animation: post-viewer-in 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.post-viewer::backdrop {
+  background: transparent;
+}
+
+@keyframes post-viewer-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.post-viewer__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.post-viewer__label {
+  display: flex;
+  gap: 14px;
+  margin: 0;
+  font-family: "IBM Plex Mono", "Space Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.post-viewer__count {
+  opacity: 0.6;
+}
+
+.post-viewer__stage {
+  display: grid;
+  place-items: center;
+  min-height: 0;
+}
+
+.post-viewer__media {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(100%, 1280px);
+  max-height: calc(100dvh - 150px);
+  border-radius: 8px;
+  background: #222;
+}
+
+.post-viewer__nav {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* ---------- Phone ---------- */
+@media (max-width: 720px) {
+  .posts__tabs {
+    margin-inline: -18px;
+    padding-inline: 28px 18px;
+  }
+
+  .posts__tab {
+    height: 38px;
+    padding: 0 14px 0 12px;
+    gap: 8px;
+    font-size: 11px;
+  }
+
+  .posts__tab.is-active {
+    height: 40px;
+  }
+
+  .posts__folder {
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .posts__folder-inner {
+    gap: 24px;
+  }
+
+  .posts__folder-head {
+    padding-bottom: 14px;
+  }
+
+  .post-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .post-grid--stories {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .post-carousel__strip {
+    height: 300px;
+  }
+
+  .post-carousel__controls {
+    display: none;
+  }
+
+  .post-viewer {
+    padding: 12px;
+  }
+
+  .post-viewer__media {
+    max-height: calc(100dvh - 140px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .posts__tab,
+  .post-tile {
+    transition: none;
+  }
+
+  .post-viewer[open] {
+    animation: none;
+  }
+}
