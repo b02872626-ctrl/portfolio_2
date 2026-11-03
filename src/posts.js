@@ -56,12 +56,6 @@ export const postFolders = [
     name: "Project Mono",
     groups: [
       {
-        type: "videos",
-        items: [
-          video("project-mono/mono-motion", 1080, 1080, "Animated post: Motion Design Masterclass, learn by recreating a full animation live"),
-        ],
-      },
-      {
         type: "carousel",
         title: "Typography 101",
         items: slides("project-mono/typography", 8, 2160, 2700, "Project Mono, Typography 101 carousel"),
@@ -75,6 +69,12 @@ export const postFolders = [
         type: "carousel",
         title: "Tips & tricks",
         items: slides("project-mono/tips", 3, 4320, 5400, "Project Mono, tips and tricks carousel"),
+      },
+      {
+        type: "videos",
+        items: [
+          video("project-mono/mono-motion", 1080, 1080, "Animated post: Motion Design Masterclass, learn by recreating a full animation live"),
+        ],
       },
     ],
   },
