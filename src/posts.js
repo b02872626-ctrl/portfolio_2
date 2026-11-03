@@ -94,6 +94,21 @@ export const postFolders = [
     ],
   },
   {
+    id: "tibeb-badebabay",
+    name: "Tibeb Badebabay",
+    groups: [
+      {
+        type: "singles",
+        items: [
+          image("tibeb/dialogue", 3240, 4050, "Tibeb Station 9th edition poster: Dialogue on managing cultural hubs, May 14"),
+          image("tibeb/live-music", 3240, 4050, "Tibeb Station 9th edition poster: Live music performance at Tewodros Square, May 15"),
+          image("tibeb/urban-sketching", 3240, 4050, "Tibeb Station 9th edition poster: Urban sketching, May 16 and 23"),
+          image("tibeb/workshop", 3240, 4050, "Tibeb Station 9th edition poster: Capacity building workshop for artists, May 19"),
+        ],
+      },
+    ],
+  },
+  {
     id: "animated",
     name: "Animated",
     groups: [
@@ -105,21 +120,6 @@ export const postFolders = [
           video("animated/comp-2", 1080, 1080, "Animated post: Stories in Motion festival theme"),
           video("animated/summit-teaser", 1080, 1080, "Animated teaser for the Future of Work Summit"),
           video("animated/vertical", 1080, 1920, "Animated story: Something big is coming your way"),
-        ],
-      },
-    ],
-  },
-  {
-    id: "tibeb-badebabay",
-    name: "Tibeb Badebabay",
-    groups: [
-      {
-        type: "singles",
-        items: [
-          image("tibeb/dialogue", 3240, 4050, "Tibeb Station 9th edition poster: Dialogue on managing cultural hubs, May 14"),
-          image("tibeb/live-music", 3240, 4050, "Tibeb Station 9th edition poster: Live music performance at Tewodros Square, May 15"),
-          image("tibeb/urban-sketching", 3240, 4050, "Tibeb Station 9th edition poster: Urban sketching, May 16 and 23"),
-          image("tibeb/workshop", 3240, 4050, "Tibeb Station 9th edition poster: Capacity building workshop for artists, May 19"),
         ],
       },
     ],
