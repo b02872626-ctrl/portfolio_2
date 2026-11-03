@@ -127,23 +127,6 @@ export const postFolders = [
       },
     ],
   },
-  {
-    id: "random-fun-stuff",
-    name: "Random fun stuff",
-    groups: [
-      {
-        type: "singles",
-        layout: "stories",
-        items: [
-          image("fun/five-min-1", 4320, 7680, "5-minute design: Don't design for designers, design for people"),
-          image("fun/five-min-2", 4320, 7680, "5-minute design: Good design is as little design as possible"),
-          image("fun/five-min-3", 4320, 7680, "5-minute design: Error is by far the most interesting part of design"),
-          image("fun/five-min-4", 4320, 7680, "5-minute design: Most best ideas come from jokes"),
-          image("fun/five-min-5", 4320, 7680, "5-minute design: Slower is smoother, smoother is faster"),
-        ],
-      },
-    ],
-  },
 ];
 
 // A carousel counts as one post; singles and videos count one each.
