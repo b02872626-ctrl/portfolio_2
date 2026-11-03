@@ -110,6 +110,21 @@ export const postFolders = [
     ],
   },
   {
+    id: "tibeb-badebabay",
+    name: "Tibeb Badebabay",
+    groups: [
+      {
+        type: "singles",
+        items: [
+          image("tibeb/dialogue", 3240, 4050, "Tibeb Station 9th edition poster: Dialogue on managing cultural hubs, May 14"),
+          image("tibeb/live-music", 3240, 4050, "Tibeb Station 9th edition poster: Live music performance at Tewodros Square, May 15"),
+          image("tibeb/urban-sketching", 3240, 4050, "Tibeb Station 9th edition poster: Urban sketching, May 16 and 23"),
+          image("tibeb/workshop", 3240, 4050, "Tibeb Station 9th edition poster: Capacity building workshop for artists, May 19"),
+        ],
+      },
+    ],
+  },
+  {
     id: "random-fun-stuff",
     name: "Random fun stuff",
     groups: [
