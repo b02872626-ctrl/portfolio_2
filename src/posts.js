@@ -56,6 +56,12 @@ export const postFolders = [
     name: "Project Mono",
     groups: [
       {
+        type: "videos",
+        items: [
+          video("project-mono/mono-motion", 1080, 1080, "Animated post: Motion Design Masterclass, learn by recreating a full animation live"),
+        ],
+      },
+      {
         type: "carousel",
         title: "Typography 101",
         items: slides("project-mono/typography", 8, 2160, 2700, "Project Mono, Typography 101 carousel"),
@@ -116,6 +122,14 @@ export const postFolders = [
           image("fun/five-min-3", 4320, 7680, "5-minute design: Error is by far the most interesting part of design"),
           image("fun/five-min-4", 4320, 7680, "5-minute design: Most best ideas come from jokes"),
           image("fun/five-min-5", 4320, 7680, "5-minute design: Slower is smoother, smoother is faster"),
+        ],
+      },
+      {
+        type: "videos",
+        items: [
+          video("fun/motion-1", 1080, 1080, "Motion experiment: shapes stacking in pink light"),
+          video("fun/motion-2", 1920, 1080, "Kinetic type: The Power of Motion"),
+          video("fun/motion-3", 1080, 1080, "Animated Amharic poster with a portrait in a frame"),
         ],
       },
     ],
