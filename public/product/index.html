@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<base href="/product/">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nahu Gebreamlak — Product designer</title>
+<meta name="description" content="Product designer for web and mobile apps, based in Addis Ababa. Case studies: Kash, Afriwork and Loop for desktop.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <a class="brand" href="#work">Nahu Gebreamlak</a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="#work" data-nav="work">Work</a>
+    <a href="#about" data-nav="about">About</a>
+    <a href="/">Motion &amp; graphics ↗</a>
+  </nav>
+  <a class="btn" href="#contact">Get in touch</a>
+</header>
+
+<main id="app"></main>
+
+<footer class="footer" id="contact">
+  <div class="footer-inner">
+    <h2 class="display" id="footHead">Building an app or a website?</h2>
+    <p class="footer-sub">Tell me what you’re building, and I’ll reply with a plan and an estimate.</p>
+    <div class="footer-actions">
+      <a class="btn" href="mailto:nahusenaygebreamlak@gmail.com">nahusenaygebreamlak@gmail.com</a>
+      <button class="btn btn-ghost" id="copyEmail" type="button">Copy email</button>
+    </div>
+    <div class="footer-links">
+      <a href="https://www.linkedin.com/in/nahusenay-gebreamlak-a92832230/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="https://www.instagram.com/rass_nahu/" target="_blank" rel="noopener">Instagram ↗</a>
+      <a href="/">Motion &amp; graphics portfolio ↗</a>
+    </div>
+    <p class="footer-small">Addis Ababa · UTC+3 · © 2026 Nahu Gebreamlak</p>
+  </div>
+</footer>
+
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Screen viewer">
+  <div class="lb-scrim"></div>
+  <span class="lb-count"></span>
+  <button class="btn btn-icon lb-close" type="button" aria-label="Close">×</button>
+  <button class="btn btn-icon lb-prev" type="button" aria-label="Previous">‹</button>
+  <div class="lb-stage"><img alt=""><p class="lb-cap"></p></div>
+  <button class="btn btn-icon lb-next" type="button" aria-label="Next">›</button>
+</div>
+
+<script src="icons.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

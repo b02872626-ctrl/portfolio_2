@@ -1,6 +1,16 @@
 {
   "rewrites": [
-    { "source": "/projects/(.*)", "destination": "/index.html" },
-    { "source": "/posts", "destination": "/index.html" }
+    {
+      "source": "/product",
+      "destination": "/product/index.html"
+    },
+    {
+      "source": "/projects/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/posts",
+      "destination": "/index.html"
+    }
   ]
 }
