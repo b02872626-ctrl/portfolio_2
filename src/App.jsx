@@ -1910,6 +1910,7 @@ function App() {
                 {link}
               </a>
             ))}
+            <a href="/product">Product design</a>
           </nav>
 
           <div className="masthead-right">

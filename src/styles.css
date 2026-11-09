@@ -2010,9 +2010,10 @@ a {
   display: none;
 }
 
-/* Phone: keep Projects · Post design · Career · Get in touch on one line. */
+/* Phone: the three tabs on one line, Career · Get in touch on the line below. */
 @media (max-width: 720px) {
   .masthead-navrow {
+    flex-wrap: wrap;
     gap: 12px;
   }
 
